@@ -80,12 +80,12 @@ FctERR NONNULL__ OWWrite_byte(const OW_DRV * const pOW, const uint8_t byte)
 }
 
 
-FctERR NONNULL__ OWWrite(const OW_DRV * const pOW, const uint8_t * const pData, const uint16_t nb)
+FctERR NONNULL__ OWWrite(const OW_DRV * const pOW, const uint8_t * const pData, const size_t len)
 {
 	FctERR			err = ERROR_OK;
 	const uint8_t *	pByte = pData;
 
-	for (int i = nb ; i ; i--)
+	for (size_t i = len ; i ; i--)
 	{
 		err |= OWWrite_byte(pOW, *pByte++);
 		if (err)	{ break; }
@@ -134,12 +134,12 @@ FctERR NONNULL__ OWRead_byte(const OW_DRV * const pOW, uint8_t * const pByte)
 }
 
 
-FctERR NONNULL__ OWRead(const OW_DRV * const pOW, uint8_t * const pData, const uint16_t nb)
+FctERR NONNULL__ OWRead(const OW_DRV * const pOW, uint8_t * const pData, const size_t len)
 {
 	FctERR		err = ERROR_OK;
 	uint8_t *	pByte = pData;
 
-	for (int i = nb ; i ; i--)
+	for (size_t i = len ; i ; i--)
 	{
 		err |= OWRead_byte(pOW, pByte++);
 		if (err)	{ break; }

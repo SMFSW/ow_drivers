@@ -115,29 +115,29 @@ FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP, OW_EEP_scratch_t 
 ** \param[in,out] pEEP - Pointer to EEPROM device type structure
 ** \param[in] pData - Pointer to data for transmission
 ** \param[in] addr - Target memory cell start address
-** \param[in] nb - Number of data bytes to transmit
+** \param[in] len - Number of data bytes to transmit
 ** \return FctERR - error code
 **/
-FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const uint32_t nb);
+FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const size_t len);
 
 
 /*!\brief OneWire EEPROM device read from memory
 ** \param[in,out] pEEP - Pointer to EEPROM device type structure
 ** \param[in,out] pData - Pointer to data for reception
 ** \param[in] addr - Target memory cell start address
-** \param[in] nb - Number of data bytes to receive
+** \param[in] len - Number of data bytes to receive
 ** \return FctERR - error code
 **/
-FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, const uint32_t addr, const uint32_t nb);
+FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, const uint32_t addr, const size_t len);
 
 /*!\brief OneWire EEPROM device write to memory
 ** \param[in,out] pEEP - Pointer to EEPROM device type structure
 ** \param[in] pData - Pointer to data for transmission
 ** \param[in] addr - Target memory cell start address
-** \param[in] nb - Number of data bytes to transmit
+** \param[in] len - Number of data bytes to transmit
 ** \return FctERR - error code
 **/
-FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const uint32_t nb);
+FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const size_t nb);
 
 
 /****************************************************************/

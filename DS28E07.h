@@ -222,31 +222,31 @@ __INLINE FctERR NONNULL_INLINE__ DS28E07_Read_Scratchpad(DS28E07_t * const pCpnt
 ** \param[in,out] pCpnt - Pointer to DS28E07 component
 ** \param[in] pData - Pointer to data for transmission
 ** \param[in] addr - Target memory cell start address
-** \param[in] nb - Number of data bytes to transmit
+** \param[in] len - Number of data bytes to transmit
 ** \return FctERR - error code
 **/
-__INLINE FctERR NONNULL_INLINE__ DS28E07_Write_Scratchpad(DS28E07_t * const pCpnt, const uint8_t * pData, const uint32_t addr, const uint32_t nb) {
-	return OW_EEP_Write_Scratchpad(&pCpnt->eep, pData, addr, nb); }
+__INLINE FctERR NONNULL_INLINE__ DS28E07_Write_Scratchpad(DS28E07_t * const pCpnt, const uint8_t * pData, const uint32_t addr, const size_t len) {
+	return OW_EEP_Write_Scratchpad(&pCpnt->eep, pData, addr, len); }
 
 /*!\brief DS28E07 read from memory
 ** \param[in,out] pCpnt - Pointer to DS28E07 component
 ** \param[in,out] pData - Pointer to data for reception
 ** \param[in] addr - Target memory cell start address
-** \param[in] nb - Number of data bytes to receive
+** \param[in] len - Number of data bytes to receive
 ** \return FctERR - error code
 **/
-__INLINE FctERR NONNULL_INLINE__ DS28E07_Read_Memory(DS28E07_t * const pCpnt, uint8_t * pData, const uint32_t addr, const uint32_t nb) {
-	return OW_EEP_Read_Memory(&pCpnt->eep, pData, addr, nb); }
+__INLINE FctERR NONNULL_INLINE__ DS28E07_Read_Memory(DS28E07_t * const pCpnt, uint8_t * pData, const uint32_t addr, const size_t len) {
+	return OW_EEP_Read_Memory(&pCpnt->eep, pData, addr, len); }
 
 /*!\brief DS28E07 write to memory
 ** \param[in,out] pCpnt - Pointer to DS28E07 component
 ** \param[in] pData - Pointer to data for transmission
 ** \param[in] addr - Target memory cell start address
-** \param[in] nb - Number of data bytes to transmit
+** \param[in] len - Number of data bytes to transmit
 ** \return FctERR - error code
 **/
-__INLINE FctERR NONNULL_INLINE__ DS28E07_Write_Memory(DS28E07_t * const pCpnt, const uint8_t * pData, const uint32_t addr, const uint32_t nb) {
-	return OW_EEP_Write_Memory(&pCpnt->eep, pData, addr, nb); }
+__INLINE FctERR NONNULL_INLINE__ DS28E07_Write_Memory(DS28E07_t * const pCpnt, const uint8_t * pData, const uint32_t addr, const size_t len) {
+	return OW_EEP_Write_Memory(&pCpnt->eep, pData, addr, len); }
 
 
 FctERR NONNULL__ DS28E07_Get_Protect_Page(DS28E07_t * const pCpnt, DS28E07_prot_page * const pProt, const OW_eep_pages page);

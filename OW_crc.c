@@ -33,9 +33,9 @@ static const uint8_t dscrc_table[] = {
 																						**		though Copyright (C) 2000 Dallas Semiconductor Corporation **/
 
 
-void NONNULL__ OWCompute_DallasCRC8(uint8_t * const pCRC8, const uint8_t * const pData, const uint16_t nb)
+void NONNULL__ OWCompute_DallasCRC8(uint8_t * const pCRC8, const uint8_t * const pData, const size_t len)
 {
-	for (int i = 0 ; i < nb ; i++)
+	for (size_t i = 0 ; i < len ; i++)
 	{
 		const uint8_t data = pData[i];
 		*pCRC8 = dscrc_table[(*pCRC8 ^ data)];
@@ -44,9 +44,9 @@ void NONNULL__ OWCompute_DallasCRC8(uint8_t * const pCRC8, const uint8_t * const
 
 #else
 
-void NONNULL__ OWCompute_DallasCRC8(uint8_t * const pCRC8, const uint8_t * const pData, const uint16_t nb)
+void NONNULL__ OWCompute_DallasCRC8(uint8_t * const pCRC8, const uint8_t * const pData, const size_t len)
 {
-	for (int i = 0 ; i < nb ; i++)
+	for (size_t i = 0 ; i < len ; i++)
 	{
 		uint8_t data = pData[i];
 
@@ -66,18 +66,18 @@ void NONNULL__ OWCompute_DallasCRC8(uint8_t * const pCRC8, const uint8_t * const
 #endif
 
 
-FctERR NONNULL__ OWCheck_DallasCRC8(const uint8_t * const pData, const uint16_t nb, const uint8_t crc8)
+FctERR NONNULL__ OWCheck_DallasCRC8(const uint8_t * const pData, const size_t len, const uint8_t crc8)
 {
 	uint8_t crc = 0;
-	OWCompute_DallasCRC8(&crc, pData, nb);
+	OWCompute_DallasCRC8(&crc, pData, len);
 
 	return (crc == crc8) ? ERROR_OK : ERROR_CRC;
 }
 
 
-void NONNULL__ OWCompute_DallasCRC16(uint16_t * const pCRC16, const uint8_t * const pData, const uint16_t nb)
+void NONNULL__ OWCompute_DallasCRC16(uint16_t * const pCRC16, const uint8_t * const pData, const size_t len)
 {
-	for (int i = 0 ; i < nb ; i++)
+	for (size_t i = 0 ; i < len ; i++)
 	{
 		uint8_t data = pData[i];
 
@@ -94,10 +94,10 @@ void NONNULL__ OWCompute_DallasCRC16(uint16_t * const pCRC16, const uint8_t * co
 	}
 }
 
-FctERR NONNULL__ OWCheck_DallasCRC16(const uint8_t * const pData, const uint16_t nb, const uint16_t icrc16)
+FctERR NONNULL__ OWCheck_DallasCRC16(const uint8_t * const pData, const size_t len, const uint16_t icrc16)
 {
 	uint16_t crc = 0;
-	OWCompute_DallasCRC16(&crc, pData, nb);
+	OWCompute_DallasCRC16(&crc, pData, len);
 	crc = ~crc;
 
 	return (crc == icrc16) ? ERROR_OK : ERROR_CRC;

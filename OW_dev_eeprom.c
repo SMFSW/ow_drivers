@@ -69,28 +69,28 @@ FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP, OW_EEP_scratch_t 
 	OWWrite_byte(pSlave->cfg.bus_inst, OW_EEP__READ_SCRATCHPAD);
 	OWRead(pSlave->cfg.bus_inst, tmp, sizeof(tmp));
 
-	const uint8_t mask_bits = pEEP->props.scratchpad_size - 1;
-	const uint8_t nb = (tmp[2] & mask_bits) + 1;
-	OWRead(pSlave->cfg.bus_inst, pScratch->pData, nb);
+	const uint32_t	mask_bits = pEEP->props.scratchpad_size - 1;
+	const size_t	len = (tmp[2] & mask_bits) + 1;
+	OWRead(pSlave->cfg.bus_inst, pScratch->pData, len);
 	OWRead(pSlave->cfg.bus_inst, crc, sizeof(crc));
 	OW_set_busy(pSlave, false);
 
 	pScratch->ES = tmp[2];
-	pScratch->nb = nb;
+	pScratch->nb = len;
 	pScratch->address = MAKEWORD(tmp[0], tmp[1]);
 	pScratch->iCRC16 = MAKEWORD(crc[0], crc[1]);
 
 	uint16_t iCRC16 = 0;
 	OWCompute_DallasCRC16(&iCRC16, &((uint8_t) { OW_EEP__READ_SCRATCHPAD }), 1);
 	OWCompute_DallasCRC16(&iCRC16, tmp, sizeof(tmp));
-	OWCompute_DallasCRC16(&iCRC16, pScratch->pData, nb);
+	OWCompute_DallasCRC16(&iCRC16, pScratch->pData, len);
 	iCRC16 = ~iCRC16;
 
 	return (iCRC16 == pScratch->iCRC16) ? ERROR_OK : ERROR_CRC;;
 }
 
 
-FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const uint32_t nb)
+FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const size_t len)
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
 
@@ -98,7 +98,7 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 
 	// TODO: is this really needed? (for now, scratchpad is always read back after writing), still needs to be set if no read back is done (for copy)
 	pEEP->pScratch->address = addr;
-	pEEP->pScratch->nb = nb;
+	pEEP->pScratch->nb = len;
 
 	OW_set_busy(pSlave, true);
 	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, OW_EEP_Write_Scratchpad);
@@ -107,15 +107,15 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 	{
 		// Write scratchpad
 		const uint8_t cmd[3] = { OW_EEP__WRITE_SCRATCHPAD, LOBYTE(addr), HIBYTE(addr) };
-		memcpy(pEEP->pScratch->pData, pData, nb);
+		memcpy(pEEP->pScratch->pData, pData, len);
 
 		uint16_t iCRC16_data = 0;
 		OWCompute_DallasCRC16(&iCRC16_data, cmd, sizeof(cmd));
-		OWCompute_DallasCRC16(&iCRC16_data, pData, nb);
+		OWCompute_DallasCRC16(&iCRC16_data, pData, len);
 		iCRC16_data = ~iCRC16_data;
 
 		OWWrite(pSlave->cfg.bus_inst, cmd, sizeof(cmd));
-		OWWrite(pSlave->cfg.bus_inst, pEEP->pScratch->pData, nb);
+		OWWrite(pSlave->cfg.bus_inst, pEEP->pScratch->pData, len);
 
 		// Get 2 Bytes to verify CRC16
 		uWord iCRC16_received = { 0 };
@@ -140,13 +140,13 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 }
 
 
-FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, const uint32_t addr, const uint32_t nb)
+FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, const uint32_t addr, const size_t len)
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
 
-	if (!OW_is_enabled(pSlave))							{ return ERROR_DISABLED; }	// Peripheral disabled
-	if (addr > pEEP->props.max_read_address)			{ return ERROR_RANGE; }		// Unknown address
-	if ((addr + nb) > pEEP->props.max_read_address + 1)	{ return ERROR_OVERFLOW; }	// Bank overflow
+	if (!OW_is_enabled(pSlave))								{ return ERROR_DISABLED; }	// Peripheral disabled
+	if (addr > pEEP->props.max_read_address)				{ return ERROR_RANGE; }		// Unknown address
+	if ((addr + len) > pEEP->props.max_read_address + 1)	{ return ERROR_OVERFLOW; }	// Bank overflow
 
 	OW_set_busy(pSlave, true);
 	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, OW_EEP_Read_Memory);
@@ -155,7 +155,7 @@ FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, cons
 	{
 		const uint8_t cmd[3] = { OW_EEP__READ_MEMORY, LOBYTE(addr), HIBYTE(addr) };
 		OWWrite(pSlave->cfg.bus_inst, cmd, sizeof(cmd));
-		OWRead(pSlave->cfg.bus_inst, pData, nb);
+		OWRead(pSlave->cfg.bus_inst, pData, len);
 	}
 	OW_set_busy(pSlave, false);
 
@@ -163,36 +163,37 @@ FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, cons
 }
 
 
-FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const uint32_t nb)
+FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const size_t len)
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
 	FctERR				err = ERROR_OK;
 
 	if (!OW_is_enabled(pSlave))								{ return ERROR_DISABLED; }	// Peripheral disabled
 	if (addr > pEEP->props.max_write_address)				{ return ERROR_RANGE; }		// Unknown address
-	if ((addr + nb) > pEEP->props.max_write_address + 1)	{ return ERROR_OVERFLOW; }	// Bank overflow
+	if ((addr + len) > pEEP->props.max_write_address + 1)	{ return ERROR_OVERFLOW; }	// Bank overflow
 
-	uint8_t misaligned = addr % pEEP->props.scratchpad_size;
-	uint8_t nb_data = nb;
-	uint16_t address = addr - misaligned;
+	size_t		data_len = len;
+	size_t		unaligned_len = addr % pEEP->props.scratchpad_size;
+	uint32_t	address = addr - unaligned_len;	// If unaligned write access, adjust address to read aligned bytes first
 
-	while (nb_data)
+	while (data_len)
 	{
-		const uint8_t current_nb = min(pEEP->props.scratchpad_size - misaligned, nb_data);
+		const size_t write_len = min(pEEP->props.scratchpad_size - unaligned_len, data_len);
 
-		// If unaligned write access, read aligned bytes first
-		if (misaligned)
+		if (unaligned_len)
 		{
-			err = OW_EEP_Read_Memory(pEEP, pEEP->pScratch->pData, address, pEEP->props.scratchpad_size);
-			memcpy(&pEEP->pScratch->pData[misaligned], pData, current_nb);
-			misaligned = 0;		// Erase misaligned to skip this step for next writes
+			const size_t read_len = (write_len + unaligned_len == pEEP->props.scratchpad_size) ? unaligned_len : pEEP->props.scratchpad_size;
+
+			err = OW_EEP_Read_Memory(pEEP, pEEP->pScratch->pData, address, read_len);
+			memcpy(&pEEP->pScratch->pData[unaligned_len], pData, write_len);
+			unaligned_len = 0;	// Reset unaligned_len, further writes will be aligned
 		}
-		else if (current_nb < pEEP->props.scratchpad_size)
+		else if (write_len < pEEP->props.scratchpad_size)
 		{
-			const uint8_t remainder_nb = pEEP->props.scratchpad_size - current_nb;
+			const size_t read_len = pEEP->props.scratchpad_size - write_len;
 
-			err = OW_EEP_Read_Memory(pEEP, &pEEP->pScratch->pData[current_nb], address + current_nb, remainder_nb);
-			memcpy(pEEP->pScratch->pData, pData, current_nb);
+			err = OW_EEP_Read_Memory(pEEP, &pEEP->pScratch->pData[write_len], address + write_len, read_len);
+			memcpy(pEEP->pScratch->pData, pData, write_len);
 		}
 		else
 		{
@@ -208,9 +209,9 @@ FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pDat
 			if (!err)	{ err = OW_EEP_Copy_Scratchpad(pEEP, pEEP->pScratch); }
 		}
 
-		pData += current_nb;
-		nb_data -= current_nb;
-		address += current_nb;
+		pData += write_len;
+		data_len -= write_len;
+		address += pEEP->props.scratchpad_size;
 	}
 
 	return err;

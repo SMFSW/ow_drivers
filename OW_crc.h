@@ -27,38 +27,38 @@
 ** \note Function accumulates CRC8 with previous content of given pointer to CRC8 output
 ** \param[in,out] pCRC8 - Pointer to CRC8 output (note that previous pointer content is used as CRC8 starting seed)
 ** \param[in] pData - Pointer to data for CRC8 computation
-** \param[in] nb - Number of data bytes for CRC8 computation
+** \param[in] len - Number of data bytes for CRC8 computation
 **/
-void NONNULL__ OWCompute_DallasCRC8(uint8_t * const pCRC8, const uint8_t * const pData, const uint16_t nb);
+void NONNULL__ OWCompute_DallasCRC8(uint8_t * const pCRC8, const uint8_t * const pData, const size_t len);
 
 /*!\brief Dallas CRC8 check
 ** \param[in] pData - Pointer to data for CRC8 computation
-** \param[in] nb - Number of data bytes for CRC8 computation
+** \param[in] len - Number of data bytes for CRC8 computation
 ** \param[in] crc8 - CRC8 value to check against
 ** \return FctERR - Error code
 ** \retval ERROR_OK - CRC8 check pass
 ** \retval ERROR_CRC - CRC8 check fail
 **/
-FctERR NONNULL__ OWCheck_DallasCRC8(const uint8_t * const pData, const uint16_t nb, const uint8_t crc8);
+FctERR NONNULL__ OWCheck_DallasCRC8(const uint8_t * const pData, const size_t len, const uint8_t crc8);
 
 
 /*!\brief Dallas CRC16 computation
 ** \note Function accumulates CRC16 with previous content of given pointer to CRC16 output
 ** \param[in,out] pCRC16 - Pointer to CRC16 output (note that previous pointer content is used as CRC16 starting seed)
 ** \param[in] pData - Pointer to data for CRC16 computation
-** \param[in] nb - Number of data bytes for CRC16 computation
+** \param[in] len - Number of data bytes for CRC16 computation
 **/
-void NONNULL__ OWCompute_DallasCRC16(uint16_t * const pCRC16, const uint8_t * const pData, const uint16_t nb);
+void NONNULL__ OWCompute_DallasCRC16(uint16_t * const pCRC16, const uint8_t * const pData, const size_t len);
 
 /*!\brief Dallas CRC16 check
 ** \param[in] pData - Pointer to data for CRC16 computation
-** \param[in] nb - Number of data bytes for CRC16 computation
+** \param[in] len - Number of data bytes for CRC16 computation
 ** \param[in] icrc16 - Inverted CRC16 value to check against
 ** \return FctERR - Error code
 ** \retval ERROR_OK - CRC16 check pass
 ** \retval ERROR_CRC - CRC16 check fail
 **/
-FctERR NONNULL__ OWCheck_DallasCRC16(const uint8_t * const pData, const uint16_t nb, const uint16_t icrc16);
+FctERR NONNULL__ OWCheck_DallasCRC16(const uint8_t * const pData, const size_t len, const uint16_t icrc16);
 
 
 /****************************************************************/

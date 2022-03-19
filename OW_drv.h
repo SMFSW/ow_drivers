@@ -105,10 +105,10 @@ FctERR NONNULL__ OWWrite_byte(const OW_DRV * const pOW, const uint8_t byte);
 /*!\brief OneWire write to bus
 ** \param[in,out] pOW - Pointer to OneWire driver instance
 ** \param[in] pData - Pointer to data for transmission
-** \param[in] nb - Number of data bytes to transmit
+** \param[in] len - Number of data bytes to transmit
 ** \return FctERR - Error code
 **/
-FctERR NONNULL__ OWWrite(const OW_DRV * const pOW, const uint8_t * const pData, const uint16_t nb);
+FctERR NONNULL__ OWWrite(const OW_DRV * const pOW, const uint8_t * const pData, const size_t len);
 
 
 /*!\brief OneWire read bit from bus
@@ -128,10 +128,10 @@ FctERR NONNULL__ OWRead_byte(const OW_DRV * const pOW, uint8_t * const pByte);
 /*!\brief OneWire read from bus
 ** \param[in,out] pOW - Pointer to OneWire driver instance
 ** \param[in,out] pData - Pointer to data for reception
-** \param[in] nb - Number of data bytes to receive
+** \param[in] len - Number of data bytes to receive
 ** \return FctERR - Error code
 **/
-FctERR NONNULL__ OWRead(const OW_DRV * const pOW, uint8_t * const pData, const uint16_t nb);
+FctERR NONNULL__ OWRead(const OW_DRV * const pOW, uint8_t * const pData, const size_t len);
 
 
 /*!\brief OneWire device select

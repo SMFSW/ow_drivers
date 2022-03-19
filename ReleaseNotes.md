@@ -1,4 +1,4 @@
-# OW I2C drivers (release notes)
+# ARM OW drivers (release notes)
 
 The MIT License (MIT)
 
@@ -22,4 +22,6 @@ SOFTWARE.
 
 ## v0.1
 
+* use of size_t typedef for length parameters
+* OW_dev_eeprom: fix issue and read optimization for eeprom multiple blocks write
 * initial commit
