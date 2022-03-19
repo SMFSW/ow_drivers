@@ -60,9 +60,9 @@ typedef enum PACK__ OW_eep_pages {
 ** \brief OneWire EEPROM properties type
 **/
 typedef struct OW_eep_props_t {
-	const uint32_t	scratchpad_size;	//!< Scratchpad size (in bytes)
-	const uint32_t	mem_size;			//!< Memory size (in bytes)
-	const uint32_t	page_size;			//!< Page size (in bytes)
+	const size_t	scratchpad_size;	//!< Scratchpad size (in bytes)
+	const size_t	mem_size;			//!< Memory size (in bytes)
+	const size_t	page_size;			//!< Page size (in bytes)
 	const uint32_t	page_nb;			//!< Number of pages
 	const uint32_t	max_write_address;	//!< Maximum write address
 	const uint32_t	max_read_address;	//!< Maximum read address
@@ -74,9 +74,9 @@ typedef struct OW_eep_props_t {
 **/
 typedef struct OW_EEP_scratch_t {
 	uint8_t			ES;			//!< ES register value
-	uint8_t			address;	//!< Address
-	uint16_t		nb;			//!< Number of bytes
 	uint16_t		iCRC16;		//!< Inverted CRC16
+	uint32_t		address;	//!< Address
+	size_t			nb;			//!< Number of bytes
 	uint8_t * const	pData;		//!< Pointer to scratchpad data (data shall be defined in device struct with its address copied to this data pointer)
 } OW_EEP_scratch_t;
 

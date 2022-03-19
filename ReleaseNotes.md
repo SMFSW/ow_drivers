@@ -22,6 +22,8 @@ SOFTWARE.
 
 ## v0.1
 
-* use of size_t typedef for length parameters
+* OW_dev_eeprom: test scratchpad size overflow when attempting to write scratchpad
+* OW_dev_eeprom: some variables type changes to be able to handle any eeprom size
 * OW_dev_eeprom: fix issue and read optimization for eeprom multiple blocks write
+* use of size_t typedef for length parameters
 * initial commit

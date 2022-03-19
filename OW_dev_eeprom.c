@@ -94,7 +94,8 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
 
-	//if (!OW_is_enabled(pSlave))		{ return ERROR_DISABLED; }	// Peripheral disabled
+	//if (!OW_is_enabled(pSlave))			{ return ERROR_DISABLED; }	// Peripheral disabled
+	if (len > pEEP->props.scratchpad_size)	{ return ERROR_OVERFLOW; }	// Scratchpad overflow
 
 	// TODO: is this really needed? (for now, scratchpad is always read back after writing), still needs to be set if no read back is done (for copy)
 	pEEP->pScratch->address = addr;
