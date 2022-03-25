@@ -40,7 +40,7 @@ static FctERR NONNULL__ OW_EEP_Copy_Scratchpad(OW_eep_t * const pEEP, OW_EEP_scr
 				#if defined(HAL_IWDG_MODULE_ENABLED)
 					HAL_IWDG_Refresh(&hiwdg);
 				#endif
-				HAL_Delay(1);
+				HAL_Delay(2);
 				OWRead(pSlave->cfg.bus_inst, &done, 1);
 				if (done == 0xFF)	{ err = ERROR_FAILED; }
 			}
