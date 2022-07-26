@@ -68,6 +68,8 @@ struct StructOW_DRV {
 	pfOW_phyRead_t				pfReadByte;			//!< OneWire bus Byte Read function pointer
 #endif
 	OWSearch_State_t			search_state;		//!< OneWire bus search state
+	uint8_t						search_type;		//!< Search command
+	bool						bus_powered;		//!< OneWire bus powered device(s) found
 };
 
 
@@ -140,7 +142,7 @@ FctERR NONNULL__ OWRead(const OW_DRV * const pOW, uint8_t * const pData, const s
 **/
 void NONNULL__ OWSelect(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM);
 
-/*!\brief OneWire skip
+/*!\brief OneWire skip ROM (allowing to send commands as broadcast)
 ** \param[in,out] pOW - Pointer to OneWire driver instance
 **/
 void NONNULL__ OWSkip(const OW_DRV * const pOW);
@@ -156,14 +158,14 @@ void NONNULL__ OWResume(const OW_DRV * const pOW);
 ** \param[in,out] pROM - Pointer to ROM Id structure
 ** \return FctERR - Error code
 **/
-FctERR NONNULLX__(1) OWFirst(OW_DRV * const pOW, OW_ROM_ID_t * const pROM);
+FctERR NONNULLX__(1) OWSearch_First(OW_DRV * const pOW, OW_ROM_ID_t * const pROM);
 
 /*!\brief OneWire search device (any but first)
 ** \param[in,out] pOW - Pointer to OneWire driver instance
 ** \param[in,out] pROM - Pointer to ROM Id structure
 ** \return FctERR - Error code
 **/
-FctERR NONNULLX__(1) OWNext(OW_DRV * const pOW, OW_ROM_ID_t * const pROM);
+FctERR NONNULLX__(1) OWSearch_Next(OW_DRV * const pOW, OW_ROM_ID_t * const pROM);
 
 /*!\brief OneWire search all devices
 ** \param[in,out] pOW - Pointer to OneWire driver instance
@@ -171,7 +173,15 @@ FctERR NONNULLX__(1) OWNext(OW_DRV * const pOW, OW_ROM_ID_t * const pROM);
 ** \param[in] max_nb - Maximum number of devices to search for (most likely number of ROMId array elements)
 ** \return FctERR - Error code
 **/
-FctERR NONNULL__ OWSearchAll(OW_DRV * const pOW, OW_ROM_ID_t ROMId[], const uint8_t max_nb);
+FctERR NONNULL__ OWSearch_All(OW_DRV * const pOW, OW_ROM_ID_t ROMId[], const uint8_t max_nb);
+
+/*!\brief OneWire set search type
+** \warning Beware, type should be set back \ref OW__SEARCH_ROM after custom type search performed (does not switch back automatically)
+** \param[in,out] pOW - Pointer to OneWire driver instance
+** \param[in] type - Search command value
+**/
+__INLINE void NONNULL_INLINE__ OWSearch_SetType(OW_DRV * const pOW, const uint8_t type) {
+	pOW->search_type = type; }
 
 
 /*!\brief OneWire verify
@@ -192,15 +202,21 @@ void NONNULL__ OWTargetSetup(OW_DRV * const pOW, const OW_ROM_type family_code);
 **/
 void NONNULL__ OWFamilySkipSetup(OW_DRV * const pOW);
 
-
-/*!\brief OneWire control sequence
-** \weak OWROMCmd_Control_Sequence may be user implemented if custom control sequence is required
+/*!\brief OneWire check if at least one device is powered by the bus
+** \note May be useful to keep bus as busy during a copy scratchpad command or during a conversion (line should be held high, no other transaction allowed on bus)
+** \warning Use only if at least one device supports the command (meaning it can be powered by power or bus), otherwise result will be wrong and irrelevant
 ** \param[in,out] pOW - Pointer to OneWire driver instance
-** \param[in] pROM - Pointer to ROM Id structure
-** \param[in] pfOriginator - Function pointer of control sequence caller
 ** \return FctERR - Error code
 **/
-FctERR NONNULL__ OWROMCmd_Control_Sequence(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM, const void * const pfOriginator);
+FctERR NONNULL__ OWCheckPowerSupply(OW_DRV * const pOW);
+
+/*!\brief OneWire control sequence
+** \param[in,out] pOW - Pointer to OneWire driver instance
+** \param[in] pROM - Pointer to ROM Id structure
+** \param[in] broadcast - Set whether a skip or select command will be issued
+** \return FctERR - Error code
+**/
+FctERR NONNULL__ OWROMCmd_Control_Sequence(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM, const bool broadcast);
 
 
 /*!\brief OneWire read ROM Id

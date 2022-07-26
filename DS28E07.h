@@ -65,12 +65,13 @@ typedef enum PACK__ DS28E07_reg_map {
 
 /*!\enum DS28E07_cmd
 ** \brief Commands enum for DS28E07
+** \note Unused
 **/
 typedef enum PACK__ DS28E07_cmd {
-	DS28E07__WRITE_SCRATCHPAD = 0x0F,	//!< Write scratchpad command
-	DS28E07__COPY_SCRATCHPAD = 0x55,	//!< Copy scratchpad command
-	DS28E07__READ_SCRATCHPAD = 0xAA,	//!< Read scratchpad command
-	DS28E07__READ_MEMORY = 0xF0			//!< Read memory command
+	DS28E07__WRITE_SCRATCHPAD = OW_EEP__WRITE_SCRATCHPAD,	//!< Write scratchpad command
+	DS28E07__COPY_SCRATCHPAD = OW_EEP__COPY_SCRATCHPAD,		//!< Copy scratchpad command
+	DS28E07__READ_SCRATCHPAD = OW_EEP__READ_SCRATCHPAD,		//!< Read scratchpad command
+	DS28E07__READ_MEMORY = OW_EEP__READ_MEMORY				//!< Read memory command
 } DS28E07_cmd;
 
 
@@ -113,7 +114,7 @@ typedef enum PACK__ DS28E07_prot_user {
 /*!\union uDS28E07_REG__ES
 ** \brief Union for E/S register of DS28E07
 **/
-typedef union PACK__ uDS28E07_REG__ES {	// TODO: use generic eeprom es register union
+typedef union PACK__ uDS28E07_REG__ES {
 	uint8_t Byte;
 	struct PACK__ {
 		uint8_t E		:3;	/*!<
@@ -135,20 +136,22 @@ typedef union PACK__ uDS28E07_REG__ES {	// TODO: use generic eeprom es register 
 ** \brief DS28E07 user interface struct
 **/
 typedef struct DS28E07_t {
-	OW_sn_t						sn;
-	OW_eep_t					eep;
-	OW_EEP_scratch_t			scratch;
-	uint8_t						scratch_data[DS28E07_SCRATCHPAD_SIZE];
+	/*** device generic peripheral types structures ***/
+	OW_sn_t						sn;				//!< Serial Number device type structure
+	OW_eep_t					eep;			//!< EEPROM device type structure
+	/*** device specific variables ***/
+	OW_eep_scratch_t			scratch;								//!< Scratchpad structure
+	uint8_t						scratch_data[DS28E07_SCRATCHPAD_SIZE];	//!< Scratchpad data array
 	union PACK__ {
-		uint8_t					admin_data[8];
+		uint8_t					admin_data[8];	//!< Administrative data array
 		struct PACK__ {
-			DS28E07_prot_page	protect_page0;
-			DS28E07_prot_page	protect_page1;
-			DS28E07_prot_page	protect_page2;
-			DS28E07_prot_page	protect_page3;
-			DS28E07_prot_copy	protect_copy;
-			DS28E07_prot_user	protect_user;
-			uWord PACK__		user;
+			DS28E07_prot_page	protect_page0;	//!< Page 0 protection byte
+			DS28E07_prot_page	protect_page1;	//!< Page 1 protection byte
+			DS28E07_prot_page	protect_page2;	//!< Page 2 protection byte
+			DS28E07_prot_page	protect_page3;	//!< Page 3 protection byte
+			DS28E07_prot_copy	protect_copy;	//!< Copy protection byte
+			DS28E07_prot_user	protect_user;	//!< User bytes protection byte
+			uWord PACK__		user;			//!< User bytes
 		};
 	} admin;
 } DS28E07_t;
@@ -212,11 +215,10 @@ FctERR NONNULL__ DS28E07_Read_AdminData(DS28E07_t * const pCpnt);
 
 /*!\brief DS28E07 read scratchpad
 ** \param[in,out] pCpnt - Pointer to DS28E07 component
-** \param[in,out] pScratch - Pointer to scratchpad output data
 ** \return FctERR - error code
 **/
-__INLINE FctERR NONNULL_INLINE__ DS28E07_Read_Scratchpad(DS28E07_t * const pCpnt, OW_EEP_scratch_t * const pScratch) {
-	return OW_EEP_Read_Scratchpad(&pCpnt->eep, pScratch); }
+__INLINE FctERR NONNULL_INLINE__ DS28E07_Read_Scratchpad(DS28E07_t * const pCpnt) {
+	return OW_EEP_Read_Scratchpad(&pCpnt->eep); }
 
 /*!\brief DS28E07 write scratchpad
 ** \param[in,out] pCpnt - Pointer to DS28E07 component
@@ -249,23 +251,70 @@ __INLINE FctERR NONNULL_INLINE__ DS28E07_Write_Memory(DS28E07_t * const pCpnt, c
 	return OW_EEP_Write_Memory(&pCpnt->eep, pData, addr, len); }
 
 
+/*!\brief DS28E07 get page protection value
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] pProt - Pointer to protection value output
+** \param[in] page - Page number
+** \return FctERR - error code
+**/
 FctERR NONNULL__ DS28E07_Get_Protect_Page(DS28E07_t * const pCpnt, DS28E07_prot_page * const pProt, const OW_eep_pages page);
 
+/*!\brief DS28E07 get copy protection value
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] pProt - Pointer to protection value output
+** \return FctERR - error code
+**/
 FctERR NONNULL__ DS28E07_Get_Protect_Copy(DS28E07_t * const pCpnt, DS28E07_prot_copy * const pProt);
 
+/*!\brief DS28E07 get user bytes protection value
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] pProt - Pointer to protection value output
+** \return FctERR - error code
+**/
 FctERR NONNULL__ DS28E07_Get_Protect_UserBytes(DS28E07_t * const pCpnt, DS28E07_prot_user * const pProt);
 
+/*!\brief DS28E07 set page protection
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] prot - Protection value
+** \param[in] page - Page number
+** \return FctERR - error code
+**/
 FctERR NONNULL__ DS28E07_Protect_Page(DS28E07_t * const pCpnt, const DS28E07_prot_page prot, const OW_eep_pages page);
 
+/*!\brief DS28E07 set copy protection
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] prot - Protection value
+** \return FctERR - error code
+**/
 FctERR NONNULL__ DS28E07_Protect_Copy(DS28E07_t * const pCpnt, const DS28E07_prot_copy prot);
 
+/*!\brief DS28E07 set user bytes protection
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] prot - Protection value
+** \return FctERR - error code
+**/
 FctERR NONNULL__ DS28E07_Protect_UserBytes(DS28E07_t * const pCpnt, const DS28E07_prot_user prot);
 
 
+/*!\brief DS28E07 get user bytes (as a WORD)
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] pWord - Pointer to word output
+** \return FctERR - error code
+**/
 FctERR NONNULLX__(1) DS28E07_Read_User_WORD(DS28E07_t * const pCpnt, uint16_t * const pWord);
 
+/*!\brief DS28E07 get user bytes (as BYTE array)
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] pBytes - Pointer to bytes output
+** \return FctERR - error code
+**/
 FctERR NONNULLX__(1) DS28E07_Read_User_BYTES(DS28E07_t * const pCpnt, uint8_t * const pBytes);
 
+/*!\brief DS28E07 set user bytes (as BYTE array)
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] user - User bytes array
+** \return FctERR - error code
+**/
 FctERR NONNULL__ DS28E07_Write_UserBytes(DS28E07_t * const pCpnt, const uint8_t user[DS28E07_NB_USER_BYTES]);
 
 

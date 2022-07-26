@@ -14,24 +14,21 @@
 
 /*!\brief OneWire EEPROM device copy scratchpad (to memory)
 ** \param[in,out] pEEP - Pointer to EEPROM device type structure
-** \param[in] pScratch - Pointer to scratchpad data
 ** \return FctERR - error code
 **/
-static FctERR NONNULL__ OW_EEP_Copy_Scratchpad(OW_eep_t * const pEEP, OW_EEP_scratch_t * const pScratch)
+static FctERR NONNULL__ OW_EEP_Copy_Scratchpad(OW_eep_t * const pEEP)
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
 
 	OW_set_busy(pSlave, true);
-	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, OW_EEP_Copy_Scratchpad);
+	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
 
 	if (!err)
 	{
 		const uint8_t mask_bits = pEEP->props.scratchpad_size - 1;
-		const uint8_t cmd[4] = { OW_EEP__COPY_SCRATCHPAD, LOBYTE(pScratch->address), HIBYTE(pScratch->address), pScratch->ES & mask_bits };
+		const uint8_t cmd[4] = { OW_EEP__COPY_SCRATCHPAD, LOBYTE(pEEP->pScratch->address), HIBYTE(pEEP->pScratch->address), pEEP->pScratch->ES & mask_bits };
 		OWWrite(pSlave->cfg.bus_inst, cmd, sizeof(cmd));
 
-		// TODO: still need to figure out if waiting would be best (maybe just read at least once for 0xFF)
-		// FIXME: in any case, reading once for 0xFF may be needed to ensure copy command is not rejected
 		if (pEEP->wait_prog)
 		{
 			uint8_t done = 0;
@@ -47,46 +44,50 @@ static FctERR NONNULL__ OW_EEP_Copy_Scratchpad(OW_eep_t * const pEEP, OW_EEP_scr
 			while ((done != 0xAA) && (!err));
 		}
 	}
+
 	OW_set_busy(pSlave, false);
 
 	return ERROR_OK;
 }
 
 
-FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP, OW_EEP_scratch_t * const pScratch)
+FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP)
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
+	uint16_t			iCRC16 = 0;
 
 	if (!OW_is_enabled(pSlave))		{ return ERROR_DISABLED; }	// Peripheral disabled
 
 	OW_set_busy(pSlave, true);
-	FctERR	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, OW_EEP_Read_Scratchpad);
-	if (err)	{ return err; }
+	FctERR	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
 
-	uint8_t tmp[3];
-	uint8_t crc[2];
+	if (!err)
+	{
+		uint8_t tmp[3];
+		uint8_t crc[2];
 
-	OWWrite_byte(pSlave->cfg.bus_inst, OW_EEP__READ_SCRATCHPAD);
-	OWRead(pSlave->cfg.bus_inst, tmp, sizeof(tmp));
+		OWWrite_byte(pSlave->cfg.bus_inst, OW_EEP__READ_SCRATCHPAD);
+		OWRead(pSlave->cfg.bus_inst, tmp, sizeof(tmp));
 
-	const uint32_t	mask_bits = pEEP->props.scratchpad_size - 1;
-	const size_t	len = (tmp[2] & mask_bits) + 1;
-	OWRead(pSlave->cfg.bus_inst, pScratch->pData, len);
-	OWRead(pSlave->cfg.bus_inst, crc, sizeof(crc));
+		const uint32_t	mask_bits = pEEP->props.scratchpad_size - 1;
+		const size_t	len = (tmp[2] & mask_bits) + 1;
+		OWRead(pSlave->cfg.bus_inst, pEEP->pScratch->pData, len);
+		OWRead(pSlave->cfg.bus_inst, crc, sizeof(crc));
+
+		pEEP->pScratch->ES = tmp[2];
+		pEEP->pScratch->nb = len;
+		pEEP->pScratch->address = MAKEWORD(tmp[0], tmp[1]);
+		pEEP->pScratch->iCRC16 = MAKEWORD(crc[0], crc[1]);
+
+		OWCompute_DallasCRC16(&iCRC16, &((uint8_t) { OW_EEP__READ_SCRATCHPAD }), 1);
+		OWCompute_DallasCRC16(&iCRC16, tmp, sizeof(tmp));
+		OWCompute_DallasCRC16(&iCRC16, pEEP->pScratch->pData, len);
+		iCRC16 = ~iCRC16;
+	}
+
 	OW_set_busy(pSlave, false);
 
-	pScratch->ES = tmp[2];
-	pScratch->nb = len;
-	pScratch->address = MAKEWORD(tmp[0], tmp[1]);
-	pScratch->iCRC16 = MAKEWORD(crc[0], crc[1]);
-
-	uint16_t iCRC16 = 0;
-	OWCompute_DallasCRC16(&iCRC16, &((uint8_t) { OW_EEP__READ_SCRATCHPAD }), 1);
-	OWCompute_DallasCRC16(&iCRC16, tmp, sizeof(tmp));
-	OWCompute_DallasCRC16(&iCRC16, pScratch->pData, len);
-	iCRC16 = ~iCRC16;
-
-	return (iCRC16 == pScratch->iCRC16) ? ERROR_OK : ERROR_CRC;;
+	return (iCRC16 == pEEP->pScratch->iCRC16) ? ERROR_OK : ERROR_CRC;;
 }
 
 
@@ -102,7 +103,7 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 	pEEP->pScratch->nb = len;
 
 	OW_set_busy(pSlave, true);
-	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, OW_EEP_Write_Scratchpad);
+	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
 
 	if (!err)
 	{
@@ -126,7 +127,7 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 
 		if (!err)
 		{
-			err = OW_EEP_Read_Scratchpad(pEEP, pEEP->pScratch);
+			err = OW_EEP_Read_Scratchpad(pEEP);
 
 			// TODO: check data & iCRC16 ?
 
@@ -150,7 +151,7 @@ FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, cons
 	if ((addr + len) > pEEP->props.max_read_address + 1)	{ return ERROR_OVERFLOW; }	// Bank overflow
 
 	OW_set_busy(pSlave, true);
-	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, OW_EEP_Read_Memory);
+	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
 
 	if (!err)
 	{
@@ -207,7 +208,7 @@ FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pDat
 			err = OW_EEP_Write_Scratchpad(pEEP, pEEP->pScratch->pData, address, pEEP->props.scratchpad_size);
 
 			// Copy scratchpad
-			if (!err)	{ err = OW_EEP_Copy_Scratchpad(pEEP, pEEP->pScratch); }
+			if (!err)	{ err = OW_EEP_Copy_Scratchpad(pEEP); }
 		}
 
 		pData += write_len;

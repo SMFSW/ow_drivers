@@ -19,29 +19,21 @@
 OW_DRV OWdrv[OW_BUS_NB] = { 0 };		//!< OWdrv structure
 
 
-/*!\brief OneWire search state reset
-** \param[in,out] pOW - Pointer to OneWire driver instance
-**/
-static void NONNULL__ OWReset_search(OW_DRV * const pOW)
-{
-	// reset the search state
-	pOW->search_state.lastDiscrepancy = 0;
-	pOW->search_state.lastFamilyDiscrepancy = 0;
-	pOW->search_state.lastDeviceFlag = false;
-}
-
-
 FctERR NONNULL__ OWInit(OW_Handle_t * const pHandle, const uint8_t idx)
 {
 	/* Check the parameters */
 	if (!IS_OW_DRV_IDX(idx))	{ return ERROR_INSTANCE; }
 
-	OW_DRV * const pDrv = &OWdrv[idx];
+	OW_DRV * const pOW = &OWdrv[idx];
 
-	pDrv->phy_inst.inst = pHandle;
+	pOW->phy_inst.inst = pHandle;
+	pOW->bus_powered = true;				// set to true as should be most of the times, and check is called manually
+
+	OWSearch_SetType(pOW, OW__SEARCH_ROM);	// Set default search command
 
 	return OWInit_phy(idx);
 }
+
 
 FctERR NONNULL__ OWWrite_bit(const OW_DRV * const pOW, const uint8_t bit)
 {
@@ -175,7 +167,16 @@ void NONNULL__ OWSkip(const OW_DRV * const pOW)
 
 void NONNULL__ OWResume(const OW_DRV * const pOW)
 {
-	OWWrite_byte(pOW, OW__RESUME);	// Resume
+	OWWrite_byte(pOW, OW__RESUME);		// Resume
+}
+
+
+/*!\brief OneWire search state reset
+** \param[in,out] pOW - Pointer to OneWire driver instance
+**/
+__STATIC_INLINE void NONNULL_INLINE__ OWSearch_Reset(OW_DRV * const pOW)
+{
+	memset(&pOW->search_state, 0, sizeof(OWSearch_State_t));	// reset the search state
 }
 
 
@@ -197,12 +198,12 @@ static FctERR NONNULLX__(1) OWSearch(OW_DRV * const pOW, OW_ROM_ID_t * const pRO
 		if (OWReset(pOW))
 		{
 			// reset the search
-			OWReset_search(pOW);
+			OWSearch_Reset(pOW);
 			return ERROR_BUSOFF;
 		}
 
 		// issue the search command
-		OWWrite_byte(pOW, OW__SEARCH_ROM);
+		OWWrite_byte(pOW, pOW->search_type);
 
 		// loop to do the search
 		uint8_t last_zero = 0, rom_byte_number = 0, rom_byte_mask = 1, crc8 = 0;
@@ -279,7 +280,7 @@ static FctERR NONNULLX__(1) OWSearch(OW_DRV * const pOW, OW_ROM_ID_t * const pRO
 		}
 		while (rom_byte_number < OW_ROM_ID_SIZE);	// loop until through all ROM bytes 0-7
 
-		// if the search was successful then
+		// if the search was successful
 		if (!((id_bit_number < 65) || (crc8 != 0)))
 		{
 			// search successful so set LastDiscrepancy, LastDeviceFlag, search_result
@@ -294,7 +295,7 @@ static FctERR NONNULLX__(1) OWSearch(OW_DRV * const pOW, OW_ROM_ID_t * const pRO
 
 	// if no device found then reset counters so next 'search' will be like a first
 	if (!pOW->search_state.ROM_ID.romId[0])	{ search_result = ERROR_NOTAVAIL; }
-	if (search_result)						{ OWReset_search(pOW); }
+	if (search_result)						{ OWSearch_Reset(pOW); }
 	else
 	{
 		if (pROMId != NULL)	{ memcpy(pROMId->romId, pOW->search_state.ROM_ID.romId, sizeof(OW_ROM_ID_t)); }
@@ -304,30 +305,30 @@ static FctERR NONNULLX__(1) OWSearch(OW_DRV * const pOW, OW_ROM_ID_t * const pRO
 }
 
 
-FctERR NONNULLX__(1) OWFirst(OW_DRV * const pOW, OW_ROM_ID_t * const pROM)
+FctERR NONNULLX__(1) OWSearch_First(OW_DRV * const pOW, OW_ROM_ID_t * const pROM)
 {
 	/* Reset search values */
-	OWReset_search(pOW);
+	OWSearch_Reset(pOW);
 
 	/* Start with searching */
 	return OWSearch(pOW, pROM);
 }
 
 
-FctERR NONNULLX__(1) OWNext(OW_DRV * const pOW, OW_ROM_ID_t * const pROM)
+FctERR NONNULLX__(1) OWSearch_Next(OW_DRV * const pOW, OW_ROM_ID_t * const pROM)
 {
 	/* Leave the search state alone */
 	return OWSearch(pOW, pROM);
 }
 
 
-FctERR NONNULL__ OWSearchAll(OW_DRV * const pOW, OW_ROM_ID_t ROMId[], const uint8_t max_nb)
+FctERR NONNULL__ OWSearch_All(OW_DRV * const pOW, OW_ROM_ID_t ROMId[], const uint8_t max_nb)
 {
 	FctERR	err = ERROR_OK;
 	uint8_t idx = 0;
 
 	/* Reset search values */
-	OWReset_search(pOW);
+	OWSearch_Reset(pOW);
 
 	/* Start with searching */
 	do
@@ -388,25 +389,32 @@ void NONNULL__ OWFamilySkipSetup(OW_DRV * const pOW)
 }
 
 
-__WEAK FctERR NONNULL__ OWROMCmd_Control_Sequence(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM, const void * const pfOriginator)
+FctERR NONNULL__ OWCheckPowerSupply(OW_DRV * const pOW)
 {
-	// TODO: Parameters may need to be adjusted (eg. maybe pass familyCode (OW_ROM_type) as parameter)
-
 	FctERR err = OWReset(pOW);
 	if (err)	{ return err; }
 
-	/**\code
-	// EXAMPLE
-	if (pfOriginator == XXX_Command)
-	{
-		if (memcmp(pOW->ROM_ID.romId, pROM->romId, sizeof(OW_ROM_ID)))
-		{
-			OWSkip(pOW);
-		}
-	}
-	\endcode**/
+	OWSkip(pOW);
 
-	OWSelect(pOW, pROM);
+	// issue the read power supply command
+	OWWrite_byte(pOW, OW__READ_POWER_SUPPLY);
+
+	uint8_t power;
+	OWRead_byte(pOW, &power);
+
+	pOW->bus_powered = nbinEval(power);
+
+	return err;
+}
+
+
+FctERR NONNULL__ OWROMCmd_Control_Sequence(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM, const bool broadcast)
+{
+	FctERR err = OWReset(pOW);
+	if (err)	{ return err; }
+
+	if (broadcast)	{ OWSkip(pOW); }
+	else			{ OWSelect(pOW, pROM); }
 
 	return err;
 }

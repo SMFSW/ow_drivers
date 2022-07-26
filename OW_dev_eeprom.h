@@ -69,16 +69,16 @@ typedef struct OW_eep_props_t {
 } OW_eep_props_t;
 
 
-/*!\struct OW_EEP_scratch_t
+/*!\struct OW_eep_scratch_t
 ** \brief OneWire EEPROM scratchpad struct
 **/
-typedef struct OW_EEP_scratch_t {
+typedef struct OW_eep_scratch_t {
 	uint8_t			ES;			//!< ES register value
 	uint16_t		iCRC16;		//!< Inverted CRC16
 	uint32_t		address;	//!< Address
 	size_t			nb;			//!< Number of bytes
 	uint8_t * const	pData;		//!< Pointer to scratchpad data (data shall be defined in device struct with its address copied to this data pointer)
-} OW_EEP_scratch_t;
+} OW_eep_scratch_t;
 
 
 /*!\struct OW_eep_t
@@ -87,7 +87,7 @@ typedef struct OW_EEP_scratch_t {
 typedef struct OW_eep_t {
 	OW_slave_t *			slave_inst;		//!< Slave structure
 	OW_eep_props_t			props;			//!< EEPROM properties
-	OW_EEP_scratch_t *		pScratch;		//!< Pointer to mirrored scratchpad data
+	OW_eep_scratch_t *		pScratch;		//!< Pointer to mirrored scratchpad data
 	bool					wait_prog;		//!< Wait until eeprom programming is done (otherwise, only checks for command error byte)
 } OW_eep_t;
 
@@ -106,10 +106,9 @@ __INLINE void NONNULL_INLINE__ OW_EEP_Set_WaitProg(OW_eep_t * const pEEP, const 
 
 /*!\brief OneWire EEPROM device read scratchpad
 ** \param[in,out] pEEP - Pointer to EEPROM device type structure
-** \param[in,out] pScratch - Pointer to scratchpad output data
 ** \return FctERR - error code
 **/
-FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP, OW_EEP_scratch_t * const pScratch);
+FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP);
 
 /*!\brief OneWire EEPROM device write scratchpad
 ** \param[in,out] pEEP - Pointer to EEPROM device type structure
@@ -137,7 +136,7 @@ FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, cons
 ** \param[in] len - Number of data bytes to transmit
 ** \return FctERR - error code
 **/
-FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const size_t nb);
+FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const size_t len);
 
 
 /****************************************************************/

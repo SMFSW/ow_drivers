@@ -62,6 +62,7 @@ typedef enum PACK__ OW_ROM_type {							// Description: (iButton refs), device r
 	OW_TYPE__LI_PROTECTION						= 0x31,		//!< Efficient addressable single-cell rechargeable lithium protection ic: DS2720
 	OW_TYPE__EEPROM_1K_SHA1						= 0x33,		//!< 1k protected EEPROM with SHA-1: (DS1961S), DS2432
 	OW_TYPE__COULOMB_COUNTER					= 0x36,		//!< High precision coulomb counter: DS2740
+	OW_TYPE__THERMOMETER__4BIT_ID				= 0x3B,		//!< Programmable Resolution 1-Wire Digital Thermometer With 4-Bit ID
 	OW_TYPE__BATTERY_FUEL_GAUGE					= 0x51,		//!< Multi-chemistry battery fuel gauge: DS2751
 	OW_TYPE__SERIAL_ID							= 0x81,		//!< Serial ID Button: (DS1420)
 	OW_TYPE__DUAL_PORT__TIME					= 0x84,		//!< Dual port and time: DS2404S

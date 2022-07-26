@@ -22,7 +22,13 @@ SOFTWARE.
 
 ## v0.1
 
-* OW_dev_eeprom: read programming status byte polling increased to 2ms in OW_EEP_Copy_Scratchpad (seems to avoid issues)
+* DS1825: temperature sensor component added
+* DS28E07: eeprom component added
+* Control sequence refactored: skip or match rom can be selected
+* Search function now uses a variable for search command (allowing to use same function with other search commands following devices on bus)
+* OW_dev_temp: temperature sensor device type added
+* OW_dev_eeprom: no more scratchpad passed as parameter in functions, using directly scratchpad pointer in structure 
+* OW_dev_eeprom: read programming status byte polling increased to 2ms in OW_EEP_Copy_Scratchpad (avoiding too much parasite power loss issues)
 * OW_dev_eeprom: test scratchpad size overflow when attempting to write scratchpad
 * OW_dev_eeprom: some variables type changes to be able to handle any eeprom size
 * OW_dev_eeprom: fix issue and read optimization for eeprom multiple blocks write

@@ -23,7 +23,13 @@
 /****************************************************************/
 
 
-#define IS_OW_PERIPHERAL(name, idx)	((idx) < OW_##name##_NB)	//!< Macro for use with assert_param to check OW \b idx is existing for \b name peripheral
+#define IS_OW_PERIPHERAL(name, idx)	((idx) < OW_##name##_NB)	//!< Macro for use with assert_param to check OW peripheral \b idx is valid for \b name peripheral
+
+#define IS_OW_PERIPHERAL_ADDR(name, addr)	((OW_PERIPHERAL_IDX(addr, name) >= 0) &&			\
+											(OW_PERIPHERAL_IDX(addr, name) < OW_##name##_NB))	//!< Macro for use with assert_param to check OW peripheral \b addr is valid for \b name peripheral
+
+
+#define OW_PERIPHERAL_IDX(name, addr)		((int32_t) (((name##_t *) addr) - name))			//!< Macro to get OW peripheral index given \b addr for \b name peripheral
 
 
 // *****************************************************************************
@@ -43,6 +49,7 @@ typedef enum PACK__ OW_ROM_cmd {
 	OW__MATCH_ROM = 0x55,			//!< Match ROM command
 	OW__OVERDRIVE_MATCH_ROM = 0x69,	//!< Overdrive match ROM command
 	OW__RESUME = 0xA5,				//!< Resume command
+	OW__READ_POWER_SUPPLY = 0xB4,	//!< Signals power supply mode to the master
 	OW__SKIP_ROM = 0xCC,			//!< Skip ROM command
 	OW__SEARCH_ROM = 0xF0,			//!< Search ROM command
 } OW_ROM_cmd;
@@ -78,6 +85,15 @@ typedef struct OW_slave_t {
 FctERR NONNULL__ OW_slave_init(OW_slave_t * pSlave, const OW_DRV * pOW, const OW_ROM_ID_t * const pROM);
 
 
+/*!\brief OneWire Salve get power supply source
+** \note May be useful to keep bus as busy during a copy scratchpad command or during a conversion (line should be held high, no other transaction allowed on bus)
+** \warning Use only if device supports the command (meaning it can be powered by power or bus), otherwise result will be wrong and irrelevant
+** \param[in] pSlave - pointer to OW slave instance
+** \param[in,out] pBusPower - pointer to bus power variable result
+** \return FctERR - Error code
+**/
+FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * pSlave, bool * const pBusPower);
+
 /***************/
 /*** SETTERS ***/
 /***************/
@@ -86,7 +102,9 @@ FctERR NONNULL__ OW_slave_init(OW_slave_t * pSlave, const OW_DRV * pOW, const OW
 ** \param[in] pOW - pointer to HAL OW instance
 ** \return Error code
 **/
-FctERR NONNULL__ OW_set_slave_instance(OW_slave_t * pSlave, const OW_DRV * pOW);
+__INLINE FctERR NONNULL_INLINE__ OW_set_slave_instance(OW_slave_t * pSlave, const OW_DRV * pOW) {
+	pSlave->cfg.bus_inst = (OW_DRV *) pOW;
+	return ERROR_OK; }
 
 /*!\brief OW Slave device id change
 ** \param[in,out] pSlave - pointer to OW slave instance
