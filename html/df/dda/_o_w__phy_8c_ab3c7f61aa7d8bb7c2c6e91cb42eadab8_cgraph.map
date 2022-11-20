@@ -1,0 +1,4 @@
+<map id="OWInit_phy" name="OWInit_phy">
+<area shape="rect" id="node2" href="$de/d0a/_o_w__phy___u_a_r_t_8c.html#a635f6b2d763998916587f4f187ac16f6" title="OneWire physical driver instance on UART init. " alt="" coords="145,5,248,32"/>
+<area shape="rect" id="node3" href="$db/df7/_o_w__phy___g_p_i_o_8c.html#a3b7b0f0cba652867668ded9b28c73be0" title="OneWire physical driver instance on GPIO init. " alt="" coords="147,56,247,83"/>
+</map>

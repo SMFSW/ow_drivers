@@ -1,0 +1,32 @@
+<map id="DS28E07_Protect_Page" name="DS28E07_Protect_Page">
+<area shape="rect" id="node2" href="$d6/d82/_d_s28_e07_8c.html#a3d47296db5b8795943776d6202b401b5" title="DS28E07 read administrative data. " alt="" coords="959,312,1158,339"/>
+<area shape="rect" id="node17" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory. " alt="" coords="225,312,404,339"/>
+<area shape="rect" id="node3" href="$d6/d76/_d_s28_e07_8h.html#a23beede5c391a932781de65df6a31992" title="DS28E07 read from memory. " alt="" coords="1215,433,1393,460"/>
+<area shape="rect" id="node4" href="$db/dee/_o_w__dev__eeprom_8c.html#a8ee9745a8e464d5b099f080bdaf6a159" title="OneWire EEPROM device read from memory. " alt="" coords="1459,324,1629,351"/>
+<area shape="rect" id="node5" href="$dd/dc1/_o_w__component_8h.html#a27c034e6c41c7f4efca60200d3ae3184" title="Get OW slave device enabled state. " alt="" coords="1742,121,1861,148"/>
+<area shape="rect" id="node6" href="$dd/dc1/_o_w__component_8h.html#ab86621cbedb81443107cad1fa6c4e4ac" title="Set OW Slave bus/device business. " alt="" coords="1748,223,1855,249"/>
+<area shape="rect" id="node7" href="$dd/da9/_o_w__drv_8c.html#a3c3a8f3bdb28a56a7a77bb6e0c72b009" title="OneWire control sequence. " alt="" coords="1688,375,1915,401"/>
+<area shape="rect" id="node13" href="$dd/da9/_o_w__drv_8c.html#afa1b8cc75dac33836a28459526167861" title="OneWire write to bus. " alt="" coords="2131,349,2206,376"/>
+<area shape="rect" id="node14" href="$dd/da9/_o_w__drv_8c.html#aa4312d082d0ac04cb587a4abfdf1f757" title="OneWire read from bus. " alt="" coords="1764,273,1839,300"/>
+<area shape="rect" id="node8" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title="OWReset" alt="" coords="1978,375,2057,401"/>
+<area shape="rect" id="node9" href="$dd/da9/_o_w__drv_8c.html#a30b0d2d81889fe7bcfd8ae6012c22ac9" title="OneWire skip ROM (allowing to send commands as broadcast) " alt="" coords="2133,469,2204,496"/>
+<area shape="rect" id="node12" href="$dd/da9/_o_w__drv_8c.html#a022f20622d7eb9849c87884316cd96b1" title="OneWire device select. " alt="" coords="1976,425,2059,452"/>
+<area shape="rect" id="node10" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus. " alt="" coords="2265,379,2375,405"/>
+<area shape="rect" id="node11" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus. " alt="" coords="2423,379,2520,405"/>
+<area shape="rect" id="node15" href="$dd/da9/_o_w__drv_8c.html#abf9d24f31327fefffb1c82859bd4fd00" title="OneWire read byte from bus. " alt="" coords="1963,223,2072,249"/>
+<area shape="rect" id="node16" href="$dd/da9/_o_w__drv_8c.html#a0ccd59003ef90f469e146d9f7fc6f2af" title="OneWire read bit from bus. " alt="" coords="2120,223,2217,249"/>
+<area shape="rect" id="node18" href="$db/dee/_o_w__dev__eeprom_8c.html#aab21303207e08f697b610fbff5c9848d" title="OneWire EEPROM device write to memory. " alt="" coords="973,121,1144,148"/>
+<area shape="rect" id="node22" href="$d6/d76/_d_s28_e07_8h.html#a67314e335e77c67660205f1a98f461d9" title="DS28E07 get page protection value. " alt="" coords="707,464,909,491"/>
+<area shape="rect" id="node23" href="$d6/d76/_d_s28_e07_8h.html#a7513b09eedbf647e0fb8e866d7e3a2c4" title="DS28E07 get copy protection value. " alt="" coords="707,144,909,171"/>
+<area shape="rect" id="node24" href="$d6/d76/_d_s28_e07_8h.html#ad2c511b667d49561130de15f444762e1" title="DS28E07 get user bytes protection value. " alt="" coords="726,195,890,237"/>
+<area shape="rect" id="node25" href="$d6/d76/_d_s28_e07_8h.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection. " alt="" coords="469,261,641,288"/>
+<area shape="rect" id="node26" href="$d6/d76/_d_s28_e07_8h.html#a96d96c2e489f479758ba78e44ee553fb" title="DS28E07 set copy protection. " alt="" coords="721,312,895,339"/>
+<area shape="rect" id="node27" href="$d6/d76/_d_s28_e07_8h.html#a0cec544f569e1e129f47e0062ef274da" title="DS28E07 set user bytes protection. " alt="" coords="452,413,659,440"/>
+<area shape="rect" id="node28" href="$d6/d76/_d_s28_e07_8h.html#a5292210c5cd556348078800d4c25b141" title="DS28E07 get user bytes (as a WORD) " alt="" coords="957,488,1160,515"/>
+<area shape="rect" id="node29" href="$d6/d76/_d_s28_e07_8h.html#a9eae37c5afb02a7e2276d91f52f2d28e" title="DS28E07 get user bytes (as BYTE array) " alt="" coords="957,539,1160,565"/>
+<area shape="rect" id="node30" href="$d6/d76/_d_s28_e07_8h.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array) " alt="" coords="459,363,651,389"/>
+<area shape="rect" id="node19" href="$db/dee/_o_w__dev__eeprom_8c.html#ad772756a3edc3610330a58ea2608f2cb" title="OneWire EEPROM device write scratchpad. " alt="" coords="1208,172,1400,199"/>
+<area shape="rect" id="node20" href="$dc/d70/_o_w__crc_8c.html#a6fc42b63b6a957d57ab65a643d045f83" title="Dallas CRC16 computation. " alt="" coords="1707,71,1896,97"/>
+<area shape="rect" id="node21" href="$db/dee/_o_w__dev__eeprom_8c.html#a238f961cfaeab9cba5679262f9277d69" title="OneWire EEPROM device read scratchpad. " alt="" coords="1448,172,1640,199"/>
+<area shape="rect" id="node31" href="$d6/d82/_d_s28_e07_8c.html#a7513b09eedbf647e0fb8e866d7e3a2c4" title="DS28E07 get copy protection value. " alt="" coords="707,363,909,389"/>
+</map>

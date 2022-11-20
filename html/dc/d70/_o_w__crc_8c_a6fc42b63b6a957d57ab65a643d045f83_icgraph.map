@@ -1,0 +1,11 @@
+<map id="OWCompute_DallasCRC16" name="OWCompute_DallasCRC16">
+<area shape="rect" id="node2" href="$d0/d30/_o_w__crc_8h.html#a73949fa6ad3165c3efbb383fcd74543c" title="Dallas CRC16 check. " alt="" coords="254,5,423,32"/>
+<area shape="rect" id="node3" href="$d7/d48/_o_w__dev__eeprom_8h.html#a238f961cfaeab9cba5679262f9277d69" title="OneWire EEPROM device read scratchpad. " alt="" coords="243,56,435,83"/>
+<area shape="rect" id="node5" href="$d7/d48/_o_w__dev__eeprom_8h.html#ad772756a3edc3610330a58ea2608f2cb" title="OneWire EEPROM device write scratchpad. " alt="" coords="486,107,678,133"/>
+<area shape="rect" id="node4" href="$d6/d76/_d_s28_e07_8h.html#a4fd7cca18c261a8418463d7734e1bfb7" title="DS28E07 read scratchpad. " alt="" coords="483,56,681,83"/>
+<area shape="rect" id="node6" href="$d6/d76/_d_s28_e07_8h.html#a73e511aa447dc86e7e3c75c22315e42c" title="DS28E07 write scratchpad. " alt="" coords="729,81,928,108"/>
+<area shape="rect" id="node7" href="$d7/d48/_o_w__dev__eeprom_8h.html#aab21303207e08f697b610fbff5c9848d" title="OneWire EEPROM device write to memory. " alt="" coords="743,132,914,159"/>
+<area shape="rect" id="node8" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory. " alt="" coords="976,132,1155,159"/>
+<area shape="rect" id="node9" href="$d6/d76/_d_s28_e07_8h.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection. " alt="" coords="1213,107,1385,133"/>
+<area shape="rect" id="node10" href="$d6/d76/_d_s28_e07_8h.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array) " alt="" coords="1203,157,1395,184"/>
+</map>

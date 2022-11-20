@@ -1,0 +1,36 @@
+<map id="OWRead" name="OWRead">
+<area shape="rect" id="node2" href="$d7/d48/_o_w__dev__eeprom_8h.html#a238f961cfaeab9cba5679262f9277d69" title="OneWire EEPROM device read scratchpad. " alt="" coords="133,507,325,533"/>
+<area shape="rect" id="node4" href="$d7/d48/_o_w__dev__eeprom_8h.html#ad772756a3edc3610330a58ea2608f2cb" title="OneWire EEPROM device write scratchpad. " alt="" coords="383,545,575,572"/>
+<area shape="rect" id="node10" href="$d7/d48/_o_w__dev__eeprom_8h.html#a8ee9745a8e464d5b099f080bdaf6a159" title="OneWire EEPROM device read from memory. " alt="" coords="144,444,315,471"/>
+<area shape="rect" id="node21" href="$df/dc7/_o_w__dev__temp_8h.html#a2e869041c351dbd783f027c29dca21c6" title="OneWire Temperature sensor device read scratchpad. " alt="" coords="128,615,331,641"/>
+<area shape="rect" id="node32" href="$dd/dc9/_o_w__drv_8h.html#a4ad2293bd4f199771b385f7ddaf7e7f3" title="OneWire read ROM Id. " alt="" coords="165,741,293,768"/>
+<area shape="rect" id="node3" href="$d6/d76/_d_s28_e07_8h.html#a4fd7cca18c261a8418463d7734e1bfb7" title="DS28E07 read scratchpad. " alt="" coords="379,495,578,521"/>
+<area shape="rect" id="node5" href="$d6/d76/_d_s28_e07_8h.html#a73e511aa447dc86e7e3c75c22315e42c" title="DS28E07 write scratchpad. " alt="" coords="629,513,827,540"/>
+<area shape="rect" id="node6" href="$d7/d48/_o_w__dev__eeprom_8h.html#aab21303207e08f697b610fbff5c9848d" title="OneWire EEPROM device write to memory. " alt="" coords="643,463,813,489"/>
+<area shape="rect" id="node7" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory. " alt="" coords="1132,260,1311,287"/>
+<area shape="rect" id="node8" href="$d6/d76/_d_s28_e07_8h.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection. " alt="" coords="1369,235,1541,261"/>
+<area shape="rect" id="node9" href="$d6/d76/_d_s28_e07_8h.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array) " alt="" coords="1359,285,1551,312"/>
+<area shape="rect" id="node11" href="$d6/d76/_d_s28_e07_8h.html#a23beede5c391a932781de65df6a31992" title="DS28E07 read from memory. " alt="" coords="389,368,568,395"/>
+<area shape="rect" id="node12" href="$d6/d76/_d_s28_e07_8h.html#a3d47296db5b8795943776d6202b401b5" title="DS28E07 read administrative data. " alt="" coords="629,180,827,207"/>
+<area shape="rect" id="node19" href="$d6/d76/_d_s28_e07_8h.html#a5292210c5cd556348078800d4c25b141" title="DS28E07 get user bytes (as a WORD) " alt="" coords="879,361,1082,388"/>
+<area shape="rect" id="node20" href="$d6/d76/_d_s28_e07_8h.html#a9eae37c5afb02a7e2276d91f52f2d28e" title="DS28E07 get user bytes (as BYTE array) " alt="" coords="627,412,829,439"/>
+<area shape="rect" id="node13" href="$d6/d76/_d_s28_e07_8h.html#a04f22bb438e25bf3d95753f593c84606" title="Initialization Sequence for DS28E07 peripheral. " alt="" coords="891,41,1070,68"/>
+<area shape="rect" id="node14" href="$d6/d76/_d_s28_e07_8h.html#a67314e335e77c67660205f1a98f461d9" title="DS28E07 get page protection value. " alt="" coords="879,92,1082,119"/>
+<area shape="rect" id="node15" href="$d6/d76/_d_s28_e07_8h.html#a7513b09eedbf647e0fb8e866d7e3a2c4" title="DS28E07 get copy protection value. " alt="" coords="879,311,1082,337"/>
+<area shape="rect" id="node16" href="$d6/d76/_d_s28_e07_8h.html#ad2c511b667d49561130de15f444762e1" title="DS28E07 get user bytes protection value. " alt="" coords="899,143,1063,185"/>
+<area shape="rect" id="node17" href="$d6/d76/_d_s28_e07_8h.html#a96d96c2e489f479758ba78e44ee553fb" title="DS28E07 set copy protection. " alt="" coords="894,209,1067,236"/>
+<area shape="rect" id="node18" href="$d6/d76/_d_s28_e07_8h.html#a0cec544f569e1e129f47e0062ef274da" title="DS28E07 set user bytes protection. " alt="" coords="877,260,1084,287"/>
+<area shape="rect" id="node22" href="$d0/d82/_d_s1825_8h.html#aaa61d97adf9c65dce53b9b36c6ff2957" title="DS1825 read scratchpad. " alt="" coords="383,716,574,743"/>
+<area shape="rect" id="node26" href="$df/dc7/_o_w__dev__temp_8h.html#a46c8e7b26f6b2783058c136b05a856bd" title="OneWire Temperature sensor device read conversion. " alt="" coords="379,615,579,641"/>
+<area shape="rect" id="node23" href="$d0/d82/_d_s1825_8h.html#a4e9876dd936c2de656b11611e91a9651" title="Initialization Sequence for DS1825 peripheral. " alt="" coords="1136,741,1307,768"/>
+<area shape="rect" id="node24" href="$d0/d82/_d_s1825_8h.html#a8d12b335b351c2b0e1a06f33209777f7" title="DS1825 set conversion resolution. " alt="" coords="641,767,815,793"/>
+<area shape="rect" id="node25" href="$d0/d82/_d_s1825_8h.html#a288f860da577cf407f9340b8cb61c16b" title="DS1825 get power supply source. " alt="" coords="881,767,1080,793"/>
+<area shape="rect" id="node27" href="$d0/d82/_d_s1825_8h.html#a7dab8c69acba69d82fa14951d9420e14" title="DS1825 read conversion. " alt="" coords="633,615,823,641"/>
+<area shape="rect" id="node28" href="$df/dc7/_o_w__dev__temp_8h.html#ac4bc170f71d55642e49005d3978a921a" title="OneWire Temperature sensor device blocking temperature conversion. " alt="" coords="657,665,799,692"/>
+<area shape="rect" id="node30" href="$df/dc7/_o_w__dev__temp_8h.html#a57b94d4dc13b2a76df69792ea470429f" title="OneWire Temperature sensor device non blocking temperature conversion. " alt="" coords="629,564,827,591"/>
+<area shape="rect" id="node29" href="$d0/d82/_d_s1825_8h.html#a0eb6b5d88cf530bf598c608d631af456" title="DS1825 blocking temperature conversion. " alt="" coords="915,665,1046,692"/>
+<area shape="rect" id="node31" href="$d0/d82/_d_s1825_8h.html#aabe421abefb9ca2276b346de1b355107" title="DS1825 non blocking temperature conversion. " alt="" coords="887,564,1074,591"/>
+<area shape="rect" id="node33" href="$dd/dc9/_o_w__drv_8h.html#a14de74d10f77c0b37d3afa3f20e96d2b" title="OneWire set search type. " alt="" coords="406,817,551,844"/>
+<area shape="rect" id="node34" href="$df/dc7/_o_w__dev__temp_8h.html#ada222b82ca0bcda2d1893308af7e1a7a" title="OneWire alarm search for all devices. " alt="" coords="655,817,801,844"/>
+<area shape="rect" id="node35" href="$dd/dc9/_o_w__drv_8h.html#a9cdbbd2d4cbc90476b33228a6860b22c" title="OneWire driver instance init. " alt="" coords="697,868,759,895"/>
+</map>

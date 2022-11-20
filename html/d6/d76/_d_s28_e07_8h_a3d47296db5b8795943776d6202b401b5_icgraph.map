@@ -1,0 +1,11 @@
+<map id="DS28E07_Read_AdminData" name="DS28E07_Read_AdminData">
+<area shape="rect" id="node2" href="$d6/d76/_d_s28_e07_8h.html#a04f22bb438e25bf3d95753f593c84606" title="Initialization Sequence for DS28E07 peripheral. " alt="" coords="266,5,445,32"/>
+<area shape="rect" id="node3" href="$d6/d76/_d_s28_e07_8h.html#a67314e335e77c67660205f1a98f461d9" title="DS28E07 get page protection value. " alt="" coords="254,107,457,133"/>
+<area shape="rect" id="node5" href="$d6/d76/_d_s28_e07_8h.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection. " alt="" coords="743,224,915,251"/>
+<area shape="rect" id="node7" href="$d6/d76/_d_s28_e07_8h.html#a7513b09eedbf647e0fb8e866d7e3a2c4" title="DS28E07 get copy protection value. " alt="" coords="254,325,457,352"/>
+<area shape="rect" id="node8" href="$d6/d76/_d_s28_e07_8h.html#ad2c511b667d49561130de15f444762e1" title="DS28E07 get user bytes protection value. " alt="" coords="273,158,437,199"/>
+<area shape="rect" id="node9" href="$d6/d76/_d_s28_e07_8h.html#a96d96c2e489f479758ba78e44ee553fb" title="DS28E07 set copy protection. " alt="" coords="269,224,442,251"/>
+<area shape="rect" id="node10" href="$d6/d76/_d_s28_e07_8h.html#a0cec544f569e1e129f47e0062ef274da" title="DS28E07 set user bytes protection. " alt="" coords="252,275,459,301"/>
+<area shape="rect" id="node4" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory. " alt="" coords="507,224,685,251"/>
+<area shape="rect" id="node6" href="$d6/d76/_d_s28_e07_8h.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array) " alt="" coords="733,275,925,301"/>
+</map>

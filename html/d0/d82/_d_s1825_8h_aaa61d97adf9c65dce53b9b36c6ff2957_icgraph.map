@@ -1,0 +1,5 @@
+<map id="DS1825_Read_Scratchpad" name="DS1825_Read_Scratchpad">
+<area shape="rect" id="node2" href="$d0/d82/_d_s1825_8h.html#a4e9876dd936c2de656b11611e91a9651" title="Initialization Sequence for DS1825 peripheral. " alt="" coords="713,5,884,32"/>
+<area shape="rect" id="node3" href="$d0/d82/_d_s1825_8h.html#a8d12b335b351c2b0e1a06f33209777f7" title="DS1825 set conversion resolution. " alt="" coords="244,31,419,57"/>
+<area shape="rect" id="node4" href="$d0/d82/_d_s1825_8h.html#a288f860da577cf407f9340b8cb61c16b" title="DS1825 get power supply source. " alt="" coords="467,31,665,57"/>
+</map>

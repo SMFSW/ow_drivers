@@ -1,0 +1,10 @@
+<map id="OWRead_ROM_Id" name="OWRead_ROM_Id">
+<area shape="rect" id="node2" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title="OWReset" alt="" coords="223,5,301,32"/>
+<area shape="rect" id="node3" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus. " alt="" coords="207,56,317,83"/>
+<area shape="rect" id="node5" href="$dd/da9/_o_w__drv_8c.html#aa4312d082d0ac04cb587a4abfdf1f757" title="OneWire read from bus. " alt="" coords="225,107,299,133"/>
+<area shape="rect" id="node8" href="$dc/d70/_o_w__crc_8c.html#a19b84082379dc7ab995ea125df4265f6" title="Dallas CRC8 check. " alt="" coords="181,157,343,184"/>
+<area shape="rect" id="node4" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus. " alt="" coords="433,56,530,83"/>
+<area shape="rect" id="node6" href="$dd/da9/_o_w__drv_8c.html#abf9d24f31327fefffb1c82859bd4fd00" title="OneWire read byte from bus. " alt="" coords="427,107,536,133"/>
+<area shape="rect" id="node7" href="$dd/da9/_o_w__drv_8c.html#a0ccd59003ef90f469e146d9f7fc6f2af" title="OneWire read bit from bus. " alt="" coords="620,107,717,133"/>
+<area shape="rect" id="node9" href="$dc/d70/_o_w__crc_8c.html#a5b29c1186e4f28ca881a34a8778887b4" title="Dallas CRC8 computation. " alt="" coords="391,157,572,184"/>
+</map>

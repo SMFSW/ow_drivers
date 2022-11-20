@@ -1,0 +1,12 @@
+<map id="DS1825_Start_Conversion" name="DS1825_Start_Conversion">
+<area shape="rect" id="node2" href="$d7/d22/_o_w__dev__temp_8c.html#a09e096c7d5285116f6905c515446c5f2" title="OneWire Temperature sensor device start temperature conversion. " alt="" coords="244,81,445,108"/>
+<area shape="rect" id="node3" href="$dd/dc1/_o_w__component_8h.html#a27c034e6c41c7f4efca60200d3ae3184" title="Get OW slave device enabled state. " alt="" coords="547,5,666,32"/>
+<area shape="rect" id="node4" href="$dd/dc1/_o_w__component_8h.html#ab86621cbedb81443107cad1fa6c4e4ac" title="Set OW Slave bus/device business. " alt="" coords="553,56,660,83"/>
+<area shape="rect" id="node5" href="$dd/da9/_o_w__drv_8c.html#a3c3a8f3bdb28a56a7a77bb6e0c72b009" title="OneWire control sequence. " alt="" coords="493,107,720,133"/>
+<area shape="rect" id="node8" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus. " alt="" coords="1021,132,1131,159"/>
+<area shape="rect" id="node6" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title="OWReset" alt="" coords="770,31,849,57"/>
+<area shape="rect" id="node7" href="$dd/da9/_o_w__drv_8c.html#a30b0d2d81889fe7bcfd8ae6012c22ac9" title="OneWire skip ROM (allowing to send commands as broadcast) " alt="" coords="901,56,971,83"/>
+<area shape="rect" id="node10" href="$dd/da9/_o_w__drv_8c.html#a022f20622d7eb9849c87884316cd96b1" title="OneWire device select. " alt="" coords="768,132,851,159"/>
+<area shape="rect" id="node9" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus. " alt="" coords="1179,132,1276,159"/>
+<area shape="rect" id="node11" href="$dd/da9/_o_w__drv_8c.html#afa1b8cc75dac33836a28459526167861" title="OneWire write to bus. " alt="" coords="899,157,973,184"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="OWCheckPowerSupply" name="OWCheckPowerSupply">
+<area shape="rect" id="node2" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title="OWReset" alt="" coords="231,5,310,32"/>
+<area shape="rect" id="node3" href="$dd/da9/_o_w__drv_8c.html#a30b0d2d81889fe7bcfd8ae6012c22ac9" title="OneWire skip ROM (allowing to send commands as broadcast) " alt="" coords="235,56,306,83"/>
+<area shape="rect" id="node4" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus. " alt="" coords="373,81,483,108"/>
+<area shape="rect" id="node6" href="$dd/da9/_o_w__drv_8c.html#abf9d24f31327fefffb1c82859bd4fd00" title="OneWire read byte from bus. " alt="" coords="216,157,325,184"/>
+<area shape="rect" id="node5" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus. " alt="" coords="531,81,628,108"/>
+<area shape="rect" id="node7" href="$dd/da9/_o_w__drv_8c.html#a0ccd59003ef90f469e146d9f7fc6f2af" title="OneWire read bit from bus. " alt="" coords="379,157,477,184"/>
+</map>

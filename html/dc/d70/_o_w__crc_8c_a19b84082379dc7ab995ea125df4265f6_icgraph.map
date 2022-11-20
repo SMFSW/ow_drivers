@@ -1,0 +1,6 @@
+<map id="OWCheck_DallasCRC8" name="OWCheck_DallasCRC8">
+<area shape="rect" id="node2" href="$dd/dc9/_o_w__drv_8h.html#a4ad2293bd4f199771b385f7ddaf7e7f3" title="OneWire read ROM Id. " alt="" coords="215,31,343,57"/>
+<area shape="rect" id="node3" href="$dd/dc9/_o_w__drv_8h.html#a14de74d10f77c0b37d3afa3f20e96d2b" title="OneWire set search type. " alt="" coords="391,31,536,57"/>
+<area shape="rect" id="node4" href="$df/dc7/_o_w__dev__temp_8h.html#ada222b82ca0bcda2d1893308af7e1a7a" title="OneWire alarm search for all devices. " alt="" coords="584,5,731,32"/>
+<area shape="rect" id="node5" href="$dd/dc9/_o_w__drv_8h.html#a9cdbbd2d4cbc90476b33228a6860b22c" title="OneWire driver instance init. " alt="" coords="626,56,689,83"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="DS1825_t" name="DS1825_t">
+<area shape="rect" id="node2" href="$d1/d36/struct_o_w__temp__t.html" title="OneWire Temperature sensor configuration type. " alt="" coords="87,380,183,407"/>
+<area shape="rect" id="node3" href="$d0/df8/struct_o_w__temp__props__t.html" title="OneWire Temperature sensor properties type. " alt="" coords="5,291,144,317"/>
+<area shape="rect" id="node4" href="$d7/d1b/struct_o_w__slave__t.html" title="One Wire slave config and control parameters. " alt="" coords="175,291,270,317"/>
+<area shape="rect" id="node12" href="$d9/d71/struct_o_w__sn__t.html" title="OneWire Serial Number configuration type. " alt="" coords="207,380,284,407"/>
+<area shape="rect" id="node5" href="$d8/d41/struct_o_w___r_o_m___i_d__t.html" title="One Wire ROM Identification type. " alt="" coords="189,5,299,32"/>
+<area shape="rect" id="node9" href="$d7/df2/struct_o_w_search___state__t.html" title="OneWire Search State struct. " alt="" coords="239,95,382,121"/>
+<area shape="rect" id="node6" href="$de/d5a/struct_struct_o_w___d_r_v.html" title="OneWire driver struct. " alt="" coords="319,193,433,219"/>
+<area shape="rect" id="node7" href="$df/d7b/struct_o_w___g_p_i_o___handle_type_def.html" title="GPIO handle structure definition. " alt="" coords="365,5,547,32"/>
+<area shape="rect" id="node8" href="$d9/dd7/union_o_w__phy__u.html" title="OW_phy_u" alt="" coords="516,95,604,121"/>
+<area shape="rect" id="node10" href="$d8/d77/union_d_s1825__scratch__t.html" title="DS1825 scratchpad struct. " alt="" coords="308,380,447,407"/>
+<area shape="rect" id="node11" href="$de/d08/unionu_d_s1825___r_e_g_____c_f_g.html" title="Union for configuration register of DS1825. " alt="" coords="300,291,455,317"/>
+</map>

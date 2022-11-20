@@ -1,0 +1,9 @@
+<map id="OW_temp_t" name="OW_temp_t">
+<area shape="rect" id="node2" href="$d0/df8/struct_o_w__temp__props__t.html" title="OneWire Temperature sensor properties type. " alt="" coords="5,291,144,317"/>
+<area shape="rect" id="node3" href="$d7/d1b/struct_o_w__slave__t.html" title="One Wire slave config and control parameters. " alt="" coords="169,291,263,317"/>
+<area shape="rect" id="node4" href="$d8/d41/struct_o_w___r_o_m___i_d__t.html" title="One Wire ROM Identification type. " alt="" coords="165,5,275,32"/>
+<area shape="rect" id="node8" href="$d7/df2/struct_o_w_search___state__t.html" title="OneWire Search State struct. " alt="" coords="215,95,358,121"/>
+<area shape="rect" id="node5" href="$de/d5a/struct_struct_o_w___d_r_v.html" title="OneWire driver struct. " alt="" coords="295,193,409,219"/>
+<area shape="rect" id="node6" href="$df/d7b/struct_o_w___g_p_i_o___handle_type_def.html" title="GPIO handle structure definition. " alt="" coords="341,5,523,32"/>
+<area shape="rect" id="node7" href="$d9/dd7/union_o_w__phy__u.html" title="OW_phy_u" alt="" coords="492,95,580,121"/>
+</map>

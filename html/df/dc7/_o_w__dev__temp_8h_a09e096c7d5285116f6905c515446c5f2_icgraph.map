@@ -1,0 +1,7 @@
+<map id="OW_TEMP_Start_Conversion" name="OW_TEMP_Start_Conversion">
+<area shape="rect" id="node2" href="$d0/d82/_d_s1825_8h.html#a3219a0a4a076d4fed529cbce257c71e4" title="DS1825 start temperature conversion. " alt="" coords="259,5,449,32"/>
+<area shape="rect" id="node3" href="$df/dc7/_o_w__dev__temp_8h.html#ac4bc170f71d55642e49005d3978a921a" title="OneWire Temperature sensor device blocking temperature conversion. " alt="" coords="283,56,425,83"/>
+<area shape="rect" id="node5" href="$df/dc7/_o_w__dev__temp_8h.html#a57b94d4dc13b2a76df69792ea470429f" title="OneWire Temperature sensor device non blocking temperature conversion. " alt="" coords="255,107,453,133"/>
+<area shape="rect" id="node4" href="$d0/d82/_d_s1825_8h.html#a0eb6b5d88cf530bf598c608d631af456" title="DS1825 blocking temperature conversion. " alt="" coords="529,56,660,83"/>
+<area shape="rect" id="node6" href="$d0/d82/_d_s1825_8h.html#aabe421abefb9ca2276b346de1b355107" title="DS1825 non blocking temperature conversion. " alt="" coords="501,107,688,133"/>
+</map>
