@@ -23,14 +23,15 @@
 /****************************************************************/
 
 
-#define IS_OW_PERIPHERAL(name, idx)	((idx) < OW_##name##_NB)	//!< Macro for use with assert_param to check OW peripheral \b idx is valid for \b name peripheral
+#define IS_OW_PERIPHERAL(name, idx)				((idx) < OW_##name##_NB)							//!< Macro for use with assert_param to check OW peripheral \b idx is valid for \b name peripheral
 
-#define IS_OW_PERIPHERAL_ADDR(name, addr)	((OW_PERIPHERAL_IDX(addr, name) >= 0) &&			\
-											(OW_PERIPHERAL_IDX(addr, name) < OW_##name##_NB))	//!< Macro for use with assert_param to check OW peripheral \b addr is valid for \b name peripheral
+#define IS_OW_PERIPHERAL_ADDR(name, addr)		((OW_PERIPHERAL_IDX(addr, name) >= 0) &&			\
+												(OW_PERIPHERAL_IDX(addr, name) < OW_##name##_NB))	//!< Macro for use with assert_param to check OW peripheral \b addr is valid for \b name peripheral
 
 
-#define OW_PERIPHERAL_IDX(name, addr)		((int32_t) (((name##_t *) addr) - name))			//!< Macro to get OW peripheral index given \b addr for \b name peripheral
+#define OW_PERIPHERAL_IDX(name, addr)			((int32_t) (((name##_t *) addr) - name))			//!< Macro to get OW peripheral index given \b addr for \b name peripheral
 
+#define OW_PERIPHERAL_DEV_OFFSET(name, type)	OFFSET_OF(name##_t, type)							//!< Macro to get \b type structure offset in \b per peripheral structure
 
 // *****************************************************************************
 // Section: Constants

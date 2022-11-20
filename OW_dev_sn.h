@@ -35,7 +35,10 @@
 __INLINE uint64_t NONNULL_INLINE__ name##_SN_Get(name##_t * const pCpnt) {	\
 	uint64_t SN;															\
 	OW_SN_Get(&pCpnt->sn, &SN);												\
-	return SN; }	//!< Macro to generate serial number getter for peripheral \b name
+	return SN; }														//!< Macro to generate serial number getter for peripheral \b name
+
+
+#define OW_SN_OFFSET(name)	OW_PERIPHERAL_DEV_OFFSET(name, sn)			//!< Macro to get sn structure offset in \b name peripheral structure
 
 
 // *****************************************************************************

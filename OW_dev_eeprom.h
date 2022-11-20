@@ -27,7 +27,10 @@
 	memcpy(&name[idx].eep.props, &name##_props, sizeof(OW_eep_props_t));	\
 	name[idx].eep.slave_inst = &name##_hal[idx];							\
 	name[idx].eep.pScratch = &name[idx].scratch;							\
-	OW_EEP_Set_WaitProg(&name[idx].eep, true);	//!< Macro to set working defaults for peripheral \b name on index \b idx
+	OW_EEP_Set_WaitProg(&name[idx].eep, true);							//!< Macro to set working defaults for peripheral \b name on index \b idx
+
+
+#define OW_EEPROM_OFFSET(name)	OW_PERIPHERAL_DEV_OFFSET(name, eep)		//!< Macro to get eep structure offset in \b name peripheral structure
 
 
 // *****************************************************************************

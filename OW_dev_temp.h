@@ -27,6 +27,9 @@
 	name[idx].pScratch = (name##_scratch_t *) name[idx].temp.scratch_data;	//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
+#define OW_TEMP_OFFSET(name)	OW_PERIPHERAL_DEV_OFFSET(name, temp)		//!< Macro to get temp structure offset in \b name peripheral structure
+
+
 // *****************************************************************************
 // Section: Constants
 // *****************************************************************************
