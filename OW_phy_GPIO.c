@@ -312,7 +312,7 @@ FctERR OWInit_GPIO(const uint8_t idx)
 		pOW->phy_inst.GPIO_inst->outputMask = (((uint32_t) GPIO_MODE_OUTPUT_OD | (uint32_t) GPIO_SPEED_ONE_WIRE) << RegShift) & pOW->phy_inst.GPIO_inst->regMask;
 	#else /*if defined(STM32F3)*/
 		const uint8_t	max_pins = 16;	// Maximum pins on a port
-		uint8_t			RegShift;
+		uint8_t			RegShift = 0;
 
 		pOW->phy_inst.GPIO_inst->reg = &pOW->phy_inst.GPIO_inst->port->MODER;
 
