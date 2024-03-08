@@ -1,6 +1,6 @@
 /*!\file OW_rom_id.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2022, SMFSW
+** \copyright MIT (c) 2021-2024, SMFSW
 ** \brief OneWire ROM Id
 **/
 /****************************************************************/

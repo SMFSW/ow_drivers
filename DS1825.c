@@ -1,6 +1,6 @@
 /*!\file DS1825.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2022, SMFSW
+** \copyright MIT (c) 2021-2024, SMFSW
 ** \brief DS1825: Programmable Resolution 1-Wire Digital Thermometer With 4-Bit ID
 **/
 /****************************************************************/

@@ -1,6 +1,6 @@
 /*!\file OW_drv.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2022, SMFSW
+** \copyright MIT (c) 2021-2024, SMFSW
 ** \brief GPIO OneWire driver
 **/
 /****************************************************************/
@@ -87,7 +87,7 @@ extern OW_DRV OWdrv[OW_BUS_NB];						//!< OWdrv structure
 ** \param[in] idx - Instance index
 ** \return FctERR - Error code
 **/
-FctERR NONNULL__ OWInit(OW_Handle_t * const pHandle, const uint8_t idx);
+FctERR OWInit(OW_Handle_t * const pHandle, const uint8_t idx);
 
 
 /*!\brief OneWire write bit to bus

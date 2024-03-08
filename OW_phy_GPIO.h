@@ -1,6 +1,6 @@
 /*!\file OW_phy_GPIO.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2022, SMFSW
+** \copyright MIT (c) 2021-2024, SMFSW
 ** \brief OneWire GPIO physical layer
 **/
 /****************************************************************/

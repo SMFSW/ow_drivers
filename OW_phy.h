@@ -1,6 +1,6 @@
 /*!\file OW_phy.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2022, SMFSW
+** \copyright MIT (c) 2021-2024, SMFSW
 ** \brief OneWire physical layer
 ** \note Needed symbols may be defined at project level. If globals.h is not used, symbol NO_GLOBALS_HEADER needs to be defined.
 **/

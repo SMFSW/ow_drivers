@@ -1,6 +1,6 @@
 /*!\file OW_crc.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2022, SMFSW
+** \copyright MIT (c) 2021-2024, SMFSW
 ** \brief OneWire CRC
 ** \note The 1-Wire CRC scheme is described in Maxim Application Note 27:
 ** 		"Understanding and Using Cyclic Redundancy Checks with Maxim iButton Products"

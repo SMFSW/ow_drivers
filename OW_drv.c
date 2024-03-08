@@ -1,6 +1,6 @@
 /*!\file OW_drv.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2022, SMFSW
+** \copyright MIT (c) 2021-2024, SMFSW
 ** \brief GPIO OneWire driver
 **/
 /****************************************************************/
@@ -19,7 +19,7 @@
 OW_DRV OWdrv[OW_BUS_NB] = { 0 };		//!< OWdrv structure
 
 
-FctERR NONNULL__ OWInit(OW_Handle_t * const pHandle, const uint8_t idx)
+FctERR OWInit(OW_Handle_t * const pHandle, const uint8_t idx)
 {
 	/* Check the parameters */
 	if (!IS_OW_DRV_IDX(idx))	{ return ERROR_INSTANCE; }

@@ -1,6 +1,6 @@
 /*!\file DS28E07.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2022, SMFSW
+** \copyright MIT (c) 2021-2024, SMFSW
 ** \brief DS28E07: 1024-Bit, 1-Wire EEPROM
 ** \note Alternate PNs: (DS1972), DS2431
 **/

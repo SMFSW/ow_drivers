@@ -1,6 +1,6 @@
 /*!\file OW_dev_eeprom.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2022, SMFSW
+** \copyright MIT (c) 2021-2024, SMFSW
 ** \brief OneWire eeprom device type
 **/
 /****************************************************************/
