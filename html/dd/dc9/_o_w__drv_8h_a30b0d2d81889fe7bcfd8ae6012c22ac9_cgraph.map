@@ -1,4 +1,7 @@
 <map id="OWSkip" name="OWSkip">
-<area shape="rect" id="node2" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus. " alt="" coords="124,5,233,32"/>
-<area shape="rect" id="node3" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus. " alt="" coords="281,5,379,32"/>
+<area shape="rect" id="Node000001" title="OneWire skip ROM (allowing to send commands as broadcast)" alt="" coords="5,5,76,32"/>
+<area shape="rect" id="Node000002" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus." alt="" coords="124,5,230,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,16,108,16,108,21,76,21"/>
+<area shape="rect" id="Node000003" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus." alt="" coords="278,5,373,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="231,16,263,16,263,21,231,21"/>
 </map>

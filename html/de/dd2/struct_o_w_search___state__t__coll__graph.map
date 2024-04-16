@@ -1,3 +1,5 @@
 <map id="OWSearch_State_t" name="OWSearch_State_t">
-<area shape="rect" id="node2" href="$d8/d41/struct_o_w___r_o_m___i_d__t.html" title="One Wire ROM Identification type. " alt="" coords="21,5,132,32"/>
+<area shape="rect" id="Node000001" title="OneWire Search State struct." alt="" coords="5,96,140,123"/>
+<area shape="rect" id="Node000002" href="$d8/d41/struct_o_w___r_o_m___i_d__t.html" title="One Wire ROM Identification type." alt="" coords="15,5,130,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,47,75,95,70,95,70,47"/>
 </map>

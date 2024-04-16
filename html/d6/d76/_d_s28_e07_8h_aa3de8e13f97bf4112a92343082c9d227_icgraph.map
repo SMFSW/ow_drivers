@@ -1,4 +1,7 @@
 <map id="DS28E07_Write_Memory" name="DS28E07_Write_Memory">
-<area shape="rect" id="node2" href="$d6/d76/_d_s28_e07_8h.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection. " alt="" coords="242,5,414,32"/>
-<area shape="rect" id="node3" href="$d6/d76/_d_s28_e07_8h.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array) " alt="" coords="232,56,424,83"/>
+<area shape="rect" id="Node000001" title="DS28E07 write to memory." alt="" coords="237,31,405,57"/>
+<area shape="rect" id="Node000002" href="$d6/d82/_d_s28_e07_8c.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection." alt="" coords="15,5,179,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,36,179,31,180,25,223,30"/>
+<area shape="rect" id="Node000003" href="$d6/d82/_d_s28_e07_8c.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array)" alt="" coords="5,56,189,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,58,189,62,189,56,222,52"/>
 </map>

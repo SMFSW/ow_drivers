@@ -1,17 +1,40 @@
 <map id="OW_TEMP_Convert" name="OW_TEMP_Convert">
-<area shape="rect" id="node2" href="$d7/d22/_o_w__dev__temp_8c.html#a09e096c7d5285116f6905c515446c5f2" title="OneWire Temperature sensor device start temperature conversion. " alt="" coords="443,157,645,184"/>
-<area shape="rect" id="node12" href="$d7/d22/_o_w__dev__temp_8c.html#a46c8e7b26f6b2783058c136b05a856bd" title="OneWire Temperature sensor device read conversion. " alt="" coords="195,107,395,133"/>
-<area shape="rect" id="node3" href="$dd/dc1/_o_w__component_8h.html#a27c034e6c41c7f4efca60200d3ae3184" title="Get OW slave device enabled state. " alt="" coords="747,208,866,235"/>
-<area shape="rect" id="node4" href="$dd/dc1/_o_w__component_8h.html#ab86621cbedb81443107cad1fa6c4e4ac" title="Set OW Slave bus/device business. " alt="" coords="753,107,860,133"/>
-<area shape="rect" id="node5" href="$dd/da9/_o_w__drv_8c.html#a3c3a8f3bdb28a56a7a77bb6e0c72b009" title="OneWire control sequence. " alt="" coords="693,157,920,184"/>
-<area shape="rect" id="node8" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus. " alt="" coords="1271,157,1380,184"/>
-<area shape="rect" id="node6" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title="OWReset" alt="" coords="983,107,1062,133"/>
-<area shape="rect" id="node7" href="$dd/da9/_o_w__drv_8c.html#a30b0d2d81889fe7bcfd8ae6012c22ac9" title="OneWire skip ROM (allowing to send commands as broadcast) " alt="" coords="1139,107,1209,133"/>
-<area shape="rect" id="node10" href="$dd/da9/_o_w__drv_8c.html#a022f20622d7eb9849c87884316cd96b1" title="OneWire device select. " alt="" coords="981,208,1064,235"/>
-<area shape="rect" id="node9" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus. " alt="" coords="1428,157,1525,184"/>
-<area shape="rect" id="node11" href="$dd/da9/_o_w__drv_8c.html#afa1b8cc75dac33836a28459526167861" title="OneWire write to bus. " alt="" coords="1137,208,1211,235"/>
-<area shape="rect" id="node13" href="$d7/d22/_o_w__dev__temp_8c.html#a2e869041c351dbd783f027c29dca21c6" title="OneWire Temperature sensor device read scratchpad. " alt="" coords="443,107,645,133"/>
-<area shape="rect" id="node14" href="$dd/da9/_o_w__drv_8c.html#aa4312d082d0ac04cb587a4abfdf1f757" title="OneWire read from bus. " alt="" coords="769,5,844,32"/>
-<area shape="rect" id="node15" href="$dd/da9/_o_w__drv_8c.html#abf9d24f31327fefffb1c82859bd4fd00" title="OneWire read byte from bus. " alt="" coords="968,5,1077,32"/>
-<area shape="rect" id="node16" href="$dd/da9/_o_w__drv_8c.html#a0ccd59003ef90f469e146d9f7fc6f2af" title="OneWire read bit from bus. " alt="" coords="1125,5,1223,32"/>
+<area shape="rect" id="Node000001" title="OneWire Temperature sensor device blocking temperature conversion." alt="" coords="5,142,147,169"/>
+<area shape="rect" id="Node000002" href="$d7/d22/_o_w__dev__temp_8c.html#a46c8e7b26f6b2783058c136b05a856bd" title="OneWire Temperature sensor device read conversion." alt="" coords="195,167,394,194"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,161,180,165,180,170,146,166"/>
+<area shape="rect" id="Node000016" href="$d7/d22/_o_w__dev__temp_8c.html#a09e096c7d5285116f6905c515446c5f2" title="OneWire Temperature sensor device start temperature conversion." alt="" coords="444,117,640,143"/>
+<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="147,149,428,133,429,139,147,154"/>
+<area shape="rect" id="Node000003" href="$d7/d22/_o_w__dev__temp_8c.html#a2e869041c351dbd783f027c29dca21c6" title="OneWire Temperature sensor device read scratchpad." alt="" coords="442,167,641,194"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,178,427,178,427,183,394,183"/>
+<area shape="rect" id="Node000004" href="$dd/dc1/_o_w__component_8h.html#a27c034e6c41c7f4efca60200d3ae3184" title="Get OW slave device enabled state." alt="" coords="741,66,855,93"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="615,164,640,153,654,141,663,128,672,115,688,102,726,87,728,92,691,107,676,119,667,131,658,145,643,158,617,169"/>
+<area shape="rect" id="Node000005" href="$dd/dc1/_o_w__component_8h.html#ab86621cbedb81443107cad1fa6c4e4ac" title="Set OW Slave bus/device business." alt="" coords="746,167,850,194"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="642,178,731,178,731,183,642,183"/>
+<area shape="rect" id="Node000006" href="$dd/da9/_o_w__drv_8c.html#aa4312d082d0ac04cb587a4abfdf1f757" title="OneWire read from bus." alt="" coords="760,269,836,295"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="570,192,625,219,690,247,747,266,745,271,688,252,623,224,568,197"/>
+<area shape="rect" id="Node000009" href="$dd/da9/_o_w__drv_8c.html#a3c3a8f3bdb28a56a7a77bb6e0c72b009" title="OneWire control sequence." alt="" coords="689,117,907,143"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="612,164,712,144,713,149,614,169"/>
+<area shape="rect" id="Node000013" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus." alt="" coords="1254,117,1361,143"/>
+<area shape="poly" id="edge17_Node000003_Node000013" title=" " alt="" coords="594,192,707,216,780,227,861,236,947,239,1034,236,1122,225,1205,203,1228,194,1248,180,1283,151,1286,155,1251,185,1230,198,1207,208,1123,230,1035,242,947,245,861,241,780,233,706,221,593,197"/>
+<area shape="rect" id="Node000007" href="$dd/da9/_o_w__drv_8c.html#abf9d24f31327fefffb1c82859bd4fd00" title="OneWire read byte from bus." alt="" coords="955,269,1062,295"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="836,279,940,279,940,285,836,285"/>
+<area shape="rect" id="Node000008" href="$dd/da9/_o_w__drv_8c.html#a0ccd59003ef90f469e146d9f7fc6f2af" title="OneWire read bit from bus." alt="" coords="1110,269,1206,295"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1062,279,1095,279,1095,285,1062,285"/>
+<area shape="rect" id="Node000010" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title=" " alt="" coords="969,66,1048,93"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="858,113,906,102,954,90,955,95,907,107,860,119"/>
+<area shape="rect" id="Node000011" href="$dd/da9/_o_w__drv_8c.html#a022f20622d7eb9849c87884316cd96b1" title="OneWire device select." alt="" coords="968,117,1049,143"/>
+<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="907,127,953,127,953,133,907,133"/>
+<area shape="rect" id="Node000015" href="$dd/da9/_o_w__drv_8c.html#a30b0d2d81889fe7bcfd8ae6012c22ac9" title="OneWire skip ROM (allowing to send commands as broadcast)" alt="" coords="1123,167,1193,194"/>
+<area shape="poly" id="edge15_Node000009_Node000015" title=" " alt="" coords="882,141,955,153,1109,172,1108,178,954,158,881,147"/>
+<area shape="rect" id="Node000012" href="$dd/da9/_o_w__drv_8c.html#afa1b8cc75dac33836a28459526167861" title="OneWire write to bus." alt="" coords="1121,66,1195,93"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="1049,114,1106,94,1108,99,1050,119"/>
+<area shape="poly" id="edge14_Node000011_Node000013" title=" " alt="" coords="1050,127,1239,127,1239,133,1050,133"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="1197,89,1253,109,1251,114,1195,94"/>
+<area shape="rect" id="Node000014" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus." alt="" coords="1409,117,1504,143"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1361,127,1394,127,1394,133,1361,133"/>
+<area shape="poly" id="edge16_Node000015_Node000013" title=" " alt="" coords="1193,166,1251,146,1253,151,1195,171"/>
+<area shape="poly" id="edge19_Node000016_Node000004" title=" " alt="" coords="612,113,726,91,727,96,614,119"/>
+<area shape="poly" id="edge20_Node000016_Node000005" title=" " alt="" coords="614,141,732,165,731,170,612,147"/>
+<area shape="poly" id="edge21_Node000016_Node000009" title=" " alt="" coords="640,127,675,127,675,133,640,133"/>
+<area shape="poly" id="edge22_Node000016_Node000013" title=" " alt="" coords="561,114,616,80,651,64,689,51,833,18,893,8,950,3,1006,5,1066,13,1131,28,1207,51,1230,62,1251,75,1286,105,1283,109,1248,79,1228,66,1205,56,1130,33,1065,18,1006,10,950,9,894,13,834,23,690,56,653,69,619,85,564,118"/>
 </map>

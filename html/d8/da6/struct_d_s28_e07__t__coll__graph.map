@@ -1,12 +1,28 @@
 <map id="DS28E07_t" name="DS28E07_t">
-<area shape="rect" id="node2" href="$dc/d54/struct_o_w__eep__scratch__t.html" title="OneWire EEPROM scratchpad struct. " alt="" coords="5,291,145,317"/>
-<area shape="rect" id="node10" href="$dc/d25/struct_o_w__eep__t.html" title="OneWire EEPROM configuration type. " alt="" coords="187,380,273,407"/>
-<area shape="rect" id="node3" href="$d9/d71/struct_o_w__sn__t.html" title="OneWire Serial Number configuration type. " alt="" coords="330,380,407,407"/>
-<area shape="rect" id="node4" href="$d7/d1b/struct_o_w__slave__t.html" title="One Wire slave config and control parameters. " alt="" coords="337,291,432,317"/>
-<area shape="rect" id="node5" href="$d8/d41/struct_o_w___r_o_m___i_d__t.html" title="One Wire ROM Identification type. " alt="" coords="317,5,428,32"/>
-<area shape="rect" id="node9" href="$d7/df2/struct_o_w_search___state__t.html" title="OneWire Search State struct. " alt="" coords="368,95,511,121"/>
-<area shape="rect" id="node6" href="$de/d5a/struct_struct_o_w___d_r_v.html" title="OneWire driver struct. " alt="" coords="447,193,562,219"/>
-<area shape="rect" id="node7" href="$df/d7b/struct_o_w___g_p_i_o___handle_type_def.html" title="GPIO handle structure definition. " alt="" coords="493,5,676,32"/>
-<area shape="rect" id="node8" href="$d9/dd7/union_o_w__phy__u.html" title="OW_phy_u" alt="" coords="645,95,733,121"/>
-<area shape="rect" id="node11" href="$d8/d53/struct_o_w__eep__props__t.html" title="OneWire EEPROM properties type. " alt="" coords="169,291,299,317"/>
+<area shape="rect" id="Node000001" title="DS28E07 user interface struct." alt="" coords="177,480,266,507"/>
+<area shape="rect" id="Node000002" href="$d9/d71/struct_o_w__sn__t.html" title="OneWire Serial Number configuration type." alt="" coords="315,389,392,416"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="324,427,242,482,239,477,321,422"/>
+<area shape="rect" id="Node000003" href="$d7/d1b/struct_o_w__slave__t.html" title="One Wire slave config and control parameters." alt="" coords="317,299,411,325"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,341,358,389,352,388,358,340"/>
+<area shape="rect" id="Node000009" href="$dc/d25/struct_o_w__eep__t.html" title="OneWire EEPROM configuration type." alt="" coords="180,389,263,416"/>
+<area shape="poly" id="edge12_Node000009_Node000003" title=" " alt="" coords="323,334,292,352,238,391,235,387,289,347,321,330"/>
+<area shape="rect" id="Node000004" href="$de/d5a/struct_struct_o_w___d_r_v.html" title="OneWire driver struct." alt="" coords="151,197,265,224"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="241,230,346,296,343,301,238,234"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="281,200,289,204,292,211,284,220,266,224,265,218,281,215,287,210,285,208,279,205"/>
+<area shape="rect" id="Node000005" href="$d9/dd7/union_o_w__phy__u.html" title=" " alt="" coords="36,96,122,123"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="86,136,100,161,126,181,156,194,154,199,123,185,96,164,82,139"/>
+<area shape="rect" id="Node000006" href="$df/d7b/struct_o_w___g_p_i_o___handle_type_def.html" title="GPIO handle structure definition." alt="" coords="65,5,247,32"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="165,45,185,122,207,196,202,198,179,123,160,47"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="105,42,88,57,81,76,80,96,75,96,76,75,83,55,101,38"/>
+<area shape="rect" id="Node000007" href="$d7/df2/struct_o_w_search___state__t.html" title="OneWire Search State struct." alt="" coords="256,96,390,123"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="299,135,224,199,221,195,295,131"/>
+<area shape="rect" id="Node000008" href="$d8/d41/struct_o_w___r_o_m___i_d__t.html" title="One Wire ROM Identification type." alt="" coords="304,5,419,32"/>
+<area shape="poly" id="edge10_Node000003_Node000008" title=" " alt="" coords="399,40,410,55,412,64,411,72,403,140,392,206,370,299,365,298,386,204,398,139,405,72,407,64,406,57,395,43"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="353,47,331,96,326,94,348,45"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="224,431,224,479,219,479,219,431"/>
+<area shape="rect" id="Node000010" href="$d8/d53/struct_o_w__eep__props__t.html" title="OneWire EEPROM properties type." alt="" coords="163,299,285,325"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="226,340,225,349,224,389,219,389,220,349,220,340"/>
+<area shape="rect" id="Node000011" href="$dc/d54/struct_o_w__eep__scratch__t.html" title="OneWire EEPROM scratchpad struct." alt="" coords="5,299,139,325"/>
+<area shape="poly" id="edge15_Node000001_Node000011" title=" " alt="" coords="83,338,99,376,123,414,162,451,200,477,197,482,158,455,119,418,94,378,78,340"/>
+<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="107,331,201,386,199,391,104,336"/>
 </map>

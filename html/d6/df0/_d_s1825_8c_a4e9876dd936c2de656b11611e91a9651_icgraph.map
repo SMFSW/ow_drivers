@@ -1,0 +1,7 @@
+<map id="DS1825_Init_Sequence" name="DS1825_Init_Sequence">
+<area shape="rect" id="Node000001" title="Initialization Sequence for DS1825 peripheral." alt="" coords="331,5,489,32"/>
+<area shape="rect" id="Node000002" href="$d6/df0/_d_s1825_8c.html#addba494e03624ee5ecd1cd9862fb8ac3" title="Initialization for DS1825 peripheral." alt="" coords="190,5,283,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="316,21,283,21,283,16,316,16"/>
+<area shape="rect" id="Node000003" href="$d6/df0/_d_s1825_8c.html#a45262e179934a649473fb5173404454e" title="Initialization for DS1825 peripheral." alt="" coords="5,5,142,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="175,21,142,21,142,16,175,16"/>
+</map>

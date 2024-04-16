@@ -1,3 +1,5 @@
 <map id="DS1825.h" name="DS1825.h">
-<area shape="rect" id="node2" href="$d6/df0/_d_s1825_8c.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID. " alt="" coords="6,80,90,107"/>
+<area shape="rect" id="Node000001" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID." alt="" coords="5,5,85,32"/>
+<area shape="rect" id="Node000002" href="$d6/df0/_d_s1825_8c.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID." alt="" coords="5,80,85,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="48,47,48,80,42,80,42,47"/>
 </map>

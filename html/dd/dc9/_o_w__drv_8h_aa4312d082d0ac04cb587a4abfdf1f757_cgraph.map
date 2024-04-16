@@ -1,4 +1,7 @@
 <map id="OWRead" name="OWRead">
-<area shape="rect" id="node2" href="$dd/da9/_o_w__drv_8c.html#abf9d24f31327fefffb1c82859bd4fd00" title="OneWire read byte from bus. " alt="" coords="128,5,237,32"/>
-<area shape="rect" id="node3" href="$dd/da9/_o_w__drv_8c.html#a0ccd59003ef90f469e146d9f7fc6f2af" title="OneWire read bit from bus. " alt="" coords="285,5,383,32"/>
+<area shape="rect" id="Node000001" title="OneWire read from bus." alt="" coords="5,5,81,32"/>
+<area shape="rect" id="Node000002" href="$dd/da9/_o_w__drv_8c.html#abf9d24f31327fefffb1c82859bd4fd00" title="OneWire read byte from bus." alt="" coords="129,5,236,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,16,114,16,114,21,81,21"/>
+<area shape="rect" id="Node000003" href="$dd/da9/_o_w__drv_8c.html#a0ccd59003ef90f469e146d9f7fc6f2af" title="OneWire read bit from bus." alt="" coords="284,5,380,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="236,16,269,16,269,21,236,21"/>
 </map>

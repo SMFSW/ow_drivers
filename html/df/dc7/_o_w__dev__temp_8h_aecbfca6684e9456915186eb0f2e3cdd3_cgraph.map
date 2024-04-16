@@ -1,0 +1,9 @@
+<map id="OW_TEMP_AlarmSearch_All" name="OW_TEMP_AlarmSearch_All">
+<area shape="rect" id="Node000001" title="OneWire alarm search for all devices." alt="" coords="5,31,198,57"/>
+<area shape="rect" id="Node000002" href="$d7/d22/_o_w__dev__temp_8c.html#ada222b82ca0bcda2d1893308af7e1a7a" title="OneWire alarm search for all devices." alt="" coords="246,31,386,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,41,231,41,231,47,198,47"/>
+<area shape="rect" id="Node000003" href="$dd/da9/_o_w__drv_8c.html#ae1f31045b076d20d194acddde22722c8" title="OneWire search all devices." alt="" coords="451,5,558,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="386,32,435,25,436,30,387,37"/>
+<area shape="rect" id="Node000004" href="$dd/dc9/_o_w__drv_8h.html#a14de74d10f77c0b37d3afa3f20e96d2b" title="OneWire set search type." alt="" coords="434,56,574,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="387,51,420,55,419,61,386,56"/>
+</map>

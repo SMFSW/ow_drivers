@@ -1,5 +1,9 @@
 <map id="OW_EEP_Write_Memory" name="OW_EEP_Write_Memory">
-<area shape="rect" id="node2" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory. " alt="" coords="224,31,403,57"/>
-<area shape="rect" id="node3" href="$d6/d76/_d_s28_e07_8h.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection. " alt="" coords="461,5,633,32"/>
-<area shape="rect" id="node4" href="$d6/d76/_d_s28_e07_8h.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array) " alt="" coords="451,56,643,83"/>
+<area shape="rect" id="Node000001" title="OneWire EEPROM device write to memory." alt="" coords="453,31,622,57"/>
+<area shape="rect" id="Node000002" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory." alt="" coords="237,31,405,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="438,47,405,47,405,41,438,41"/>
+<area shape="rect" id="Node000003" href="$d6/d82/_d_s28_e07_8c.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection." alt="" coords="15,5,179,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="222,36,179,31,180,25,223,30"/>
+<area shape="rect" id="Node000004" href="$d6/d82/_d_s28_e07_8c.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array)" alt="" coords="5,56,189,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="223,58,189,62,189,56,222,52"/>
 </map>

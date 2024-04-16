@@ -1,5 +1,0 @@
-<map id="OWCheckPowerSupply" name="OWCheckPowerSupply">
-<area shape="rect" id="node2" href="$dd/dc9/_o_w__drv_8h.html#a14de74d10f77c0b37d3afa3f20e96d2b" title="OneWire set search type. " alt="" coords="216,31,361,57"/>
-<area shape="rect" id="node3" href="$df/dc7/_o_w__dev__temp_8h.html#ada222b82ca0bcda2d1893308af7e1a7a" title="OneWire alarm search for all devices. " alt="" coords="409,5,556,32"/>
-<area shape="rect" id="node4" href="$dd/dc9/_o_w__drv_8h.html#a9cdbbd2d4cbc90476b33228a6860b22c" title="OneWire driver instance init. " alt="" coords="451,56,514,83"/>
-</map>

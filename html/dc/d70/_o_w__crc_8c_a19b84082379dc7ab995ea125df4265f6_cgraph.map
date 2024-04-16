@@ -1,3 +1,5 @@
 <map id="OWCheck_DallasCRC8" name="OWCheck_DallasCRC8">
-<area shape="rect" id="node2" href="$dc/d70/_o_w__crc_8c.html#a5b29c1186e4f28ca881a34a8778887b4" title="Dallas CRC8 computation. " alt="" coords="215,5,396,32"/>
+<area shape="rect" id="Node000001" title="Dallas CRC8 check." alt="" coords="5,5,169,32"/>
+<area shape="rect" id="Node000002" href="$dc/d70/_o_w__crc_8c.html#a5b29c1186e4f28ca881a34a8778887b4" title="Dallas CRC8 computation." alt="" coords="217,5,395,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,16,202,16,202,21,169,21"/>
 </map>

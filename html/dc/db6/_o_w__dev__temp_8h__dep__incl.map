@@ -1,5 +1,9 @@
 <map id="OW_dev_temp.h" name="OW_dev_temp.h">
-<area shape="rect" id="node2" href="$d0/d82/_d_s1825_8h.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID. " alt="" coords="5,80,91,107"/>
-<area shape="rect" id="node4" href="$d7/d22/_o_w__dev__temp_8c.html" title="OneWire temperature sensor device type. " alt="" coords="115,80,240,107"/>
-<area shape="rect" id="node3" href="$d6/df0/_d_s1825_8c.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID. " alt="" coords="6,155,90,181"/>
+<area shape="rect" id="Node000001" title="OneWire temperature sensor device type." alt="" coords="47,5,166,32"/>
+<area shape="rect" id="Node000002" href="$d0/d82/_d_s1825_8h.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID." alt="" coords="5,80,85,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,45,58,81,54,78,84,42"/>
+<area shape="rect" id="Node000004" href="$d7/d22/_o_w__dev__temp_8c.html" title="OneWire temperature sensor device type." alt="" coords="109,80,229,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="129,41,160,78,156,81,125,45"/>
+<area shape="rect" id="Node000003" href="$d6/df0/_d_s1825_8c.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID." alt="" coords="5,155,85,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="48,122,48,154,42,154,42,122"/>
 </map>

@@ -1,7 +1,13 @@
 <map id="OW_TEMP_Read_Conversion" name="OW_TEMP_Read_Conversion">
-<area shape="rect" id="node2" href="$d0/d82/_d_s1825_8h.html#a7dab8c69acba69d82fa14951d9420e14" title="DS1825 read conversion. " alt="" coords="258,5,447,32"/>
-<area shape="rect" id="node3" href="$df/dc7/_o_w__dev__temp_8h.html#ac4bc170f71d55642e49005d3978a921a" title="OneWire Temperature sensor device blocking temperature conversion. " alt="" coords="282,56,423,83"/>
-<area shape="rect" id="node5" href="$df/dc7/_o_w__dev__temp_8h.html#a57b94d4dc13b2a76df69792ea470429f" title="OneWire Temperature sensor device non blocking temperature conversion. " alt="" coords="253,107,452,133"/>
-<area shape="rect" id="node4" href="$d0/d82/_d_s1825_8h.html#a0eb6b5d88cf530bf598c608d631af456" title="DS1825 blocking temperature conversion. " alt="" coords="528,56,659,83"/>
-<area shape="rect" id="node6" href="$d0/d82/_d_s1825_8h.html#aabe421abefb9ca2276b346de1b355107" title="DS1825 non blocking temperature conversion. " alt="" coords="500,107,687,133"/>
+<area shape="rect" id="Node000001" title="OneWire Temperature sensor device read conversion." alt="" coords="468,56,667,83"/>
+<area shape="rect" id="Node000002" href="$d0/d82/_d_s1825_8h.html#a7dab8c69acba69d82fa14951d9420e14" title="DS1825 read conversion." alt="" coords="234,5,413,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="485,55,391,35,392,30,486,50"/>
+<area shape="rect" id="Node000003" href="$d7/d22/_o_w__dev__temp_8c.html#ac4bc170f71d55642e49005d3978a921a" title="OneWire Temperature sensor device blocking temperature conversion." alt="" coords="253,56,394,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="453,72,394,72,394,67,453,67"/>
+<area shape="rect" id="Node000005" href="$d7/d22/_o_w__dev__temp_8c.html#a57b94d4dc13b2a76df69792ea470429f" title="OneWire Temperature sensor device non blocking temperature conversion." alt="" coords="227,107,420,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="486,89,392,109,391,103,485,84"/>
+<area shape="rect" id="Node000004" href="$d0/d82/_d_s1825_8h.html#a0eb6b5d88cf530bf598c608d631af456" title="DS1825 blocking temperature conversion." alt="" coords="31,56,153,83"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="238,72,153,72,153,67,238,67"/>
+<area shape="rect" id="Node000006" href="$d0/d82/_d_s1825_8h.html#aabe421abefb9ca2276b346de1b355107" title="DS1825 non blocking temperature conversion." alt="" coords="5,107,179,133"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="212,123,179,123,179,117,212,117"/>
 </map>

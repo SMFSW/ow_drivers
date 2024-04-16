@@ -1,7 +1,16 @@
 <map id="OW_slave_t" name="OW_slave_t">
-<area shape="rect" id="node2" href="$d8/d41/struct_o_w___r_o_m___i_d__t.html" title="One Wire ROM Identification type. " alt="" coords="5,5,116,32"/>
-<area shape="rect" id="node6" href="$d7/df2/struct_o_w_search___state__t.html" title="OneWire Search State struct. " alt="" coords="56,95,199,121"/>
-<area shape="rect" id="node3" href="$de/d5a/struct_struct_o_w___d_r_v.html" title="OneWire driver struct. " alt="" coords="135,193,250,219"/>
-<area shape="rect" id="node4" href="$df/d7b/struct_o_w___g_p_i_o___handle_type_def.html" title="GPIO handle structure definition. " alt="" coords="181,5,364,32"/>
-<area shape="rect" id="node5" href="$d9/dd7/union_o_w__phy__u.html" title="OW_phy_u" alt="" coords="333,95,421,121"/>
+<area shape="rect" id="Node000001" title="One Wire slave config and control parameters." alt="" coords="241,299,334,325"/>
+<area shape="rect" id="Node000002" href="$de/d5a/struct_struct_o_w___d_r_v.html" title="OneWire driver struct." alt="" coords="121,197,235,224"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,232,275,296,272,300,200,236"/>
+<area shape="poly" id="edge5_Node000002_Node000002" title=" " alt="" coords="251,200,258,204,262,211,254,220,236,224,235,218,251,215,256,210,255,208,249,205"/>
+<area shape="rect" id="Node000003" href="$d9/dd7/union_o_w__phy__u.html" title=" " alt="" coords="5,96,92,123"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="56,136,70,161,96,181,126,194,124,199,93,185,65,164,51,139"/>
+<area shape="rect" id="Node000004" href="$df/d7b/struct_o_w___g_p_i_o___handle_type_def.html" title="GPIO handle structure definition." alt="" coords="35,5,217,32"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="135,45,154,122,177,196,171,198,149,123,129,47"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="75,42,58,57,51,76,50,96,44,96,45,75,53,55,71,38"/>
+<area shape="rect" id="Node000005" href="$d7/df2/struct_o_w_search___state__t.html" title="OneWire Search State struct." alt="" coords="225,96,360,123"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="269,135,194,199,190,195,265,131"/>
+<area shape="rect" id="Node000006" href="$d8/d41/struct_o_w___r_o_m___i_d__t.html" title="One Wire ROM Identification type." alt="" coords="274,5,388,32"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="369,40,380,55,382,82,374,123,358,181,335,236,298,300,293,297,330,233,353,179,369,122,377,82,375,57,365,43"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="322,47,300,96,296,94,317,45"/>
 </map>

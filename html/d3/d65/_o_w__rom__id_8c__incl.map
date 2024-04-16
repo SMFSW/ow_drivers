@@ -1,4 +1,11 @@
 <map id="OW_rom_id.c" name="OW_rom_id.c">
-<area shape="rect" id="node3" href="$dc/d9c/_o_w__rom__id_8h.html" title="OneWire ROM Id. " alt="" coords="50,80,157,107"/>
-<area shape="rect" id="node4" href="$d0/d85/_o_w__dev__type_8h.html" title="OneWire device types. " alt="" coords="101,155,221,181"/>
+<area shape="rect" id="Node000001" title="OneWire ROM Id." alt="" coords="5,5,107,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="22,229,103,256"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="53,33,40,80,38,117,42,153,56,215,51,216,36,154,33,117,35,80,48,32"/>
+<area shape="rect" id="Node000003" href="$dc/d9c/_o_w__rom__id_8h.html" title="OneWire ROM Id." alt="" coords="49,80,151,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="66,31,87,66,83,69,61,34"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="99,108,72,215,67,214,94,107"/>
+<area shape="rect" id="Node000004" href="$d0/d85/_o_w__dev__type_8h.html" title="OneWire device types." alt="" coords="100,155,215,181"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="112,106,140,141,136,145,108,109"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="142,184,92,222,89,218,139,180"/>
 </map>

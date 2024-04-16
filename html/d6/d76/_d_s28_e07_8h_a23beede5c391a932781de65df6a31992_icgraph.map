@@ -1,14 +1,29 @@
 <map id="DS28E07_Read_Memory" name="DS28E07_Read_Memory">
-<area shape="rect" id="node2" href="$d6/d76/_d_s28_e07_8h.html#a3d47296db5b8795943776d6202b401b5" title="DS28E07 read administrative data. " alt="" coords="234,233,433,259"/>
-<area shape="rect" id="node12" href="$d6/d76/_d_s28_e07_8h.html#a5292210c5cd556348078800d4c25b141" title="DS28E07 get user bytes (as a WORD) " alt="" coords="232,18,435,45"/>
-<area shape="rect" id="node13" href="$d6/d76/_d_s28_e07_8h.html#a9eae37c5afb02a7e2276d91f52f2d28e" title="DS28E07 get user bytes (as BYTE array) " alt="" coords="232,94,435,121"/>
-<area shape="rect" id="node3" href="$d6/d76/_d_s28_e07_8h.html#a04f22bb438e25bf3d95753f593c84606" title="Initialization Sequence for DS28E07 peripheral. " alt="" coords="497,414,675,441"/>
-<area shape="rect" id="node4" href="$d6/d76/_d_s28_e07_8h.html#a67314e335e77c67660205f1a98f461d9" title="DS28E07 get page protection value. " alt="" coords="485,313,687,339"/>
-<area shape="rect" id="node6" href="$d6/d76/_d_s28_e07_8h.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection. " alt="" coords="974,170,1146,197"/>
-<area shape="rect" id="node8" href="$d6/d76/_d_s28_e07_8h.html#a7513b09eedbf647e0fb8e866d7e3a2c4" title="DS28E07 get copy protection value. " alt="" coords="485,43,687,70"/>
-<area shape="rect" id="node9" href="$d6/d76/_d_s28_e07_8h.html#ad2c511b667d49561130de15f444762e1" title="DS28E07 get user bytes protection value. " alt="" coords="504,196,668,237"/>
-<area shape="rect" id="node10" href="$d6/d76/_d_s28_e07_8h.html#a96d96c2e489f479758ba78e44ee553fb" title="DS28E07 set copy protection. " alt="" coords="499,262,673,289"/>
-<area shape="rect" id="node11" href="$d6/d76/_d_s28_e07_8h.html#a0cec544f569e1e129f47e0062ef274da" title="DS28E07 set user bytes protection. " alt="" coords="483,145,689,171"/>
-<area shape="rect" id="node5" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory. " alt="" coords="737,145,916,171"/>
-<area shape="rect" id="node7" href="$d6/d76/_d_s28_e07_8h.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array) " alt="" coords="964,119,1156,146"/>
+<area shape="rect" id="Node000001" title="DS28E07 read from memory." alt="" coords="923,224,1092,251"/>
+<area shape="rect" id="Node000002" href="$d6/d82/_d_s28_e07_8c.html#a3d47296db5b8795943776d6202b401b5" title="DS28E07 read administrative data." alt="" coords="680,173,868,200"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="928,223,838,203,839,198,929,218"/>
+<area shape="rect" id="Node000013" href="$d6/d82/_d_s28_e07_8c.html#a9eae37c5afb02a7e2276d91f52f2d28e" title="DS28E07 get user bytes (as BYTE array)" alt="" coords="673,224,875,251"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="908,240,875,240,875,235,908,235"/>
+<area shape="rect" id="Node000014" href="$d6/d82/_d_s28_e07_8c.html#a5292210c5cd556348078800d4c25b141" title="DS28E07 get user bytes (as a WORD)" alt="" coords="674,275,874,301"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="929,257,839,277,838,271,928,252"/>
+<area shape="rect" id="Node000003" href="$d6/d82/_d_s28_e07_8c.html#a7513b09eedbf647e0fb8e866d7e3a2c4" title="DS28E07 get copy protection value." alt="" coords="432,5,624,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="752,163,698,104,663,73,624,46,598,35,600,30,627,42,666,69,702,100,756,160"/>
+<area shape="rect" id="Node000005" href="$d6/d82/_d_s28_e07_8c.html#a67314e335e77c67660205f1a98f461d9" title="DS28E07 get page protection value." alt="" coords="432,56,623,83"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="742,167,688,131,624,97,592,86,594,81,626,92,691,127,744,162"/>
+<area shape="rect" id="Node000006" href="$d6/d82/_d_s28_e07_8c.html#ad2c511b667d49561130de15f444762e1" title="DS28E07 get user bytes protection value." alt="" coords="451,107,605,149"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="700,172,605,149,606,144,702,167"/>
+<area shape="rect" id="Node000007" href="$d6/d82/_d_s28_e07_8c.html#a04f22bb438e25bf3d95753f593c84606" title="Initialization Sequence for DS28E07 peripheral." alt="" coords="444,173,611,200"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="666,189,612,189,612,184,666,184"/>
+<area shape="rect" id="Node000010" href="$d6/d82/_d_s28_e07_8c.html#a96d96c2e489f479758ba78e44ee553fb" title="DS28E07 set copy protection." alt="" coords="446,224,610,251"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="692,206,597,226,595,221,691,201"/>
+<area shape="rect" id="Node000011" href="$d6/d82/_d_s28_e07_8c.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection." alt="" coords="446,275,609,301"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="686,208,675,214,660,226,652,239,642,252,627,265,601,277,599,272,624,260,638,248,647,236,656,223,672,210,684,204"/>
+<area shape="rect" id="Node000012" href="$d6/d82/_d_s28_e07_8c.html#a0cec544f569e1e129f47e0062ef274da" title="DS28E07 set user bytes protection." alt="" coords="430,325,625,352"/>
+<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="681,210,675,214,664,226,657,238,652,263,646,289,639,303,627,315,608,327,605,323,624,311,635,300,641,288,647,262,652,236,660,223,672,210,678,205"/>
+<area shape="rect" id="Node000004" href="$d6/d82/_d_s28_e07_8c.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array)" alt="" coords="199,5,382,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="417,21,382,21,382,16,417,16"/>
+<area shape="rect" id="Node000008" href="$d6/d82/_d_s28_e07_8c.html#ad1a64669602f54aaa6164bd01c38a15f" title="Initialization for DS28E07 peripheral." alt="" coords="239,173,342,200"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="429,189,342,189,342,184,429,184"/>
+<area shape="rect" id="Node000009" href="$d6/d82/_d_s28_e07_8c.html#a61bb3f257a6b741c9b7a5e28cd6563a5" title="Initialization for DS28E07 peripheral." alt="" coords="5,173,151,200"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="225,189,151,189,151,184,225,184"/>
 </map>

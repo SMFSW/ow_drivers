@@ -1,4 +1,7 @@
 <map id="OWInit_GPIO" name="OWInit_GPIO">
-<area shape="rect" id="node2" href="$d1/df1/_o_w__phy_8h.html#ab3c7f61aa7d8bb7c2c6e91cb42eadab8" title="OneWire physical driver instance init. " alt="" coords="153,5,245,32"/>
-<area shape="rect" id="node3" href="$dd/dc9/_o_w__drv_8h.html#a9cdbbd2d4cbc90476b33228a6860b22c" title="OneWire driver instance init. " alt="" coords="293,5,356,32"/>
+<area shape="rect" id="Node000001" title="OneWire physical driver instance on GPIO init." alt="" coords="254,5,356,32"/>
+<area shape="rect" id="Node000002" href="$df/dda/_o_w__phy_8c.html#ab3c7f61aa7d8bb7c2c6e91cb42eadab8" title="OneWire physical driver instance init." alt="" coords="116,5,206,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="239,21,206,21,206,16,239,16"/>
+<area shape="rect" id="Node000003" href="$dd/da9/_o_w__drv_8c.html#a9cdbbd2d4cbc90476b33228a6860b22c" title="OneWire driver instance init." alt="" coords="5,5,68,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="101,21,68,21,68,16,101,16"/>
 </map>

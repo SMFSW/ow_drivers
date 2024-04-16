@@ -1,3 +1,5 @@
 <map id="DS28E07_Init" name="DS28E07_Init">
-<area shape="rect" id="node2" href="$d6/d76/_d_s28_e07_8h.html#a61bb3f257a6b741c9b7a5e28cd6563a5" title="Initialization for DS28E07 peripheral. " alt="" coords="160,5,313,32"/>
+<area shape="rect" id="Node000001" title="Initialization for DS28E07 peripheral." alt="" coords="199,5,301,32"/>
+<area shape="rect" id="Node000002" href="$d6/d82/_d_s28_e07_8c.html#a61bb3f257a6b741c9b7a5e28cd6563a5" title="Initialization for DS28E07 peripheral." alt="" coords="5,5,151,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,21,151,21,151,16,184,16"/>
 </map>

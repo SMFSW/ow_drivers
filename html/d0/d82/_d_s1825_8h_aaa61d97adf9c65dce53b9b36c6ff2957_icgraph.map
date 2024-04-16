@@ -1,5 +1,11 @@
 <map id="DS1825_Read_Scratchpad" name="DS1825_Read_Scratchpad">
-<area shape="rect" id="node2" href="$d0/d82/_d_s1825_8h.html#a4e9876dd936c2de656b11611e91a9651" title="Initialization Sequence for DS1825 peripheral. " alt="" coords="713,5,884,32"/>
-<area shape="rect" id="node3" href="$d0/d82/_d_s1825_8h.html#a8d12b335b351c2b0e1a06f33209777f7" title="DS1825 set conversion resolution. " alt="" coords="244,31,419,57"/>
-<area shape="rect" id="node4" href="$d0/d82/_d_s1825_8h.html#a288f860da577cf407f9340b8cb61c16b" title="DS1825 get power supply source. " alt="" coords="467,31,665,57"/>
+<area shape="rect" id="Node000001" title="DS1825 read scratchpad." alt="" coords="543,31,723,57"/>
+<area shape="rect" id="Node000002" href="$d6/df0/_d_s1825_8c.html#a4e9876dd936c2de656b11611e91a9651" title="Initialization Sequence for DS1825 peripheral." alt="" coords="334,5,492,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="528,35,493,30,493,25,529,29"/>
+<area shape="rect" id="Node000005" href="$d6/df0/_d_s1825_8c.html#a8d12b335b351c2b0e1a06f33209777f7" title="DS1825 set conversion resolution." alt="" coords="331,56,495,83"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="529,59,496,62,496,57,528,53"/>
+<area shape="rect" id="Node000003" href="$d6/df0/_d_s1825_8c.html#addba494e03624ee5ecd1cd9862fb8ac3" title="Initialization for DS1825 peripheral." alt="" coords="190,5,283,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="319,21,283,21,283,16,319,16"/>
+<area shape="rect" id="Node000004" href="$d6/df0/_d_s1825_8c.html#a45262e179934a649473fb5173404454e" title="Initialization for DS1825 peripheral." alt="" coords="5,5,142,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="175,21,142,21,142,16,175,16"/>
 </map>

@@ -1,12 +1,30 @@
 <map id="OW_TEMP_Read_Scratchpad" name="OW_TEMP_Read_Scratchpad">
-<area shape="rect" id="node2" href="$d0/d82/_d_s1825_8h.html#aaa61d97adf9c65dce53b9b36c6ff2957" title="DS1825 read scratchpad. " alt="" coords="261,31,451,57"/>
-<area shape="rect" id="node6" href="$df/dc7/_o_w__dev__temp_8h.html#a46c8e7b26f6b2783058c136b05a856bd" title="OneWire Temperature sensor device read conversion. " alt="" coords="256,107,456,133"/>
-<area shape="rect" id="node3" href="$d0/d82/_d_s1825_8h.html#a4e9876dd936c2de656b11611e91a9651" title="Initialization Sequence for DS1825 peripheral. " alt="" coords="997,5,1168,32"/>
-<area shape="rect" id="node4" href="$d0/d82/_d_s1825_8h.html#a8d12b335b351c2b0e1a06f33209777f7" title="DS1825 set conversion resolution. " alt="" coords="516,31,691,57"/>
-<area shape="rect" id="node5" href="$d0/d82/_d_s1825_8h.html#a288f860da577cf407f9340b8cb61c16b" title="DS1825 get power supply source. " alt="" coords="751,31,949,57"/>
-<area shape="rect" id="node7" href="$d0/d82/_d_s1825_8h.html#a7dab8c69acba69d82fa14951d9420e14" title="DS1825 read conversion. " alt="" coords="509,81,698,108"/>
-<area shape="rect" id="node8" href="$df/dc7/_o_w__dev__temp_8h.html#ac4bc170f71d55642e49005d3978a921a" title="OneWire Temperature sensor device blocking temperature conversion. " alt="" coords="533,132,674,159"/>
-<area shape="rect" id="node10" href="$df/dc7/_o_w__dev__temp_8h.html#a57b94d4dc13b2a76df69792ea470429f" title="OneWire Temperature sensor device non blocking temperature conversion. " alt="" coords="504,183,703,209"/>
-<area shape="rect" id="node9" href="$d0/d82/_d_s1825_8h.html#a0eb6b5d88cf530bf598c608d631af456" title="DS1825 blocking temperature conversion. " alt="" coords="785,132,915,159"/>
-<area shape="rect" id="node11" href="$d0/d82/_d_s1825_8h.html#aabe421abefb9ca2276b346de1b355107" title="DS1825 non blocking temperature conversion. " alt="" coords="757,183,943,209"/>
+<area shape="rect" id="Node000001" title="OneWire Temperature sensor device read scratchpad." alt="" coords="900,107,1099,133"/>
+<area shape="rect" id="Node000002" href="$d0/d82/_d_s1825_8h.html#aaa61d97adf9c65dce53b9b36c6ff2957" title="DS1825 read scratchpad." alt="" coords="662,56,842,83"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="916,106,820,86,821,81,917,101"/>
+<area shape="rect" id="Node000007" href="$d7/d22/_o_w__dev__temp_8c.html#a46c8e7b26f6b2783058c136b05a856bd" title="OneWire Temperature sensor device read conversion." alt="" coords="652,183,852,209"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="940,141,799,185,798,179,939,136"/>
+<area shape="rect" id="Node000013" href="$d7/d22/_o_w__dev__temp_8c.html#aeb5265f56fa46d3b0435bed4f747cb40" title="OneWire Temperature sensor device write scratchpad." alt="" coords="653,107,851,133"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="885,123,852,123,852,117,885,117"/>
+<area shape="rect" id="Node000003" href="$d6/df0/_d_s1825_8c.html#a4e9876dd936c2de656b11611e91a9651" title="Initialization Sequence for DS1825 peripheral." alt="" coords="429,5,587,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="669,55,575,35,576,30,670,50"/>
+<area shape="rect" id="Node000006" href="$d6/df0/_d_s1825_8c.html#a8d12b335b351c2b0e1a06f33209777f7" title="DS1825 set conversion resolution." alt="" coords="194,81,359,108"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="648,78,359,93,359,88,647,72"/>
+<area shape="rect" id="Node000004" href="$d6/df0/_d_s1825_8c.html#addba494e03624ee5ecd1cd9862fb8ac3" title="Initialization for DS1825 peripheral." alt="" coords="230,5,323,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="414,21,323,21,323,16,414,16"/>
+<area shape="rect" id="Node000005" href="$d6/df0/_d_s1825_8c.html#a45262e179934a649473fb5173404454e" title="Initialization for DS1825 peripheral." alt="" coords="5,5,142,32"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="215,21,142,21,142,16,215,16"/>
+<area shape="rect" id="Node000008" href="$d0/d82/_d_s1825_8h.html#a7dab8c69acba69d82fa14951d9420e14" title="DS1825 read conversion." alt="" coords="418,157,597,184"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="637,187,597,183,598,177,638,181"/>
+<area shape="rect" id="Node000009" href="$d7/d22/_o_w__dev__temp_8c.html#ac4bc170f71d55642e49005d3978a921a" title="OneWire Temperature sensor device blocking temperature conversion." alt="" coords="437,208,578,235"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="637,211,579,217,578,211,637,205"/>
+<area shape="rect" id="Node000011" href="$d7/d22/_o_w__dev__temp_8c.html#a57b94d4dc13b2a76df69792ea470429f" title="OneWire Temperature sensor device non blocking temperature conversion." alt="" coords="411,259,604,285"/>
+<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="700,217,605,249,565,261,563,256,604,244,699,212"/>
+<area shape="rect" id="Node000010" href="$d0/d82/_d_s1825_8h.html#a0eb6b5d88cf530bf598c608d631af456" title="DS1825 blocking temperature conversion." alt="" coords="216,208,337,235"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="422,224,337,224,337,219,422,219"/>
+<area shape="rect" id="Node000012" href="$d0/d82/_d_s1825_8h.html#aabe421abefb9ca2276b346de1b355107" title="DS1825 non blocking temperature conversion." alt="" coords="190,259,363,285"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="396,275,363,275,363,269,396,269"/>
+<area shape="rect" id="Node000014" href="$d0/d82/_d_s1825_8h.html#a7621f1df20ff1df285b992833014a23a" title="DS1825 write scratchpad." alt="" coords="419,107,597,133"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="638,123,597,123,597,117,638,117"/>
+<area shape="poly" id="edge14_Node000014_Node000006" title=" " alt="" coords="403,111,359,106,359,101,404,106"/>
 </map>

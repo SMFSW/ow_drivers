@@ -1,3 +1,5 @@
 <map id="OW_slave_init" name="OW_slave_init">
-<area shape="rect" id="node2" href="$dd/dc1/_o_w__component_8h.html#a72cbba122f7099c913d11dea0c4908db" title="OW Slave device id change. " alt="" coords="163,5,291,32"/>
+<area shape="rect" id="Node000001" title="OW Slave device initialization." alt="" coords="5,5,112,32"/>
+<area shape="rect" id="Node000002" href="$dd/dc1/_o_w__component_8h.html#a72cbba122f7099c913d11dea0c4908db" title="OW Slave device id change." alt="" coords="160,5,284,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,16,145,16,145,21,112,21"/>
 </map>

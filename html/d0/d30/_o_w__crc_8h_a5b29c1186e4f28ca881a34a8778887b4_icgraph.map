@@ -1,7 +1,7 @@
 <map id="OWCompute_DallasCRC8" name="OWCompute_DallasCRC8">
-<area shape="rect" id="node2" href="$d0/d30/_o_w__crc_8h.html#a19b84082379dc7ab995ea125df4265f6" title="Dallas CRC8 check. " alt="" coords="235,31,396,57"/>
-<area shape="rect" id="node3" href="$dd/dc9/_o_w__drv_8h.html#a4ad2293bd4f199771b385f7ddaf7e7f3" title="OneWire read ROM Id. " alt="" coords="444,31,572,57"/>
-<area shape="rect" id="node4" href="$dd/dc9/_o_w__drv_8h.html#a14de74d10f77c0b37d3afa3f20e96d2b" title="OneWire set search type. " alt="" coords="620,31,765,57"/>
-<area shape="rect" id="node5" href="$df/dc7/_o_w__dev__temp_8h.html#ada222b82ca0bcda2d1893308af7e1a7a" title="OneWire alarm search for all devices. " alt="" coords="813,5,960,32"/>
-<area shape="rect" id="node6" href="$dd/dc9/_o_w__drv_8h.html#a9cdbbd2d4cbc90476b33228a6860b22c" title="OneWire driver instance init. " alt="" coords="855,56,918,83"/>
+<area shape="rect" id="Node000001" title="Dallas CRC8 computation." alt="" coords="396,5,574,32"/>
+<area shape="rect" id="Node000002" href="$dc/d70/_o_w__crc_8c.html#a19b84082379dc7ab995ea125df4265f6" title="Dallas CRC8 check." alt="" coords="185,5,348,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="381,21,349,21,349,16,381,16"/>
+<area shape="rect" id="Node000003" href="$dd/da9/_o_w__drv_8c.html#a4ad2293bd4f199771b385f7ddaf7e7f3" title="OneWire read ROM Id." alt="" coords="5,5,137,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="170,21,137,21,137,16,170,16"/>
 </map>

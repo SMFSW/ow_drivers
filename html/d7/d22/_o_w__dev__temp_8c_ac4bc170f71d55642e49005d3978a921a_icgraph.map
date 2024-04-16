@@ -1,3 +1,5 @@
 <map id="OW_TEMP_Convert" name="OW_TEMP_Convert">
-<area shape="rect" id="node2" href="$d0/d82/_d_s1825_8h.html#a0eb6b5d88cf530bf598c608d631af456" title="DS1825 blocking temperature conversion. " alt="" coords="195,5,325,32"/>
+<area shape="rect" id="Node000001" title="OneWire Temperature sensor device blocking temperature conversion." alt="" coords="175,5,316,32"/>
+<area shape="rect" id="Node000002" href="$d0/d82/_d_s1825_8h.html#a0eb6b5d88cf530bf598c608d631af456" title="DS1825 blocking temperature conversion." alt="" coords="5,5,127,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,21,127,21,127,16,160,16"/>
 </map>

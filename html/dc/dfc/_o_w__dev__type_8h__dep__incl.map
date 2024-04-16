@@ -1,21 +1,49 @@
 <map id="OW_dev_type.h" name="OW_dev_type.h">
-<area shape="rect" id="node2" href="$dc/d9c/_o_w__rom__id_8h.html" title="OneWire ROM Id. " alt="" coords="933,80,1040,107"/>
-<area shape="rect" id="node3" href="$dd/dc9/_o_w__drv_8h.html" title="GPIO OneWire driver. " alt="" coords="887,155,969,181"/>
-<area shape="rect" id="node20" href="$d0/d23/_o_w__rom__id_8c.html" title="OneWire ROM Id. " alt="" coords="993,155,1098,181"/>
-<area shape="rect" id="node4" href="$dd/dc1/_o_w__component_8h.html" title="Base One Wire component. " alt="" coords="402,229,537,256"/>
-<area shape="rect" id="node10" href="$de/df7/_o_w__dev__sn_8c.html" title="OneWire serial number device type (every OneWire device inheriting from serial number) ..." alt="" coords="612,379,719,405"/>
-<area shape="rect" id="node12" href="$d7/d22/_o_w__dev__temp_8c.html" title="OneWire temperature sensor device type. " alt="" coords="763,379,888,405"/>
-<area shape="rect" id="node14" href="$db/dee/_o_w__dev__eeprom_8c.html" title="OneWire eeprom device type. " alt="" coords="5,379,147,405"/>
-<area shape="rect" id="node16" href="$dd/da9/_o_w__drv_8c.html" title="GPIO OneWire driver. " alt="" coords="785,304,865,331"/>
-<area shape="rect" id="node17" href="$df/dda/_o_w__phy_8c.html" title="OneWire physical layer. " alt="" coords="991,229,1073,256"/>
-<area shape="rect" id="node18" href="$db/df7/_o_w__phy___g_p_i_o_8c.html" title="OneWire GPIO physical layer. " alt="" coords="1098,229,1219,256"/>
-<area shape="rect" id="node19" href="$de/d0a/_o_w__phy___u_a_r_t_8c.html" title="OneWire UART physical layer. " alt="" coords="1244,229,1367,256"/>
-<area shape="rect" id="node5" href="$d0/d82/_d_s1825_8h.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID. " alt="" coords="355,379,440,405"/>
-<area shape="rect" id="node7" href="$d8/def/_o_w__dev__sn_8h.html" title="OneWire serial number device type (every OneWire device inheriting from serial number) ..." alt="" coords="344,304,451,331"/>
-<area shape="rect" id="node8" href="$d6/d76/_d_s28_e07_8h.html" title="DS28E07: 1024&#45;Bit, 1&#45;Wire EEPROM. " alt="" coords="209,379,303,405"/>
-<area shape="rect" id="node11" href="$df/dc7/_o_w__dev__temp_8h.html" title="OneWire temperature sensor device type. " alt="" coords="634,304,761,331"/>
-<area shape="rect" id="node13" href="$d7/d48/_o_w__dev__eeprom_8h.html" title="OneWire eeprom device type. " alt="" coords="75,304,218,331"/>
-<area shape="rect" id="node15" href="$db/d81/_o_w__component_8c.html" title="Base One Wire component. " alt="" coords="475,304,610,331"/>
-<area shape="rect" id="node6" href="$d6/df0/_d_s1825_8c.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID. " alt="" coords="355,453,439,480"/>
-<area shape="rect" id="node9" href="$d6/d82/_d_s28_e07_8c.html" title="DS28E07: 1024&#45;Bit, 1&#45;Wire EEPROM. " alt="" coords="210,453,302,480"/>
+<area shape="rect" id="Node000001" title="OneWire device types." alt="" coords="896,5,1011,32"/>
+<area shape="rect" id="Node000002" href="$dc/d9c/_o_w__rom__id_8h.html" title="OneWire ROM Id." alt="" coords="903,80,1004,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="956,47,956,80,951,80,951,47"/>
+<area shape="rect" id="Node000003" href="$dd/dc9/_o_w__drv_8h.html" title="GPIO OneWire driver." alt="" coords="856,155,936,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="936,120,908,156,904,153,932,117"/>
+<area shape="rect" id="Node000020" href="$d0/d23/_o_w__rom__id_8c.html" title="OneWire ROM Id." alt="" coords="960,155,1061,181"/>
+<area shape="poly" id="edge27_Node000002_Node000020" title=" " alt="" coords="975,117,1003,153,999,156,970,120"/>
+<area shape="rect" id="Node000004" href="$dd/dc1/_o_w__component_8h.html" title="Base One Wire component." alt="" coords="389,229,515,256"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="842,181,516,234,515,228,841,175"/>
+<area shape="rect" id="Node000011" href="$db/dee/_o_w__dev__eeprom_8c.html" title="OneWire eeprom device type." alt="" coords="5,379,139,405"/>
+<area shape="poly" id="edge20_Node000003_Node000011" title=" " alt="" coords="842,172,662,176,545,182,424,193,306,210,200,234,155,248,116,265,85,284,62,306,55,323,55,342,68,378,63,379,50,343,50,322,58,302,81,280,113,261,153,244,199,229,305,205,423,188,545,177,661,170,841,166"/>
+<area shape="rect" id="Node000013" href="$de/df7/_o_w__dev__sn_8c.html" title="OneWire serial number device type (every OneWire device inheriting from serial number)" alt="" coords="589,379,694,405"/>
+<area shape="poly" id="edge21_Node000003_Node000013" title=" " alt="" coords="898,196,894,228,886,264,871,301,847,333,821,348,782,362,695,384,693,378,781,357,819,344,844,329,866,298,880,262,889,227,892,196"/>
+<area shape="rect" id="Node000015" href="$d7/d22/_o_w__dev__temp_8c.html" title="OneWire temperature sensor device type." alt="" coords="735,379,854,405"/>
+<area shape="poly" id="edge22_Node000003_Node000015" title=" " alt="" coords="905,195,909,225,910,260,905,297,892,332,879,348,864,361,831,380,828,376,861,357,876,344,887,329,900,296,904,260,903,225,899,196"/>
+<area shape="rect" id="Node000016" href="$dd/da9/_o_w__drv_8c.html" title="GPIO OneWire driver." alt="" coords="754,304,833,331"/>
+<area shape="poly" id="edge23_Node000003_Node000016" title=" " alt="" coords="880,195,854,231,804,305,799,302,850,228,876,192"/>
+<area shape="rect" id="Node000017" href="$df/dda/_o_w__phy_8c.html" title="OneWire physical layer." alt="" coords="959,229,1041,256"/>
+<area shape="poly" id="edge24_Node000003_Node000017" title=" " alt="" coords="927,188,983,227,980,231,924,192"/>
+<area shape="rect" id="Node000018" href="$db/df7/_o_w__phy___g_p_i_o_8c.html" title="OneWire GPIO physical layer." alt="" coords="1065,229,1188,256"/>
+<area shape="poly" id="edge25_Node000003_Node000018" title=" " alt="" coords="950,184,1087,226,1085,231,949,189"/>
+<area shape="rect" id="Node000019" href="$de/d0a/_o_w__phy___u_a_r_t_8c.html" title="OneWire UART physical layer." alt="" coords="1212,229,1337,256"/>
+<area shape="poly" id="edge26_Node000003_Node000019" title=" " alt="" coords="951,179,1212,228,1211,233,950,184"/>
+<area shape="rect" id="Node000005" href="$d0/d82/_d_s1825_8h.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID." alt="" coords="343,379,422,405"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="376,264,345,281,321,305,317,315,317,324,326,344,344,361,363,376,360,380,340,365,322,347,312,325,312,314,316,303,342,277,374,259"/>
+<area shape="rect" id="Node000007" href="$d6/d76/_d_s28_e07_8h.html" title="DS28E07: 1024&#45;Bit, 1&#45;Wire EEPROM." alt="" coords="199,379,287,405"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="394,264,351,281,311,306,275,344,252,380,247,377,271,341,308,302,349,277,392,259"/>
+<area shape="rect" id="Node000009" href="$db/d81/_o_w__component_8c.html" title="Base One Wire component." alt="" coords="460,304,586,331"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="476,265,512,302,509,305,473,269"/>
+<area shape="rect" id="Node000010" href="$d7/d48/_o_w__dev__eeprom_8h.html" title="OneWire eeprom device type." alt="" coords="72,304,205,331"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="384,262,194,306,193,301,383,257"/>
+<area shape="rect" id="Node000012" href="$d8/def/_o_w__dev__sn_8h.html" title="OneWire serial number device type (every OneWire device inheriting from serial number)" alt="" coords="331,304,435,331"/>
+<area shape="poly" id="edge12_Node000004_Node000012" title=" " alt="" coords="432,269,397,305,393,302,428,265"/>
+<area shape="rect" id="Node000014" href="$df/dc7/_o_w__dev__temp_8h.html" title="OneWire temperature sensor device type." alt="" coords="610,304,729,331"/>
+<area shape="poly" id="edge16_Node000004_Node000014" title=" " alt="" coords="504,259,632,301,630,306,503,264"/>
+<area shape="poly" id="edge19_Node000004_Node000016" title=" " alt="" coords="530,257,742,301,754,304,752,309,741,307,528,262"/>
+<area shape="rect" id="Node000006" href="$d6/df0/_d_s1825_8c.html" title="DS1825: Programmable Resolution 1&#45;Wire Digital Thermometer With 4&#45;Bit ID." alt="" coords="343,453,422,480"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="385,420,385,453,380,453,380,420"/>
+<area shape="rect" id="Node000008" href="$d6/d82/_d_s28_e07_8c.html" title="DS28E07: 1024&#45;Bit, 1&#45;Wire EEPROM." alt="" coords="199,453,287,480"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="245,420,245,453,240,453,240,420"/>
+<area shape="poly" id="edge10_Node000010_Node000007" title=" " alt="" coords="170,337,226,376,223,380,167,341"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="119,344,85,380,82,376,115,340"/>
+<area shape="poly" id="edge13_Node000012_Node000005" title=" " alt="" coords="385,346,385,378,380,378,380,346"/>
+<area shape="poly" id="edge14_Node000012_Node000007" title=" " alt="" coords="347,340,268,380,266,376,344,335"/>
+<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="442,333,597,375,595,381,441,338"/>
+<area shape="poly" id="edge17_Node000014_Node000005" title=" " alt="" coords="606,337,423,383,422,378,605,332"/>
+<area shape="poly" id="edge18_Node000014_Node000015" title=" " alt="" coords="705,336,774,376,771,380,702,341"/>
 </map>

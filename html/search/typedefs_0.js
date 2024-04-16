@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['ds1825_5fcmd',['DS1825_cmd',['../d0/d82/_d_s1825_8h.html#a9870b87f7887bd460b490b0df2bea910',1,'DS1825.h']]],
-  ['ds1825_5fres',['DS1825_res',['../d0/d82/_d_s1825_8h.html#a327f54684456d54ee006c9c06152561d',1,'DS1825.h']]],
-  ['ds1825_5fscratch_5ft',['DS1825_scratch_t',['../d0/d82/_d_s1825_8h.html#a712d3c7c29185ac1038edd8943135074',1,'DS1825.h']]],
-  ['ds1825_5ft',['DS1825_t',['../d0/d82/_d_s1825_8h.html#a94788c40ae815cc5eaca005a90e94bdd',1,'DS1825.h']]],
-  ['ds28e07_5fcmd',['DS28E07_cmd',['../d6/d76/_d_s28_e07_8h.html#a628c8364640500d1c0d687b5a140e528',1,'DS28E07.h']]],
-  ['ds28e07_5fprot_5fcopy',['DS28E07_prot_copy',['../d6/d76/_d_s28_e07_8h.html#a2f228ebb3038eed73424b270dd1f593d',1,'DS28E07.h']]],
-  ['ds28e07_5fprot_5fpage',['DS28E07_prot_page',['../d6/d76/_d_s28_e07_8h.html#a0581a8fce5181afdcd565267023fe246',1,'DS28E07.h']]],
-  ['ds28e07_5fprot_5fuser',['DS28E07_prot_user',['../d6/d76/_d_s28_e07_8h.html#a764b414c03629dc216cc61da8b455bc8',1,'DS28E07.h']]],
-  ['ds28e07_5freg',['DS28E07_reg',['../d6/d76/_d_s28_e07_8h.html#a39b2798ce8c45b6846f82295747daafa',1,'DS28E07.h']]],
-  ['ds28e07_5ft',['DS28E07_t',['../d6/d76/_d_s28_e07_8h.html#a18d7ad9704b1b16fa296ef62d3f6887f',1,'DS28E07.h']]]
+  ['ds1825_5fcmd_0',['DS1825_cmd',['../d0/d82/_d_s1825_8h.html#a78d771fb5b25db79a9e2a30bae089c50',1,'DS1825.h']]],
+  ['ds1825_5fres_1',['DS1825_res',['../d0/d82/_d_s1825_8h.html#a60c1bb97e24195d8c77b07ab48cbc0a2',1,'DS1825.h']]],
+  ['ds1825_5fscratch_5ft_2',['DS1825_scratch_t',['../d0/d82/_d_s1825_8h.html#a76ebcd354f98c1885dbef25ae96c3a63',1,'DS1825.h']]],
+  ['ds1825_5ft_3',['DS1825_t',['../d0/d82/_d_s1825_8h.html#ab5130e1a8c31928e974b918a237432e1',1,'DS1825.h']]],
+  ['ds28e07_5fcmd_4',['DS28E07_cmd',['../d6/d76/_d_s28_e07_8h.html#af010b67082e743799a39bfc8ac9a1393',1,'DS28E07.h']]],
+  ['ds28e07_5fprot_5fcopy_5',['DS28E07_prot_copy',['../d6/d76/_d_s28_e07_8h.html#a4d8a26ab877fdf6a4c922e8005e1214c',1,'DS28E07.h']]],
+  ['ds28e07_5fprot_5fpage_6',['DS28E07_prot_page',['../d6/d76/_d_s28_e07_8h.html#a4a229719f24541c850906c3c4d3110cc',1,'DS28E07.h']]],
+  ['ds28e07_5fprot_5fuser_7',['DS28E07_prot_user',['../d6/d76/_d_s28_e07_8h.html#a505cabed1f4f32c70e1aa5e5893cb58e',1,'DS28E07.h']]],
+  ['ds28e07_5freg_8',['DS28E07_reg',['../d6/d76/_d_s28_e07_8h.html#a66da4016b548e151d078dafb3c7a3cc3',1,'DS28E07.h']]],
+  ['ds28e07_5ft_9',['DS28E07_t',['../d6/d76/_d_s28_e07_8h.html#a33865547ab227b3efb4cae2f07071970',1,'DS28E07.h']]]
 ];

@@ -1,8 +1,17 @@
 <map id="OWROMCmd_Control_Sequence" name="OWROMCmd_Control_Sequence">
-<area shape="rect" id="node2" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title="OWReset" alt="" coords="282,5,361,32"/>
-<area shape="rect" id="node3" href="$dd/da9/_o_w__drv_8c.html#a30b0d2d81889fe7bcfd8ae6012c22ac9" title="OneWire skip ROM (allowing to send commands as broadcast) " alt="" coords="413,56,483,83"/>
-<area shape="rect" id="node6" href="$dd/da9/_o_w__drv_8c.html#a022f20622d7eb9849c87884316cd96b1" title="OneWire device select. " alt="" coords="280,107,363,133"/>
-<area shape="rect" id="node4" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus. " alt="" coords="533,107,643,133"/>
-<area shape="rect" id="node5" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus. " alt="" coords="691,107,788,133"/>
-<area shape="rect" id="node7" href="$dd/da9/_o_w__drv_8c.html#afa1b8cc75dac33836a28459526167861" title="OneWire write to bus. " alt="" coords="411,157,485,184"/>
+<area shape="rect" id="Node000001" title="OneWire control sequence." alt="" coords="5,56,223,83"/>
+<area shape="rect" id="Node000002" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title=" " alt="" coords="272,5,351,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,53,257,30,258,35,170,58"/>
+<area shape="rect" id="Node000003" href="$dd/da9/_o_w__drv_8c.html#a022f20622d7eb9849c87884316cd96b1" title="OneWire device select." alt="" coords="271,56,352,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,67,256,67,256,72,223,72"/>
+<area shape="rect" id="Node000007" href="$dd/da9/_o_w__drv_8c.html#a30b0d2d81889fe7bcfd8ae6012c22ac9" title="OneWire skip ROM (allowing to send commands as broadcast)" alt="" coords="402,107,472,133"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="200,81,271,92,388,110,387,115,270,97,200,86"/>
+<area shape="rect" id="Node000004" href="$dd/da9/_o_w__drv_8c.html#afa1b8cc75dac33836a28459526167861" title="OneWire write to bus." alt="" coords="400,5,474,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="345,53,388,35,390,40,347,58"/>
+<area shape="rect" id="Node000005" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus." alt="" coords="522,56,629,83"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="352,67,507,67,507,72,352,72"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="476,30,524,48,522,53,474,35"/>
+<area shape="rect" id="Node000006" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus." alt="" coords="677,56,772,83"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="629,67,662,67,662,72,629,72"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="472,105,522,86,524,91,474,110"/>
 </map>

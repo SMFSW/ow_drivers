@@ -1,4 +1,11 @@
 <map id="OW_slave_get_power_supply" name="OW_slave_get_power_supply">
-<area shape="rect" id="node2" href="$d0/d82/_d_s1825_8h.html#a288f860da577cf407f9340b8cb61c16b" title="DS1825 get power supply source. " alt="" coords="209,13,408,39"/>
-<area shape="rect" id="node3" href="$d0/d82/_d_s1825_8h.html#a4e9876dd936c2de656b11611e91a9651" title="Initialization Sequence for DS1825 peripheral. " alt="" coords="456,13,627,39"/>
+<area shape="rect" id="Node000001" title="OneWire Salve get power supply source." alt="" coords="773,5,922,48"/>
+<area shape="rect" id="Node000002" href="$d0/d82/_d_s1825_8h.html#a288f860da577cf407f9340b8cb61c16b" title="DS1825 get power supply source." alt="" coords="537,13,725,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="758,29,725,29,725,24,758,24"/>
+<area shape="rect" id="Node000003" href="$d6/df0/_d_s1825_8c.html#a4e9876dd936c2de656b11611e91a9651" title="Initialization Sequence for DS1825 peripheral." alt="" coords="331,13,489,40"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="523,29,490,29,490,24,523,24"/>
+<area shape="rect" id="Node000004" href="$d6/df0/_d_s1825_8c.html#addba494e03624ee5ecd1cd9862fb8ac3" title="Initialization for DS1825 peripheral." alt="" coords="190,13,283,40"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="316,29,283,29,283,24,316,24"/>
+<area shape="rect" id="Node000005" href="$d6/df0/_d_s1825_8c.html#a45262e179934a649473fb5173404454e" title="Initialization for DS1825 peripheral." alt="" coords="5,13,142,40"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="175,29,142,29,142,24,175,24"/>
 </map>

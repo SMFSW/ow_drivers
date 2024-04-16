@@ -1,9 +1,17 @@
 <map id="OW_EEP_Read_Scratchpad" name="OW_EEP_Read_Scratchpad">
-<area shape="rect" id="node2" href="$d6/d76/_d_s28_e07_8h.html#a4fd7cca18c261a8418463d7734e1bfb7" title="DS28E07 read scratchpad. " alt="" coords="245,5,444,32"/>
-<area shape="rect" id="node3" href="$d7/d48/_o_w__dev__eeprom_8h.html#ad772756a3edc3610330a58ea2608f2cb" title="OneWire EEPROM device write scratchpad. " alt="" coords="249,56,441,83"/>
-<area shape="rect" id="node4" href="$d6/d76/_d_s28_e07_8h.html#a73e511aa447dc86e7e3c75c22315e42c" title="DS28E07 write scratchpad. " alt="" coords="492,31,691,57"/>
-<area shape="rect" id="node5" href="$d7/d48/_o_w__dev__eeprom_8h.html#aab21303207e08f697b610fbff5c9848d" title="OneWire EEPROM device write to memory. " alt="" coords="506,81,677,108"/>
-<area shape="rect" id="node6" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory. " alt="" coords="739,81,917,108"/>
-<area shape="rect" id="node7" href="$d6/d76/_d_s28_e07_8h.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection. " alt="" coords="975,56,1147,83"/>
-<area shape="rect" id="node8" href="$d6/d76/_d_s28_e07_8h.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array) " alt="" coords="965,107,1157,133"/>
+<area shape="rect" id="Node000001" title="OneWire EEPROM device read scratchpad." alt="" coords="925,31,1114,57"/>
+<area shape="rect" id="Node000002" href="$d6/d76/_d_s28_e07_8h.html#a4fd7cca18c261a8418463d7734e1bfb7" title="DS28E07 read scratchpad." alt="" coords="688,5,877,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="910,35,877,31,877,26,910,30"/>
+<area shape="rect" id="Node000003" href="$db/dee/_o_w__dev__eeprom_8c.html#ad772756a3edc3610330a58ea2608f2cb" title="OneWire EEPROM device write scratchpad." alt="" coords="688,56,877,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="910,58,877,62,877,57,910,53"/>
+<area shape="rect" id="Node000004" href="$d6/d76/_d_s28_e07_8h.html#a73e511aa447dc86e7e3c75c22315e42c" title="DS28E07 write scratchpad." alt="" coords="453,31,640,57"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="673,60,640,57,641,51,674,55"/>
+<area shape="rect" id="Node000005" href="$db/dee/_o_w__dev__eeprom_8c.html#aab21303207e08f697b610fbff5c9848d" title="OneWire EEPROM device write to memory." alt="" coords="462,81,631,108"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="674,84,632,88,631,83,673,78"/>
+<area shape="rect" id="Node000006" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory." alt="" coords="237,81,405,108"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="447,97,406,97,406,92,447,92"/>
+<area shape="rect" id="Node000007" href="$d6/d82/_d_s28_e07_8c.html#a606dc8b2febddfcf170503ee2bfc64f3" title="DS28E07 set page protection." alt="" coords="15,56,179,83"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="222,86,179,81,180,76,223,81"/>
+<area shape="rect" id="Node000008" href="$d6/d82/_d_s28_e07_8c.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array)" alt="" coords="5,107,189,133"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="223,108,189,112,189,107,222,103"/>
 </map>

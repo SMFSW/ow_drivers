@@ -1,9 +1,31 @@
 <map id="OW_phy.c" name="OW_phy.c">
-<area shape="rect" id="node4" href="$dd/dc9/_o_w__drv_8h.html" title="GPIO OneWire driver. " alt="" coords="221,80,303,107"/>
-<area shape="rect" id="node8" href="$d1/df1/_o_w__phy_8h.html" title="OneWire physical layer. " alt="" coords="489,155,571,181"/>
-<area shape="rect" id="node5" href="$dc/d9c/_o_w__rom__id_8h.html" title="OneWire ROM Id. " alt="" coords="209,155,315,181"/>
-<area shape="rect" id="node7" href="$d0/d30/_o_w__crc_8h.html" title="OneWire CRC. " alt="" coords="355,155,436,181"/>
-<area shape="rect" id="node6" href="$d0/d85/_o_w__dev__type_8h.html" title="OneWire device types. " alt="" coords="253,229,373,256"/>
-<area shape="rect" id="node10" href="$de/dca/_o_w__phy___u_a_r_t_8h.html" title="OneWire UART physical layer. " alt="" coords="602,229,725,256"/>
-<area shape="rect" id="node11" href="$d8/ded/_o_w__phy___g_p_i_o_8h.html" title="OneWire GPIO physical layer. " alt="" coords="749,229,871,256"/>
+<area shape="rect" id="Node000001" title="OneWire physical layer." alt="" coords="144,5,227,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,80,70,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,35,78,75,75,71,159,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="309,304,390,331"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,33,177,74,172,133,174,165,179,197,190,227,206,254,225,273,247,287,295,305,293,310,245,291,221,277,202,258,185,229,174,198,169,165,167,133,172,73,180,32"/>
+<area shape="rect" id="Node000004" href="$dd/dc9/_o_w__drv_8h.html" title="GPIO OneWire driver." alt="" coords="225,80,304,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="201,31,242,68,238,72,197,35"/>
+<area shape="rect" id="Node000008" href="$d1/df1/_o_w__phy_8h.html" title="OneWire physical layer." alt="" coords="467,155,549,181"/>
+<area shape="poly" id="edge18_Node000001_Node000008" title=" " alt="" coords="214,30,469,146,466,151,212,35"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="246,109,222,129,204,156,201,182,208,213,225,254,258,281,296,299,294,304,255,286,221,258,203,215,196,182,199,154,219,126,242,105"/>
+<area shape="rect" id="Node000005" href="$dc/d9c/_o_w__rom__id_8h.html" title="OneWire ROM Id." alt="" coords="214,155,315,181"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="267,107,267,140,262,140,262,107"/>
+<area shape="rect" id="Node000007" href="$d0/d30/_o_w__crc_8h.html" title="OneWire CRC." alt="" coords="348,155,428,181"/>
+<area shape="poly" id="edge9_Node000004_Node000007" title=" " alt="" coords="287,105,356,145,353,149,284,110"/>
+<area shape="poly" id="edge11_Node000004_Node000008" title=" " alt="" coords="305,104,453,148,452,153,304,109"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="256,183,235,217,231,237,236,255,248,269,262,282,296,299,294,304,259,286,244,273,231,257,226,237,230,215,251,180"/>
+<area shape="rect" id="Node000006" href="$d0/d85/_o_w__dev__type_8h.html" title="OneWire device types." alt="" coords="245,229,361,256"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="273,181,292,215,287,218,269,183"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="313,255,336,290,331,293,309,258"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="389,182,375,257,363,291,358,289,370,255,384,181"/>
+<area shape="poly" id="edge12_Node000008_Node000003" title=" " alt="" coords="496,184,375,296,372,292,493,180"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="486,229,560,256"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="513,181,520,214,515,215,508,182"/>
+<area shape="rect" id="Node000010" href="$de/dca/_o_w__phy___u_a_r_t_8h.html" title="OneWire UART physical layer." alt="" coords="584,229,710,256"/>
+<area shape="poly" id="edge14_Node000008_Node000010" title=" " alt="" coords="534,180,611,220,608,224,531,184"/>
+<area shape="rect" id="Node000011" href="$d8/ded/_o_w__phy___g_p_i_o_8h.html" title="OneWire GPIO physical layer." alt="" coords="733,229,857,256"/>
+<area shape="poly" id="edge16_Node000008_Node000011" title=" " alt="" coords="551,177,731,223,730,228,549,182"/>
+<area shape="poly" id="edge15_Node000010_Node000003" title=" " alt="" coords="595,259,405,305,404,300,594,254"/>
+<area shape="poly" id="edge17_Node000011_Node000003" title=" " alt="" coords="733,257,722,259,405,310,405,304,721,253,732,252"/>
 </map>

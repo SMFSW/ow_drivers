@@ -1,4 +1,9 @@
 <map id="OWSearch_SetType" name="OWSearch_SetType">
-<area shape="rect" id="node2" href="$df/dc7/_o_w__dev__temp_8h.html#ada222b82ca0bcda2d1893308af7e1a7a" title="OneWire alarm search for all devices. " alt="" coords="199,5,345,32"/>
-<area shape="rect" id="node3" href="$dd/dc9/_o_w__drv_8h.html#a9cdbbd2d4cbc90476b33228a6860b22c" title="OneWire driver instance init. " alt="" coords="241,56,303,83"/>
+<area shape="rect" id="Node000001" title="OneWire set search type." alt="" coords="434,31,574,57"/>
+<area shape="rect" id="Node000002" href="$d7/d22/_o_w__dev__temp_8c.html#ada222b82ca0bcda2d1893308af7e1a7a" title="OneWire alarm search for all devices." alt="" coords="246,5,386,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="419,35,386,31,387,25,420,30"/>
+<area shape="rect" id="Node000004" href="$dd/da9/_o_w__drv_8c.html#a9cdbbd2d4cbc90476b33228a6860b22c" title="OneWire driver instance init." alt="" coords="285,56,347,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="420,58,348,68,347,63,419,53"/>
+<area shape="rect" id="Node000003" href="$df/dc7/_o_w__dev__temp_8h.html#aecbfca6684e9456915186eb0f2e3cdd3" title="OneWire alarm search for all devices." alt="" coords="5,5,198,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="231,21,198,21,198,16,231,16"/>
 </map>

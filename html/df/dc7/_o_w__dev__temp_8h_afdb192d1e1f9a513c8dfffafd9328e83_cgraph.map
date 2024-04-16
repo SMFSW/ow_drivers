@@ -1,0 +1,5 @@
+<map id="OW_TEMP_Get_Temperature_Kelvin" name="OW_TEMP_Get_Temperature_Kelvin">
+<area shape="rect" id="Node000001" title="OneWire Temperature sensor device convert last temperature to Kelvin degrees." alt="" coords="5,5,201,48"/>
+<area shape="rect" id="Node000002" href="$df/dc7/_o_w__dev__temp_8h.html#a99057d5cdc6d997973ccc77a339e6220" title="OneWire Temperature sensor device convert last temperature to Celsius degrees." alt="" coords="249,5,444,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,24,234,24,234,29,201,29"/>
+</map>

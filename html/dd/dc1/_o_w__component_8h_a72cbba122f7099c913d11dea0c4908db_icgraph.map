@@ -1,3 +1,13 @@
 <map id="OW_set_slave_id" name="OW_set_slave_id">
-<area shape="rect" id="node2" href="$dd/dc1/_o_w__component_8h.html#acb88335ee8bb37f74120fe2a4aaaf660" title="OW Slave device initialization. " alt="" coords="181,5,291,32"/>
+<area shape="rect" id="Node000001" title="OW Slave device id change." alt="" coords="503,31,628,57"/>
+<area shape="rect" id="Node000002" href="$db/d81/_o_w__component_8c.html#acb88335ee8bb37f74120fe2a4aaaf660" title="OW Slave device initialization." alt="" coords="349,31,455,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="488,47,456,47,456,41,488,41"/>
+<area shape="rect" id="Node000003" href="$d6/df0/_d_s1825_8c.html#addba494e03624ee5ecd1cd9862fb8ac3" title="Initialization for DS1825 peripheral." alt="" coords="203,5,297,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="334,35,296,29,297,24,335,30"/>
+<area shape="rect" id="Node000005" href="$d6/d82/_d_s28_e07_8c.html#ad1a64669602f54aaa6164bd01c38a15f" title="Initialization for DS28E07 peripheral." alt="" coords="199,56,301,83"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="335,58,302,63,301,58,334,53"/>
+<area shape="rect" id="Node000004" href="$d6/df0/_d_s1825_8c.html#a45262e179934a649473fb5173404454e" title="Initialization for DS1825 peripheral." alt="" coords="10,5,146,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="188,21,147,21,147,16,188,16"/>
+<area shape="rect" id="Node000006" href="$d6/d82/_d_s28_e07_8c.html#a61bb3f257a6b741c9b7a5e28cd6563a5" title="Initialization for DS28E07 peripheral." alt="" coords="5,56,151,83"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="184,72,151,72,151,67,184,67"/>
 </map>

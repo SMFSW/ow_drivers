@@ -1,31 +1,58 @@
 <map id="DS28E07_Protect_Page" name="DS28E07_Protect_Page">
-<area shape="rect" id="node2" href="$d6/d82/_d_s28_e07_8c.html#a3d47296db5b8795943776d6202b401b5" title="DS28E07 read administrative data. " alt="" coords="959,311,1158,337"/>
-<area shape="rect" id="node17" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory. " alt="" coords="225,337,404,364"/>
-<area shape="rect" id="node3" href="$d6/d76/_d_s28_e07_8h.html#a23beede5c391a932781de65df6a31992" title="DS28E07 read from memory. " alt="" coords="1215,420,1393,447"/>
-<area shape="rect" id="node4" href="$db/dee/_o_w__dev__eeprom_8c.html#a8ee9745a8e464d5b099f080bdaf6a159" title="OneWire EEPROM device read from memory. " alt="" coords="1459,324,1629,351"/>
-<area shape="rect" id="node5" href="$dd/dc1/_o_w__component_8h.html#a27c034e6c41c7f4efca60200d3ae3184" title="Get OW slave device enabled state. " alt="" coords="1742,121,1861,148"/>
-<area shape="rect" id="node6" href="$dd/dc1/_o_w__component_8h.html#ab86621cbedb81443107cad1fa6c4e4ac" title="Set OW Slave bus/device business. " alt="" coords="1748,223,1855,249"/>
-<area shape="rect" id="node7" href="$dd/da9/_o_w__drv_8c.html#a3c3a8f3bdb28a56a7a77bb6e0c72b009" title="OneWire control sequence. " alt="" coords="1688,375,1915,401"/>
-<area shape="rect" id="node13" href="$dd/da9/_o_w__drv_8c.html#afa1b8cc75dac33836a28459526167861" title="OneWire write to bus. " alt="" coords="2131,349,2206,376"/>
-<area shape="rect" id="node14" href="$dd/da9/_o_w__drv_8c.html#aa4312d082d0ac04cb587a4abfdf1f757" title="OneWire read from bus. " alt="" coords="1764,273,1839,300"/>
-<area shape="rect" id="node8" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title="OWReset" alt="" coords="1978,375,2057,401"/>
-<area shape="rect" id="node9" href="$dd/da9/_o_w__drv_8c.html#a30b0d2d81889fe7bcfd8ae6012c22ac9" title="OneWire skip ROM (allowing to send commands as broadcast) " alt="" coords="2133,469,2204,496"/>
-<area shape="rect" id="node12" href="$dd/da9/_o_w__drv_8c.html#a022f20622d7eb9849c87884316cd96b1" title="OneWire device select. " alt="" coords="1976,425,2059,452"/>
-<area shape="rect" id="node10" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus. " alt="" coords="2265,379,2375,405"/>
-<area shape="rect" id="node11" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus. " alt="" coords="2423,379,2520,405"/>
-<area shape="rect" id="node15" href="$dd/da9/_o_w__drv_8c.html#abf9d24f31327fefffb1c82859bd4fd00" title="OneWire read byte from bus. " alt="" coords="1963,223,2072,249"/>
-<area shape="rect" id="node16" href="$dd/da9/_o_w__drv_8c.html#a0ccd59003ef90f469e146d9f7fc6f2af" title="OneWire read bit from bus. " alt="" coords="2120,223,2217,249"/>
-<area shape="rect" id="node18" href="$db/dee/_o_w__dev__eeprom_8c.html#aab21303207e08f697b610fbff5c9848d" title="OneWire EEPROM device write to memory. " alt="" coords="973,147,1144,173"/>
-<area shape="rect" id="node22" href="$d6/d76/_d_s28_e07_8h.html#a67314e335e77c67660205f1a98f461d9" title="DS28E07 get page protection value. " alt="" coords="707,172,909,199"/>
-<area shape="rect" id="node23" href="$d6/d76/_d_s28_e07_8h.html#a7513b09eedbf647e0fb8e866d7e3a2c4" title="DS28E07 get copy protection value. " alt="" coords="707,223,909,249"/>
-<area shape="rect" id="node24" href="$d6/d76/_d_s28_e07_8h.html#ad2c511b667d49561130de15f444762e1" title="DS28E07 get user bytes protection value. " alt="" coords="726,274,890,315"/>
-<area shape="rect" id="node25" href="$d6/d76/_d_s28_e07_8h.html#a96d96c2e489f479758ba78e44ee553fb" title="DS28E07 set copy protection. " alt="" coords="721,340,895,367"/>
-<area shape="rect" id="node26" href="$d6/d76/_d_s28_e07_8h.html#a0cec544f569e1e129f47e0062ef274da" title="DS28E07 set user bytes protection. " alt="" coords="452,440,659,467"/>
-<area shape="rect" id="node27" href="$d6/d76/_d_s28_e07_8h.html#a5292210c5cd556348078800d4c25b141" title="DS28E07 get user bytes (as a WORD) " alt="" coords="957,468,1160,495"/>
-<area shape="rect" id="node28" href="$d6/d76/_d_s28_e07_8h.html#a9eae37c5afb02a7e2276d91f52f2d28e" title="DS28E07 get user bytes (as BYTE array) " alt="" coords="454,543,657,569"/>
-<area shape="rect" id="node29" href="$d6/d76/_d_s28_e07_8h.html#a05bf42ddf6e77bdf979799385dc3b931" title="DS28E07 set user bytes (as BYTE array) " alt="" coords="459,388,651,415"/>
-<area shape="rect" id="node19" href="$db/dee/_o_w__dev__eeprom_8c.html#ad772756a3edc3610330a58ea2608f2cb" title="OneWire EEPROM device write scratchpad. " alt="" coords="1208,172,1400,199"/>
-<area shape="rect" id="node20" href="$dc/d70/_o_w__crc_8c.html#a6fc42b63b6a957d57ab65a643d045f83" title="Dallas CRC16 computation. " alt="" coords="1707,71,1896,97"/>
-<area shape="rect" id="node21" href="$db/dee/_o_w__dev__eeprom_8c.html#a238f961cfaeab9cba5679262f9277d69" title="OneWire EEPROM device read scratchpad. " alt="" coords="1448,172,1640,199"/>
-<area shape="rect" id="node30" href="$d6/d82/_d_s28_e07_8c.html#a7513b09eedbf647e0fb8e866d7e3a2c4" title="DS28E07 get copy protection value. " alt="" coords="707,391,909,417"/>
+<area shape="rect" id="Node000001" title="DS28E07 set page protection." alt="" coords="5,259,169,285"/>
+<area shape="rect" id="Node000002" href="$d6/d82/_d_s28_e07_8c.html#a3d47296db5b8795943776d6202b401b5" title="DS28E07 read administrative data." alt="" coords="217,233,404,260"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,260,202,256,202,262,170,265"/>
+<area shape="rect" id="Node000017" href="$d6/d76/_d_s28_e07_8h.html#aa3de8e13f97bf4112a92343082c9d227" title="DS28E07 write to memory." alt="" coords="226,284,395,311"/>
+<area shape="poly" id="edge19_Node000001_Node000017" title=" " alt="" coords="170,279,211,283,211,289,169,284"/>
+<area shape="rect" id="Node000003" href="$d6/d76/_d_s28_e07_8h.html#a23beede5c391a932781de65df6a31992" title="DS28E07 read from memory." alt="" coords="452,233,621,260"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="405,244,437,244,437,249,405,249"/>
+<area shape="rect" id="Node000004" href="$db/dee/_o_w__dev__eeprom_8c.html#a8ee9745a8e464d5b099f080bdaf6a159" title="OneWire EEPROM device read from memory." alt="" coords="915,259,1086,285"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="622,249,900,264,900,269,621,254"/>
+<area shape="rect" id="Node000005" href="$dd/dc1/_o_w__component_8h.html#a27c034e6c41c7f4efca60200d3ae3184" title="Get OW slave device enabled state." alt="" coords="1195,309,1308,336"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1071,283,1181,306,1180,311,1070,289"/>
+<area shape="rect" id="Node000006" href="$dd/dc1/_o_w__component_8h.html#ab86621cbedb81443107cad1fa6c4e4ac" title="Set OW Slave bus/device business." alt="" coords="1200,157,1304,184"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="1022,256,1075,225,1142,194,1185,181,1186,186,1144,198,1078,229,1025,260"/>
+<area shape="rect" id="Node000007" href="$dd/da9/_o_w__drv_8c.html#aa4312d082d0ac04cb587a4abfdf1f757" title="OneWire read from bus." alt="" coords="1214,56,1289,83"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="1014,256,1069,205,1141,143,1216,89,1219,93,1145,147,1073,209,1018,260"/>
+<area shape="rect" id="Node000010" href="$dd/da9/_o_w__drv_8c.html#a3c3a8f3bdb28a56a7a77bb6e0c72b009" title="OneWire control sequence." alt="" coords="1143,208,1360,235"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="1070,255,1167,236,1168,241,1071,261"/>
+<area shape="rect" id="Node000013" href="$dd/da9/_o_w__drv_8c.html#afa1b8cc75dac33836a28459526167861" title="OneWire write to bus." alt="" coords="1575,284,1649,311"/>
+<area shape="poly" id="edge18_Node000004_Node000013" title=" " alt="" coords="1086,276,1236,286,1408,295,1560,296,1560,301,1408,300,1236,292,1086,281"/>
+<area shape="rect" id="Node000008" href="$dd/da9/_o_w__drv_8c.html#abf9d24f31327fefffb1c82859bd4fd00" title="OneWire read byte from bus." alt="" coords="1408,56,1516,83"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="1290,67,1394,67,1394,72,1290,72"/>
+<area shape="rect" id="Node000009" href="$dd/da9/_o_w__drv_8c.html#a0ccd59003ef90f469e146d9f7fc6f2af" title="OneWire read bit from bus." alt="" coords="1564,56,1660,83"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="1516,67,1549,67,1549,72,1516,72"/>
+<area shape="rect" id="Node000011" href="$dd/da9/_o_w__drv_8c.html#ab45d9b1187e1dfc1edd3e30cfbae1376" title=" " alt="" coords="1422,208,1502,235"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1360,219,1407,219,1407,224,1360,224"/>
+<area shape="rect" id="Node000012" href="$dd/da9/_o_w__drv_8c.html#a022f20622d7eb9849c87884316cd96b1" title="OneWire device select." alt="" coords="1421,259,1503,285"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="1311,233,1408,256,1407,262,1310,238"/>
+<area shape="rect" id="Node000016" href="$dd/da9/_o_w__drv_8c.html#a30b0d2d81889fe7bcfd8ae6012c22ac9" title="OneWire skip ROM (allowing to send commands as broadcast)" alt="" coords="1577,157,1647,184"/>
+<area shape="poly" id="edge16_Node000010_Node000016" title=" " alt="" coords="1335,205,1408,193,1562,174,1562,179,1409,199,1336,210"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="1504,276,1560,286,1559,291,1503,281"/>
+<area shape="rect" id="Node000014" href="$dd/da9/_o_w__drv_8c.html#a8578504c011e70c595572ced71f24c94" title="OneWire write byte to bus." alt="" coords="1708,183,1814,209"/>
+<area shape="poly" id="edge15_Node000012_Node000014" title=" " alt="" coords="1503,259,1693,210,1694,216,1504,264"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1631,281,1726,216,1730,220,1634,286"/>
+<area shape="rect" id="Node000015" href="$dd/da9/_o_w__drv_8c.html#a795079068707f36ac88402cda5416a03" title="OneWire write bit to bus." alt="" coords="1862,183,1958,209"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="1815,193,1848,193,1848,199,1815,199"/>
+<area shape="poly" id="edge17_Node000016_Node000014" title=" " alt="" coords="1648,174,1694,182,1693,187,1647,179"/>
+<area shape="rect" id="Node000018" href="$db/dee/_o_w__dev__eeprom_8c.html#aab21303207e08f697b610fbff5c9848d" title="OneWire EEPROM device write to memory." alt="" coords="452,284,621,311"/>
+<area shape="poly" id="edge20_Node000017_Node000018" title=" " alt="" coords="395,295,437,295,437,300,395,300"/>
+<area shape="poly" id="edge21_Node000018_Node000004" title=" " alt="" coords="621,290,900,275,900,280,622,295"/>
+<area shape="poly" id="edge35_Node000018_Node000005" title=" " alt="" coords="622,298,1180,317,1180,323,622,303"/>
+<area shape="rect" id="Node000019" href="$db/dee/_o_w__dev__eeprom_8c.html#ad772756a3edc3610330a58ea2608f2cb" title="OneWire EEPROM device write scratchpad." alt="" coords="669,157,858,184"/>
+<area shape="poly" id="edge22_Node000018_Node000019" title=" " alt="" coords="592,281,620,270,683,231,734,191,738,196,686,235,623,274,594,286"/>
+<area shape="poly" id="edge30_Node000019_Node000006" title=" " alt="" coords="858,168,1185,168,1185,173,858,173"/>
+<area shape="poly" id="edge32_Node000019_Node000007" title=" " alt="" coords="783,154,836,122,870,105,905,92,984,75,1064,66,1139,63,1199,64,1199,69,1139,68,1065,71,985,80,906,97,872,110,839,126,786,159"/>
+<area shape="poly" id="edge33_Node000019_Node000010" title=" " alt="" coords="858,178,1128,206,1128,211,858,183"/>
+<area shape="poly" id="edge34_Node000019_Node000013" title=" " alt="" coords="778,182,829,238,866,269,907,295,949,314,993,329,1084,349,1178,357,1270,356,1358,349,1437,337,1559,309,1561,315,1438,342,1358,354,1270,362,1178,363,1084,354,992,334,947,319,904,300,863,273,826,242,774,186"/>
+<area shape="rect" id="Node000020" href="$db/dee/_o_w__dev__eeprom_8c.html#a238f961cfaeab9cba5679262f9277d69" title="OneWire EEPROM device read scratchpad." alt="" coords="906,107,1095,133"/>
+<area shape="poly" id="edge23_Node000019_Node000020" title=" " alt="" coords="829,154,920,134,921,140,830,159"/>
+<area shape="rect" id="Node000021" href="$dc/d70/_o_w__crc_8c.html#a6fc42b63b6a957d57ab65a643d045f83" title="Dallas CRC16 computation." alt="" coords="1159,5,1344,32"/>
+<area shape="poly" id="edge31_Node000019_Node000021" title=" " alt="" coords="776,155,828,107,865,81,905,60,964,40,1026,27,1088,19,1144,15,1144,21,1088,25,1027,32,966,46,907,65,868,86,832,111,779,159"/>
+<area shape="poly" id="edge24_Node000020_Node000005" title=" " alt="" coords="1018,132,1073,183,1145,245,1219,299,1216,303,1141,249,1069,187,1014,136"/>
+<area shape="poly" id="edge25_Node000020_Node000006" title=" " alt="" coords="1071,131,1185,155,1184,160,1070,137"/>
+<area shape="poly" id="edge27_Node000020_Node000007" title=" " alt="" coords="1070,103,1199,77,1200,82,1071,109"/>
+<area shape="poly" id="edge28_Node000020_Node000010" title=" " alt="" coords="1025,132,1078,163,1144,194,1167,201,1165,206,1142,198,1075,167,1022,136"/>
+<area shape="poly" id="edge29_Node000020_Node000014" title=" " alt="" coords="1095,109,1211,103,1353,103,1508,115,1585,126,1661,143,1696,156,1728,172,1726,177,1694,161,1659,148,1584,132,1507,120,1353,108,1211,108,1096,114"/>
+<area shape="poly" id="edge26_Node000020_Node000021" title=" " alt="" coords="1022,104,1075,73,1142,42,1165,34,1167,39,1144,46,1078,77,1025,108"/>
 </map>

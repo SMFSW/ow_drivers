@@ -1,3 +1,5 @@
 <map id="DS28E07.h" name="DS28E07.h">
-<area shape="rect" id="node2" href="$d6/d82/_d_s28_e07_8c.html" title="DS28E07: 1024&#45;Bit, 1&#45;Wire EEPROM. " alt="" coords="6,80,98,107"/>
+<area shape="rect" id="Node000001" title="DS28E07: 1024&#45;Bit, 1&#45;Wire EEPROM." alt="" coords="5,5,94,32"/>
+<area shape="rect" id="Node000002" href="$d6/d82/_d_s28_e07_8c.html" title="DS28E07: 1024&#45;Bit, 1&#45;Wire EEPROM." alt="" coords="5,80,94,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="52,47,52,80,47,80,47,47"/>
 </map>

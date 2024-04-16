@@ -1,0 +1,5 @@
+<map id="OWAlarmSearch_All" name="OWAlarmSearch_All">
+<area shape="rect" id="Node000001" title="OneWire alarm search for all devices." alt="" coords="246,5,386,32"/>
+<area shape="rect" id="Node000002" href="$df/dc7/_o_w__dev__temp_8h.html#aecbfca6684e9456915186eb0f2e3cdd3" title="OneWire alarm search for all devices." alt="" coords="5,5,198,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,21,198,21,198,16,231,16"/>
+</map>
