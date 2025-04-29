@@ -1,4 +1,4 @@
-# ARM OW drivers [![Build Status](https://travis-ci.com/SMFSW/ow_drivers.svg?branch=master)](https://travis-ci.com/SMFSW/ow_drivers)
+# ARM OW drivers
 
 ARM OW Drivers for various components
 
