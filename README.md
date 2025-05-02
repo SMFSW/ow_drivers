@@ -1,4 +1,4 @@
-# ARM OW drivers
+# ARM OW drivers [![CodeFactor](https://www.codefactor.io/repository/github/smfsw/ow_drivers/badge)](https://www.codefactor.io/repository/github/smfsw/ow_drivers)
 
 ARM OW Drivers for various components
 
