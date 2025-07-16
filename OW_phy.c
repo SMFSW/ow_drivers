@@ -1,6 +1,6 @@
 /*!\file OW_phy.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire physical layer
 **/
 /****************************************************************/
@@ -16,43 +16,51 @@
 
 FctERR OWInit_phy(const uint8_t idx)
 {
-	/* Check the parameters */
-	if (!IS_OW_DRV_IDX(idx))	{ return ERROR_INSTANCE; }
+	FctERR			err = ERROR_OK;
+	OW_DRV * const	pOW = &OWdrv[idx];
 
-	OW_DRV * const pOW = &OWdrv[idx];
+	/* Check the parameters */
+	if (!IS_OW_DRV_IDX(idx))	{ err = ERROR_INSTANCE; }
+	if (err != ERROR_OK)		{ goto ret; }
 
 #if defined(HAL_SWPMI_MODULE_ENABLED)
 	if (IS_SWPMI_ALL_INSTANCE(pOW->SWPMI_inst->Instance))
 	{
 		pOW->phy = OW_PHY_SWPMI;
-		//return OWInit_SWPMI(idx);
+		//err = OWInit_SWPMI(idx);
+		err = ERROR_NOTAVAIL;
 	}
 #endif
 #if defined(HAL_UART_MODULE_ENABLED)
 	if (IS_UART_INSTANCE(pOW->phy_inst.UART_inst->Instance))
 	{
 		pOW->phy = OW_PHY_UART;
-		return OWInit_UART(idx);
+		err = OWInit_UART(idx);
 	}
 #endif
 #if defined(HAL_I2C_MODULE_ENABLED)
 	if (IS_I2C_ALL_INSTANCE(pOW->phy_inst.I2C_inst->Instance))
 	{
 		pOW->phy = OW_PHY_I2C;
-		//return OWInit_I2C(idx);
+		//err = OWInit_I2C(idx);
+		err = ERROR_NOTAVAIL;
 	}
 #endif
 #if defined(HAL_GPIO_MODULE_ENABLED)
-	if (IS_GPIO_ALL_INSTANCE(((GPIO_HandleTypeDef *) pOW->phy_inst.inst)->GPIOx))
+	if (IS_GPIO_ALL_INSTANCE(((GPIO_HandleTypeDef *) pOW->phy_inst.inst)->GPIOx))	// cppcheck-suppress misra-c2012-11.5
 	{
 		pOW->phy = OW_PHY_GPIO;
-		return OWInit_GPIO(idx);
+		err = OWInit_GPIO(idx);
 	}
 #endif
 
-	pOW->phy = OW_PHY_NONE;
-	pOW->phy_inst.inst = NULL;
+	ret:
+	if (err != ERROR_OK)
+	{
+		pOW->phy = OW_PHY_NONE;
+		pOW->phy_inst.inst = NULL;
+	}
 
-	return ERROR_INSTANCE;
+	return err;
 }
 

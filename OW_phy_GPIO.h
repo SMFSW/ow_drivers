@@ -1,11 +1,11 @@
 /*!\file OW_phy_GPIO.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire GPIO physical layer
 **/
 /****************************************************************/
-#ifndef __OW_PHY__GPIO_H
-	#define __OW_PHY__GPIO_H
+#ifndef OW_PHY__GPIO_H__
+	#define OW_PHY__GPIO_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -23,7 +23,7 @@
 /*!\struct OW_GPIO_HandleTypeDef
 ** \brief GPIO handle structure definition
 **/
-typedef struct OW_GPIO_HandleTypeDef {
+typedef struct _OW_GPIO_HandleTypeDef {
 	GPIO_TypeDef *	port;			//!< Pointer to pin port
 	__IO uint32_t *	reg;			//!< Pointer to pin register
 	uint32_t		regMask;		//!< Pin register mask
@@ -36,7 +36,7 @@ typedef struct OW_GPIO_HandleTypeDef {
 /*!\struct GPIO_HandleTypeDef
 ** \brief GPIO configuration handle structure definition
 **/
-typedef struct GPIO_HandleTypeDef {
+typedef struct _GPIO_HandleTypeDef {
 	GPIO_TypeDef *	GPIOx;			//!< Pointer to pin port
 	uint16_t		GPIO_Pin;		//!< Port pin
 } GPIO_HandleTypeDef;
@@ -59,5 +59,5 @@ FctERR OWInit_GPIO(const uint8_t idx);
 	}
 #endif
 
-#endif	/* __OW_PHY__GPIO_H */
+#endif
 /****************************************************************/

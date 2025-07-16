@@ -1,6 +1,6 @@
 /*!\file OW_phy_GPIO.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire GPIO physical layer
 **/
 /****************************************************************/
@@ -45,7 +45,7 @@ __STATIC_INLINE void NONNULL_INLINE__ OW_GPIO_Depower(const OW_GPIO_HandleTypeDe
 ** \retval true - Bit logic 1
 ** \retval false - Bit logic 0
 **/
-static bool NONNULL__ OW_GPIO_ReadPin(const OW_GPIO_HandleTypeDef * const pGPIO) {
+__STATIC bool NONNULL__ OW_GPIO_ReadPin(const OW_GPIO_HandleTypeDef * const pGPIO) {
 	return binEval(pGPIO->port->IDR & pGPIO->bitMask); }
 
 
@@ -63,7 +63,7 @@ __STATIC_INLINE void NONNULL_INLINE__ OW_GPIO_WriteHigh(const OW_GPIO_HandleType
 **/
 __STATIC_INLINE void NONNULL_INLINE__ OW_GPIO_WriteLow(const OW_GPIO_HandleTypeDef * const pGPIO)
 {
-	pGPIO->port->BRR = pGPIO->bitMask;
+	pGPIO->port->BSRR = LSHIFT(pGPIO->bitMask, 16U);
 	OW_GPIO_Output(pGPIO);
 }
 
@@ -73,20 +73,20 @@ __STATIC_INLINE void NONNULL_INLINE__ OW_GPIO_WriteLow(const OW_GPIO_HandleTypeD
 ** \param[in] bit - Bit for transmission
 ** \return FctERR - Error code
 **/
-static FctERR NONNULL__ OW_GPIO_Write_bit(const OW_DRV * const pOW, const uint8_t bit)
+__STATIC FctERR NONNULL__ OW_GPIO_Write_bit(const OW_DRV * const pOW, const uint8_t bit)
 {
 	const OW_GPIO_HandleTypeDef * const	pGPIO = pOW->phy_inst.GPIO_inst;
 	uint8_t								delay[2];
 
-	if (bit & 0x01)
+	if (TEST_BITS_VAL(bit, 1U))
 	{
-		delay[0] = 10;
-		delay[1] = 55;
+		delay[0] = 10U;
+		delay[1] = 55U;
 	}
 	else
 	{
-		delay[0] = 65;
-		delay[1] = 5;
+		delay[0] = 65U;
+		delay[1] = 5U;
 	}
 
 	/* Set line low */
@@ -114,14 +114,17 @@ static FctERR NONNULL__ OW_GPIO_Write_bit(const OW_DRV * const pOW, const uint8_
 ** \param[in] byte - Byte for transmission
 ** \return FctERR - Error code
 **/
-static FctERR NONNULL__ OW_GPIO_Write_byte(const OW_DRV * const pOW, const uint8_t byte)
+__STATIC FctERR NONNULL__ OW_GPIO_Write_byte(const OW_DRV * const pOW, const uint8_t byte)
 {
+	FctERR	err;
 	uint8_t data = byte;
 
-	for (int j = 8 ; j ; j--)
+	for (size_t j = 8U ; j ; j--)
 	{
-		OW_GPIO_Write_bit(pOW, data & 0x01);
-		data >>= 1;
+		err = OW_GPIO_Write_bit(pOW, data & 0x01U);
+		if (err != ERROR_OK)	{ break; }
+
+		data >>= 1U;
 	}
 
 	return ERROR_OK;
@@ -134,23 +137,23 @@ static FctERR NONNULL__ OW_GPIO_Write_byte(const OW_DRV * const pOW, const uint8
 ** \param[in,out] pBit - Pointer to bit for reception
 ** \return FctERR - Error code
 **/
-static FctERR NONNULL__ OW_GPIO_Read_bit(const OW_DRV * const pOW, uint8_t * const pBit)
+__STATIC FctERR NONNULL__ OW_GPIO_Read_bit(const OW_DRV * const pOW, uint8_t * const pBit)
 {
 	const OW_GPIO_HandleTypeDef * const	pGPIO = pOW->phy_inst.GPIO_inst;
 
 	/* Line low */
 	diInterrupts();
 	OW_GPIO_WriteLow(pGPIO);
-	Delay_us(3);
+	Delay_us(3U);
 
 	/* Release line */
 	OW_GPIO_Input(pGPIO);
-	Delay_us(10);
+	Delay_us(10U);
 	*pBit = OW_GPIO_ReadPin(pGPIO);
 
 	/* Wait 47us to complete 60us period */
 	enInterrupts();
-	Delay_us(47);
+	Delay_us(47U);
 
 	return ERROR_OK;
 }
@@ -167,14 +170,14 @@ FctERR NONNULL__ OW_GPIO_Read_byte(const OW_DRV * const pOW, uint8_t * const pBy
 	FctERR	err;
 	uint8_t	bit;
 
-	*pByte = 0;
+	*pByte = 0U;
 
-	for (uint8_t mask = 0x01 ; mask ; mask <<= 1)
+	for (uint8_t mask = 0x01U ; mask ; mask <<= 1U)
 	{
 		err = OW_GPIO_Read_bit(pOW, &bit);
-		if (err)	{ break; }
+		if (err != ERROR_OK)	{ break; }
 
-		if (bit) 	{ *pByte |= mask; }
+		if (bit != 0U) 			{ *pByte |= mask; }
 	}
 
 	return err;
@@ -186,50 +189,59 @@ FctERR NONNULL__ OW_GPIO_Read_byte(const OW_DRV * const pOW, uint8_t * const pBy
 ** \param[in,out] pOW - Pointer to OneWire driver instance
 ** \return FctERR - Error code
 **/
-static FctERR NONNULL__ OW_GPIO_Reset(const OW_DRV * const pOW)
+__STATIC FctERR NONNULL__ OW_GPIO_Reset(const OW_DRV * const pOW)
 {
 	const OW_GPIO_HandleTypeDef * const	pGPIO = pOW->phy_inst.GPIO_inst;
+	FctERR								err = ERROR_BUSOFF;
 
 	OW_GPIO_Depower(pGPIO);
 
 	// TODO: see if really needed
 	// wait until the wire is high... just in case
-	int retries = 125;
+	uintCPU_t retries = 125;
 	do
 	{
-		if (--retries == 0) { return ERROR_BUSOFF; }
-		Delay_us(2);
+		if (--retries == 0U) { goto ret; }
+		Delay_us(2U);
 	} while (!OW_GPIO_ReadPin(pGPIO));
 
 	/* Line low, and wait 480us */
 	diInterrupts();
 	OW_GPIO_WriteLow(pGPIO);
 	enInterrupts();
-	Delay_us(480);
+	Delay_us(480U);
 
 	/* Release line and wait for 70us */
 	diInterrupts();
 	OW_GPIO_Input(pGPIO);
-	Delay_us(70);
+	Delay_us(70U);
 
 	/* Check bit value */
 	const bool bit = OW_GPIO_ReadPin(pGPIO);
 	enInterrupts();
 
 	/* Delay for 410 us */
-	Delay_us(410);
+	Delay_us(410U);
 
-	return bit ? ERROR_BUSOFF : ERROR_OK;
+	if (!bit)	{ err = ERROR_OK; }
+
+	ret:
+	return err;
 }
 
 
 FctERR OWInit_GPIO(const uint8_t idx)
 {
-	/* Check the parameters */
-	if (!IS_OW_DRV_IDX(idx))			{ return ERROR_INSTANCE; }	// Unknown instance
-	if (OWdrv[idx].phy != OW_PHY_GPIO)	{ return ERROR_INSTANCE; }	// Wrong instance type
+	FctERR err;
 
-	OW_DRV * const pOW = &OWdrv[idx];
+	/* Check the parameters */
+	if (!IS_OW_DRV_IDX(idx))				{ err = ERROR_INSTANCE; }	// Unknown instance
+	else if (OWdrv[idx].phy != OW_PHY_GPIO)	{ err = ERROR_INSTANCE; }	// Wrong instance type
+	else									{ err = ERROR_OK; }
+	if (err != ERROR_OK)					{ goto ret; }
+
+	OW_DRV * const	pOW = &OWdrv[idx];
+	uintCPU_t		RegShift = 0U;
 
 	init_Delay_Generator();
 
@@ -241,7 +253,6 @@ FctERR OWInit_GPIO(const uint8_t idx)
 	pOW->pfWriteByte = OW_GPIO_Write_byte;
 	pOW->pfReadByte = OW_GPIO_Read_byte;
 	#endif
-
 
 	const GPIO_HandleTypeDef * const pHandle = pOW->phy_inst.inst;
 
@@ -267,22 +278,20 @@ FctERR OWInit_GPIO(const uint8_t idx)
 
 	// TODO: see about other families initialization
 	#if defined(STM32F0)
-		uint8_t RegShift;
-
-		if ((GPIO_Pin & 0x00FF) > 0)
+		if ((GPIO_Pin & 0x00FFU) > 0U)
 		{
 			pOW->phy_inst.GPIO_inst->reg = &pOW->phy_inst.GPIO_inst->port->CRL;
 
-			for (pinpos = 0 ; pinpos < 8 ; pinpos++)
+			for (uintCPU_t pinpos = 0U ; pinpos < 8U ; pinpos++)
 			{
-				const uint32_t pos = 1U << pinpos;
+				const uint32_t pos = 1UL << pinpos;
 
 				/* Get the port pins position */
 				const uint32_t currentpin = (uint16_t) (pOW->phy_inst.GPIO_inst->bitMask & pos);
 
 				if (currentpin == pos)
 				{
-					RegShift = (pinpos * 4);
+					RegShift = (pinpos * 4U);
 					pOW->phy_inst.GPIO_inst->regMask = 0x0FU << RegShift;
 					break;
 				}
@@ -292,16 +301,16 @@ FctERR OWInit_GPIO(const uint8_t idx)
 		{
 			pOW->phy_inst.GPIO_inst->reg = &pOW->phy_inst.GPIO_inst->port->CRH;
 
-			for (pinpos = 0 ; pinpos < 8 ; pinpos++)
+			for (uintCPU_t pinpos = 0U ; pinpos < 8U ; pinpos++)
 			{
-				const uint32_t pos = 1U << (pinpos + 8);
+				const uint32_t pos = 1UL << (pinpos + 8U);
 
 				/* Get the port pins position */
 				const uint32_t currentpin = (uint16_t) (pOW->phy_inst.GPIO_inst->bitMask & pos);
 
 				if (currentpin == pos)
 				{
-					RegShift = (pinpos * 4);
+					RegShift = (pinpos * 4U);
 					pOW->phy_inst.GPIO_inst->regMask = 0x0FU << RegShift;
 					break;
 				}
@@ -311,20 +320,19 @@ FctERR OWInit_GPIO(const uint8_t idx)
 		pOW->phy_inst.GPIO_inst->inputMask = (((GPIO_MODE_ANALOG) << RegShift) & pOW->phy_inst.GPIO_inst->regMask);
 		pOW->phy_inst.GPIO_inst->outputMask = (((uint32_t) GPIO_MODE_OUTPUT_OD | (uint32_t) GPIO_SPEED_ONE_WIRE) << RegShift) & pOW->phy_inst.GPIO_inst->regMask;
 	#else /*if defined(STM32F3)*/
-		const uint8_t	max_pins = 16;	// Maximum pins on a port
-		uint8_t			RegShift = 0;
+		const uintCPU_t	max_pins = 16U;	// Maximum pins on a port
 
 		pOW->phy_inst.GPIO_inst->reg = &pOW->phy_inst.GPIO_inst->port->MODER;
 
 		// Find pin shifting values to get pin index
-		for (int pinpos = 0 ; pinpos < max_pins ; pinpos++)
+		for (uintCPU_t pinpos = 0U ; pinpos < max_pins ; pinpos++)
 		{
-			const uint32_t pos = 1U << pinpos;
+			const uint32_t pos = 1UL << pinpos;
 			const uint32_t currentpin = pOW->phy_inst.GPIO_inst->bitMask & pos;
 
 			if (pos == currentpin)
 			{
-				RegShift = (pinpos * 2);
+				RegShift = (pinpos * 2U);
 				pOW->phy_inst.GPIO_inst->regMask = GPIO_MODE << RegShift;
 			}
 		}
@@ -333,7 +341,8 @@ FctERR OWInit_GPIO(const uint8_t idx)
 		pOW->phy_inst.GPIO_inst->outputMask = (MODE_OUTPUT << RegShift) & pOW->phy_inst.GPIO_inst->regMask;
 	#endif
 
-	return ERROR_OK;
+	ret:
+	return err;
 }
 
 #endif

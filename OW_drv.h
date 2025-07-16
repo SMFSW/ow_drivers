@@ -1,11 +1,11 @@
 /*!\file OW_drv.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief GPIO OneWire driver
 **/
 /****************************************************************/
-#ifndef __OW_DRV_H
-	#define __OW_DRV_H
+#ifndef OW_DRV_H__
+	#define OW_DRV_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -35,7 +35,7 @@
 /*!\struct OWSearch_State_t
 ** \brief OneWire Search State struct
 **/
-typedef struct OWSearch_State_t {
+typedef struct _OWSearch_State_t {
 	OW_ROM_ID_t		ROM_ID;						//!< Last found ROM Id
 	uint8_t			lastDiscrepancy;			//!< Last found Id
 	uint8_t			lastFamilyDiscrepancy;		//!< Last found Family	// TODO: check if needs to be type OW_ROM_type
@@ -43,7 +43,7 @@ typedef struct OWSearch_State_t {
 } OWSearch_State_t;
 
 
-typedef struct StructOW_DRV		OW_DRV;			//!< Typedef for OW_DRV used by function pointers included in struct
+typedef struct _StructOW_DRV	OW_DRV;			//!< Typedef for OW_DRV used by function pointers included in struct
 
 typedef FctERR (*pfOW_phyWrite_t)(const OW_DRV * const pOW, const uint8_t data);	//!< OneWire Write function typedef
 typedef FctERR (*pfOW_phyRead_t)(const OW_DRV * const pOW, uint8_t * const pData);	//!< OneWire Read function typedef
@@ -53,7 +53,7 @@ typedef FctERR (*pfOW_phyReset_t)(const OW_DRV * const pOW);						//!< OneWire R
 /*!\struct StructOW_DRV
 ** \brief OneWire driver struct
 **/
-struct StructOW_DRV {
+struct _StructOW_DRV {
 	uint8_t						idx;				//!< OWdrv index
 	OWPhy						phy;				//!< OWdrv physical peripheral type
 	OW_phy_u					phy_inst;			//!< OWdrv physical instance
@@ -233,5 +233,5 @@ FctERR NONNULL__ OWRead_ROM_Id(const OW_DRV * const pOW, OW_ROM_ID_t * const pRO
 	}
 #endif
 
-#endif	/* __OW_DRV_H */
+#endif
 /****************************************************************/

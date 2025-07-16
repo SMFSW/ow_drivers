@@ -1,6 +1,6 @@
 /*!\file OW_rom_id.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire ROM Id
 **/
 /****************************************************************/
@@ -14,9 +14,9 @@ uint64_t NONNULL__ OWGetSerialNumber(const OW_ROM_ID_t * const pROM)
 {
 	uint64_t sn = 0;
 
-	for (int i = sizeof(pROM->serialNumber) - 1 ; i >= 0 ; i--)
+	for (size_t i = sizeof(pROM->serialNumber) ; i ; i--)
 	{
-		sn = LSHIFT64(sn, 8) | pROM->serialNumber[i];
+		sn = LSHIFT64(sn, 8U) | pROM->serialNumber[i - 1U];
 	}
 
 	return sn;

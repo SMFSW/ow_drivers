@@ -1,11 +1,11 @@
 /*!\file OW_dev_temp.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire temperature sensor device type
 **/
 /****************************************************************/
-#ifndef __OW_DEV_TEMP_H
-	#define __OW_DEV_TEMP_H
+#ifndef OW_DEV_TEMP_H__
+	#define OW_DEV_TEMP_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -21,9 +21,9 @@
 /*** Peripheral defaults setter ***/
 /**********************************/
 
-#define OW_TEMP_SET_DEFAULTS(name, idx)										\
-	name[idx].temp.slave_inst = &name##_hal[idx];							\
-	memcpy(&name[idx].temp.props, &name##_props, sizeof(OW_temp_props_t));	\
+#define OW_TEMP_SET_DEFAULTS(name, idx)													\
+	name[idx].temp.slave_inst = &name##_hal[idx];										\
+	UNUSED_RET memcpy(&name[idx].temp.props, &name##_props, sizeof(OW_temp_props_t));	\
 	name[idx].pScratch = (name##_scratch_t *) name[idx].temp.scratch_data;	//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
@@ -39,23 +39,23 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum OW_TEMP_cmd
+/*!\enum _OW_TEMP_cmd
 ** \brief Commands enum for Temperature Sensor device type
 **/
-typedef enum PACK__ OW_TEMP_cmd {
-	OW_TEMP__CONVERT_T = 0x44,			//!< Initiates temperature conversion
-	OW_TEMP__WRITE_SCRATCHPAD = 0x4E,	//!< Writes data into scratchpad bytes 2, 3, and 4 (Th, Tl, and configuration registers)
-	OW_TEMP__COPY_SCRATCHPAD = 0x48,	//!< Copies Th, Tl, and configuration register data from the scratchpad to EEPROM
-	OW_TEMP__READ_SCRATCHPAD = 0xBE,	//!< Reads the entire scratchpad including the CRC byte
-	OW_TEMP__RECALL = 0xB8,				//!< Recalls Th, Tl, and configuration register data from EEPROM to the scratchpad
-	OW_TEMP__ALARM_SEARCH = 0xEC,		//!< This command allows the master device to determine if any DS1825 experienced an alarm condition during the most recent temperature conversion
+typedef enum PACK__ _OW_TEMP_cmd {
+	OW_TEMP__CONVERT_T = 0x44U,			//!< Initiates temperature conversion
+	OW_TEMP__WRITE_SCRATCHPAD = 0x4EU,	//!< Writes data into scratchpad bytes 2, 3, and 4 (Th, Tl, and configuration registers)
+	OW_TEMP__COPY_SCRATCHPAD = 0x48U,	//!< Copies Th, Tl, and configuration register data from the scratchpad to EEPROM
+	OW_TEMP__READ_SCRATCHPAD = 0xBEU,	//!< Reads the entire scratchpad including the CRC byte
+	OW_TEMP__RECALL = 0xB8U,			//!< Recalls Th, Tl, and configuration register data from EEPROM to the scratchpad
+	OW_TEMP__ALARM_SEARCH = 0xECU,		//!< This command allows the master device to determine if any DS1825 experienced an alarm condition during the most recent temperature conversion
 } OW_TEMP_cmd;
 
 
 /*!\struct OW_temp_props_t
 ** \brief OneWire Temperature sensor properties type
 **/
-typedef struct OW_temp_props_t {
+typedef struct _OW_temp_props_t {
 	const uint16_t *	convTimes;		//!< Conversion times array (following resolution)
 	const uint8_t		maxResIdx;		//!< Maximum resolution index
 	const float			granularity;	//!< Granularity
@@ -66,7 +66,7 @@ typedef struct OW_temp_props_t {
 /*!\struct OW_temp_t
 ** \brief OneWire Temperature sensor configuration type
 **/
-typedef struct OW_temp_t {
+typedef struct _OW_temp_t {
 	OW_slave_t *		slave_inst;		//!< Slave structure
 	OW_temp_props_t		props;			//!< Temperature sensor properties
 	uint8_t				scratch_data[OW_TEMP_SCRATCHPAD_SIZE];
@@ -96,8 +96,8 @@ FctERR NONNULL__ OWAlarmSearch_All(OW_DRV * const pOW, OW_ROM_ID_t ROMId[], cons
 ** \return FctERR - Error code
 **/
 __INLINE FctERR NONNULL_INLINE__ OW_TEMP_AlarmSearch_All(OW_temp_t * const pTEMP, OW_ROM_ID_t ROMId[], const uint8_t max_nb) {
-	OW_DRV * const pOW = pTEMP->slave_inst->cfg.bus_inst;
-	return OWAlarmSearch_All(pOW, ROMId, max_nb); }
+	OW_DRV * const pDrv = pTEMP->slave_inst->cfg.bus_inst;
+	return OWAlarmSearch_All(pDrv, ROMId, max_nb); }
 
 
 /*!\brief OneWire Temperature sensor device read scratchpad
@@ -147,7 +147,7 @@ FctERR NONNULL__ OW_TEMP_Convert_Handler(OW_temp_t * const pTEMP);
 ** \return Temperature in Celsius degrees
 **/
 __INLINE float NONNULL__ OW_TEMP_Get_Temperature_Celsius(const OW_temp_t * const pTEMP) {
-	return pTEMP->tempConv * pTEMP->props.granularity; }
+	return (float) pTEMP->tempConv * pTEMP->props.granularity; }
 
 /*!\brief OneWire Temperature sensor device convert last temperature to Fahrenheit degrees
 ** \param[in,out] pTEMP - Pointer to Temperature device type structure
@@ -169,5 +169,5 @@ __INLINE float NONNULL__ OW_TEMP_Get_Temperature_Kelvin(const OW_temp_t * const 
 	}
 #endif
 
-#endif	/* __OW_DEV_TEMP_H */
+#endif
 /****************************************************************/

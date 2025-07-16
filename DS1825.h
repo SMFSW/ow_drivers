@@ -1,11 +1,12 @@
 /*!\file DS1825.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief DS1825: Programmable Resolution 1-Wire Digital Thermometer With 4-Bit ID
 **/
+// cppcheck-suppress-begin misra-c2012-19.2
 /****************************************************************/
-#ifndef __OW_DS1825_H__
-	#define __OW_DS1825_H__
+#ifndef OW_DS1825_H__
+	#define OW_DS1825_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -21,7 +22,7 @@
 
 #ifndef OW_DS1825_NB
 //! \note Define OW_DS1825_NB_NB to enable multiple peripherals of this type
-#define OW_DS1825_NB	1	//!< Number of DS1825 peripherals
+#define OW_DS1825_NB	1U	//!< Number of DS1825 peripherals
 #endif
 
 
@@ -34,11 +35,11 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum DS1825_cmd
+/*!\enum _DS1825_cmd
 ** \brief Commands enum for DS1825
 ** \note Unused
 **/
-typedef enum PACK__ DS1825_cmd {
+typedef enum PACK__ _DS1825_cmd {
 	DS1825__CONVERT_T = OW_TEMP__CONVERT_T,					//!< Initiates temperature conversion
 	DS1825__WRITE_SCRATCHPAD = OW_TEMP__WRITE_SCRATCHPAD,	//!< Writes data into scratchpad bytes 2, 3, and 4 (Th, Tl, and configuration registers)
 	DS1825__COPY_SCRATCHPAD = OW_TEMP__COPY_SCRATCHPAD,		//!< Copies Th, Tl, and configuration register data from the scratchpad to EEPROM
@@ -48,11 +49,11 @@ typedef enum PACK__ DS1825_cmd {
 } DS1825_cmd;
 
 
-/*!\enum DS1825_res
+/*!\enum _DS1825_res
 ** \brief Resolutions enum for DS1825
 **/
-typedef enum PACK__ DS1825_res {
-	DS1825__RES_9BIT = 0,	//!< DS1825 9b resolution
+typedef enum PACK__ _DS1825_res {
+	DS1825__RES_9BIT = 0U,	//!< DS1825 9b resolution
 	DS1825__RES_10BIT,		//!< DS1825 10b resolution
 	DS1825__RES_11BIT,		//!< DS1825 11b resolution
 	DS1825__RES_12BIT,		//!< DS1825 12b resolution
@@ -61,7 +62,7 @@ typedef enum PACK__ DS1825_res {
 /*!\union uDS1825_REG__CFG
 ** \brief Union for configuration register of DS1825
 **/
-typedef union PACK__ uDS1825_REG__CFG {
+typedef union PACK__ _uDS1825_REG__CFG {
 	uint8_t Byte;
 	struct PACK__ {
 		uint8_t		ADx	:4;	//!< Location information
@@ -75,7 +76,7 @@ typedef union PACK__ uDS1825_REG__CFG {
 /*!\struct DS1825_scratch_t
 ** \brief DS1825 scratchpad struct
 **/
-typedef union PACK__ DS1825_scratch_t {
+typedef union PACK__ _DS1825_scratch_t {
 	uint8_t					bytes[OW_TEMP_SCRATCHPAD_SIZE];
 	struct PACK__ {
 		int16_t				temp;			//!< Temperature register (little endian)
@@ -91,7 +92,7 @@ typedef union PACK__ DS1825_scratch_t {
 /*!\struct DS1825_t
 ** \brief DS1825 user interface struct
 **/
-typedef struct DS1825_t {
+typedef struct _DS1825_t {
 	/*** device generic peripheral types structures ***/
 	OW_sn_t				sn;			//!< Serial Number device type structure
 	OW_temp_t			temp;		//!< Temperature Sensor device type structure
@@ -253,5 +254,6 @@ __INLINE float NONNULL_INLINE__ DS1825_Get_Temperature_Kelvin(const DS1825_t * c
 #endif
 
 #endif
+// cppcheck-suppress-end misra-c2012-19.2
 /****************************************************************/
 

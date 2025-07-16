@@ -1,12 +1,13 @@
 /*!\file DS28E07.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief DS28E07: 1024-Bit, 1-Wire EEPROM
 ** \note Alternate PNs: (DS1972), DS2431
 **/
+// cppcheck-suppress-begin misra-c2012-19.2
 /****************************************************************/
-#ifndef __OW_DS28E07_H__
-	#define __OW_DS28E07_H__
+#ifndef OW_DS28E07_H__
+	#define OW_DS28E07_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -22,52 +23,52 @@
 
 #ifndef OW_DS28E07_NB
 //! \note Define OW_DS28E07_NB_NB to enable multiple peripherals of this type
-#define OW_DS28E07_NB	1	//!< Number of DS28E07 peripherals
+#define OW_DS28E07_NB	1U	//!< Number of DS28E07 peripherals
 #endif
 
 
 // *****************************************************************************
 // Section: Constants
 // *****************************************************************************
-#define DS28E07_PAGES			4									//!< DS28E07 Number of Pages
-#define DS28E07_PAGE_SIZE		0x20								//!< DS28E07 Page Size
-#define DS28E07_SCRATCHPAD_SIZE	0x08								//!< DS28E07 Scratchpad Size
+#define DS28E07_PAGES			OW_EEP__PAGE4						//!< DS28E07 Number of Pages (4 pages)
+#define DS28E07_PAGE_SIZE		0x20U								//!< DS28E07 Page Size
+#define DS28E07_SCRATCHPAD_SIZE	0x08U								//!< DS28E07 Scratchpad Size
 #define DS28E07_MEMORY_SIZE		(DS28E07_PAGE_SIZE * DS28E07_PAGES)	//!< DS28E07 Maximum size
 #define DS28E07_MAX_WRITE_ADDR	DS28E07__ADDR_USER_BYTE_2			//!< DS28E07 Maximum write address
-#define DS28E07_MAX_READ_ADDR	(DS28E07__ADDR_USER_BYTE_2 + 8)		//!< DS28E07 Maximum read address
-#define DS28E07_NB_USER_BYTES	2									//!< DS28E07 Number of User Bytes
+#define DS28E07_MAX_READ_ADDR	(DS28E07__ADDR_USER_BYTE_2 + 8U)	//!< DS28E07 Maximum read address
+#define DS28E07_NB_USER_BYTES	2U									//!< DS28E07 Number of User Bytes
 
 
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum DS28E07_reg_map
+/*!\enum _DS28E07_reg_map
 ** \brief Register map enum of DS28E07
 **/
-typedef enum PACK__ DS28E07_reg_map {
-	DS28E07__ADDR_PAGE_0 = 0,				//!< User memory Page 0
-	DS28E07__ADDR_PAGE_1 = 0x20,			//!< User memory Page 1
-	DS28E07__ADDR_PAGE_2 = 0x40,			//!< User memory Page 2
-	DS28E07__ADDR_PAGE_3 = 0x60,			//!< User memory Page 3
-	DS28E07__ADDR_PROT_0 = 0x80,			//!< Protection Control Byte Page 0 (55h: Write Protect P0; AAh: EPROM mode P0; 55h or AAh: Write Protect 80h)
-	DS28E07__ADDR_PROT_1 = 0x81,			//!< Protection Control Byte Page 1 (55h: Write Protect P1; AAh: EPROM mode P1; 55h or AAh: Write Protect 80h)
-	DS28E07__ADDR_PROT_2 = 0x82,			//!< Protection Control Byte Page 2 (55h: Write Protect P2; AAh: EPROM mode P2; 55h or AAh: Write Protect 80h)
-	DS28E07__ADDR_PROT_3 = 0x83,			//!< Protection Control Byte Page 3 (55h: Write Protect P3; AAh: EPROM mode P3; 55h or AAh: Write Protect 80h)
-	DS28E07__ADDR_PROT_COPY = 0x84,			//!< Copy Protection Byte (55h or AAh: Copy Protect 0080:008Fh (? probably 0087h), and any write-protected Pages)
-	DS28E07__ADDR_PROT_FACTORY = 0x85,		//!< Factory byte. Set at Factory. (AAh:Write Protect 85h, 86h, 87h; 55h: Write Protect 85h, un-protect 86h, 87h)
-	DS28E07__ADDR_USER_BYTE_1 = 0x86,		//!< User Byte / Manufacturer ID
-	DS28E07__ADDR_USER_BYTE_2 = 0x87,		//!< User Byte / Manufacturer ID
-	DS28E07__ADDR_RESERVED_START = 0x88,	//!< Reserved
-	DS28E07__ADDR_RESERVED_END = 0xFE,		//!< Reserved
-	DS28E07__ADDR_REVISION_CODE = 0xFF		//!< Chip Revision Code
+typedef enum PACK__ _DS28E07_reg_map {
+	DS28E07__ADDR_PAGE_0 = 0U,				//!< User memory Page 0
+	DS28E07__ADDR_PAGE_1 = 0x20U,			//!< User memory Page 1
+	DS28E07__ADDR_PAGE_2 = 0x40U,			//!< User memory Page 2
+	DS28E07__ADDR_PAGE_3 = 0x60U,			//!< User memory Page 3
+	DS28E07__ADDR_PROT_0 = 0x80U,			//!< Protection Control Byte Page 0 (55h: Write Protect P0; AAh: EPROM mode P0; 55h or AAh: Write Protect 80h)
+	DS28E07__ADDR_PROT_1 = 0x81U,			//!< Protection Control Byte Page 1 (55h: Write Protect P1; AAh: EPROM mode P1; 55h or AAh: Write Protect 80h)
+	DS28E07__ADDR_PROT_2 = 0x82U,			//!< Protection Control Byte Page 2 (55h: Write Protect P2; AAh: EPROM mode P2; 55h or AAh: Write Protect 80h)
+	DS28E07__ADDR_PROT_3 = 0x83U,			//!< Protection Control Byte Page 3 (55h: Write Protect P3; AAh: EPROM mode P3; 55h or AAh: Write Protect 80h)
+	DS28E07__ADDR_PROT_COPY = 0x84U,		//!< Copy Protection Byte (55h or AAh: Copy Protect 0080:008Fh (? probably 0087h), and any write-protected Pages)
+	DS28E07__ADDR_PROT_FACTORY = 0x85U,		//!< Factory byte. Set at Factory. (AAh:Write Protect 85h, 86h, 87h; 55h: Write Protect 85h, un-protect 86h, 87h)
+	DS28E07__ADDR_USER_BYTE_1 = 0x86U,		//!< User Byte / Manufacturer ID
+	DS28E07__ADDR_USER_BYTE_2 = 0x87U,		//!< User Byte / Manufacturer ID
+	DS28E07__ADDR_RESERVED_START = 0x88U,	//!< Reserved
+	DS28E07__ADDR_RESERVED_END = 0xFEU,		//!< Reserved
+	DS28E07__ADDR_REVISION_CODE = 0xFFU		//!< Chip Revision Code
 } DS28E07_reg;
 
 
-/*!\enum DS28E07_cmd
+/*!\enum _DS28E07_cmd
 ** \brief Commands enum for DS28E07
 ** \note Unused
 **/
-typedef enum PACK__ DS28E07_cmd {
+typedef enum PACK__ _DS28E07_cmd {
 	DS28E07__WRITE_SCRATCHPAD = OW_EEP__WRITE_SCRATCHPAD,	//!< Write scratchpad command
 	DS28E07__COPY_SCRATCHPAD = OW_EEP__COPY_SCRATCHPAD,		//!< Copy scratchpad command
 	DS28E07__READ_SCRATCHPAD = OW_EEP__READ_SCRATCHPAD,		//!< Read scratchpad command
@@ -75,46 +76,46 @@ typedef enum PACK__ DS28E07_cmd {
 } DS28E07_cmd;
 
 
-/*!\enum DS28E07_prot_page
+/*!\enum _DS28E07_prot_page
 ** \brief Pages write protection values for DS28E07
 ** \note Unknown values corresponds to DS28E07__PAGE_WRITE_NOT_SET
 ** \warning Write protect registers are locked once written to any known protection value
 **/
-typedef enum PACK__ DS28E07_prot_page {
-	DS28E07__PAGE_WRITE_NOT_SET = 0,	//!< Write protect not-set value
-	DS28E07__PAGE_WRITE_PROTECT = 0x55,	//!< Write protect value
-	DS28E07__PAGE_EEPROM_MODE = 0xAA	//!< EEPROM mode value (write allowed)
+typedef enum PACK__ _DS28E07_prot_page {
+	DS28E07__PAGE_WRITE_NOT_SET = 0U,		//!< Write protect not-set value
+	DS28E07__PAGE_WRITE_PROTECT = 0x55U,	//!< Write protect value
+	DS28E07__PAGE_EEPROM_MODE = 0xAAU		//!< EEPROM mode value (write allowed)
 } DS28E07_prot_page;
 
 
-/*!\enum DS28E07_prot_copy
+/*!\enum _DS28E07_prot_copy
 ** \brief Copy write protection values for DS28E07
 ** \note Unknown values corresponds to DS28E07__COPY_WRITE_NOT_SET
 ** \warning Write protect registers are locked once written to any known protection value
 **/
-typedef enum PACK__ DS28E07_prot_copy {
-	DS28E07__COPY_WRITE_NOT_SET = 0,		//!< Copy protect not set value
-	DS28E07__COPY_WRITE_PROTECT_1 = 0x55,	//!< Copy protect value
-	DS28E07__COPY_WRITE_PROTECT_2 = 0xAA	//!< Copy protect value
+typedef enum PACK__ _DS28E07_prot_copy {
+	DS28E07__COPY_WRITE_NOT_SET = 0U,		//!< Copy protect not set value
+	DS28E07__COPY_WRITE_PROTECT_1 = 0x55U,	//!< Copy protect value
+	DS28E07__COPY_WRITE_PROTECT_2 = 0xAAU	//!< Copy protect value
 } DS28E07_prot_copy;
 
 
-/*!\enum DS28E07_prot_user
+/*!\enum _DS28E07_prot_user
 ** \brief User bytes write protection values for DS28E07
 ** \note Unknown values corresponds to DS28E07__USER_WRITE_NOT_SET
 ** \warning Write protect registers are locked once written to any known protection value
 **/
-typedef enum PACK__ DS28E07_prot_user {
-	DS28E07__USER_WRITE_NOT_SET = 0,		//!< User protect not set value
-	DS28E07__USER_WRITE_UNPROTECT = 0x55,	//!< User un-protect value
-	DS28E07__USER_WRITE_PROTECT = 0xAA		//!< User protect value
+typedef enum PACK__ _DS28E07_prot_user {
+	DS28E07__USER_WRITE_NOT_SET = 0U,		//!< User protect not set value
+	DS28E07__USER_WRITE_UNPROTECT = 0x55U,	//!< User un-protect value
+	DS28E07__USER_WRITE_PROTECT = 0xAAU		//!< User protect value
 } DS28E07_prot_user;
 
 
 /*!\union uDS28E07_REG__ES
 ** \brief Union for E/S register of DS28E07
 **/
-typedef union PACK__ uDS28E07_REG__ES {
+typedef union PACK__ _uDS28E07_REG__ES {
 	uint8_t Byte;
 	struct PACK__ {
 		uint8_t E		:3;	/*!<
@@ -135,7 +136,7 @@ typedef union PACK__ uDS28E07_REG__ES {
 /*!\struct DS28E07_t
 ** \brief DS28E07 user interface struct
 **/
-typedef struct DS28E07_t {
+typedef struct _DS28E07_t {
 	/*** device generic peripheral types structures ***/
 	OW_sn_t						sn;				//!< Serial Number device type structure
 	OW_eep_t					eep;			//!< EEPROM device type structure
@@ -324,5 +325,6 @@ FctERR NONNULL__ DS28E07_Write_UserBytes(DS28E07_t * const pCpnt, const uint8_t 
 #endif
 
 #endif
+// cppcheck-suppress-end misra-c2012-19.2
 /****************************************************************/
 

@@ -1,11 +1,11 @@
 /*!\file OW_rom_id.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire ROM Id
 **/
 /****************************************************************/
-#ifndef __OW_ROM_ID_H
-	#define __OW_ROM_ID_H
+#ifndef OW_ROM_ID_H__
+	#define OW_ROM_ID_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -20,7 +20,7 @@
 // *****************************************************************************
 // Section: Constants
 // *****************************************************************************
-#define OW_ROM_ID_SIZE	8	//!< ROM Id size in bytes
+#define OW_ROM_ID_SIZE	8U	//!< ROM Id size in bytes
 
 
 // *****************************************************************************
@@ -30,7 +30,7 @@
 **  \brief One Wire ROM Identification type
 **  \note S
 **/
-typedef struct PACK__ OW_ROM_ID_t {
+typedef struct PACK__ _OW_ROM_ID_t {
 	union PACK__ {
 		uint8_t			romId[OW_ROM_ID_SIZE];	//!< ROM Id bytes array
 		struct PACK__ {
@@ -60,5 +60,5 @@ uint64_t NONNULL__ OWGetSerialNumber(const OW_ROM_ID_t * const pROM);
 	}
 #endif
 
-#endif	/* __OW_ROM_ID_H */
+#endif
 /****************************************************************/

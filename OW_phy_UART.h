@@ -1,6 +1,6 @@
 /*!\file OW_phy_UART.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire UART physical layer
 ** \warning Assuming UART instance has already been configured once at init with following parameters:
 **			Half duplex configuration
@@ -10,8 +10,8 @@
 ** 			Stop Bits: 1
 **/
 /****************************************************************/
-#ifndef __OW_PHY__UART_H
-	#define __OW_PHY__UART_H
+#ifndef OW_PHY__UART_H__
+	#define OW_PHY__UART_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -45,5 +45,5 @@ FctERR NONNULL__ OWInit_UART(const uint8_t idx);
 	}
 #endif
 
-#endif	/* __OW_PHY__UART_H */
+#endif
 /****************************************************************/

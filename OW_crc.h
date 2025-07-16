@@ -1,11 +1,11 @@
 /*!\file OW_crc.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire CRC
 **/
 /****************************************************************/
-#ifndef __OW_CRC_H
-	#define __OW_CRC_H
+#ifndef OW_CRC_H__
+	#define OW_CRC_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -66,5 +66,5 @@ FctERR NONNULL__ OWCheck_DallasCRC16(const uint8_t * const pData, const size_t l
 	}
 #endif
 
-#endif	/* __OW_CRC_H */
+#endif
 /****************************************************************/

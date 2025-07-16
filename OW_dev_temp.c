@@ -1,6 +1,6 @@
 /*!\file OW_dev_temp.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire temperature sensor device type
 **/
 /****************************************************************/
@@ -25,31 +25,30 @@ FctERR NONNULL__ OWAlarmSearch_All(OW_DRV * const pOW, OW_ROM_ID_t ROMId[], cons
 /****************************************************************/
 
 
-__STATIC_INLINE FctERR NONNULL_INLINE__ OW_TEMP_Check_CRC_Scratchpad(OW_temp_t * const pTEMP) {
+__STATIC_INLINE FctERR NONNULL_INLINE__ OW_TEMP_Check_CRC_Scratchpad(const OW_temp_t * const pTEMP) {
 	return OWCheck_DallasCRC8(pTEMP->scratch_data, OW_TEMP_SCRATCHPAD_SIZE - 1, pTEMP->scratch_data[OW_TEMP_SCRATCHPAD_SIZE - 1]); }
 
 
 FctERR NONNULL__ OW_TEMP_Read_Scratchpad(OW_temp_t * const pTEMP)
 {
 	OW_slave_t * const	pSlave = pTEMP->slave_inst;
+	FctERR				err = ERROR_OK;
 
-	if (!OW_is_enabled(pSlave))		{ return ERROR_DISABLED; }	// Peripheral disabled
+	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
-	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
 
-	if (!err)
-	{
-		OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__READ_SCRATCHPAD);
-		OWRead(pSlave->cfg.bus_inst, pTEMP->scratch_data, OW_TEMP_SCRATCHPAD_SIZE);
-	}
+	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	if (err != ERROR_OK)	{ goto ret; }
 
+	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__READ_SCRATCHPAD);
+	OWRead(pSlave->cfg.bus_inst, pTEMP->scratch_data, OW_TEMP_SCRATCHPAD_SIZE);
+
+	err = OW_TEMP_Check_CRC_Scratchpad(pTEMP);
+
+	ret:
 	OW_set_busy(pSlave, false);
-
-	if (!err)
-	{
-		err = OW_TEMP_Check_CRC_Scratchpad(pTEMP);
-	}
 
 	return err;
 }
@@ -62,22 +61,22 @@ static FctERR NONNULL__ OW_TEMP_Recall(OW_temp_t * const pTEMP)
 	//if (!OW_is_enabled(pSlave))		{ return ERROR_DISABLED; }	// Peripheral disabled
 
 	OW_set_busy(pSlave, true);
+
 	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	if (err != ERROR_OK)	{ goto ret; }
 
-	if (!err)
+	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__RECALL);
+
+	uint8_t done = 0U;
+	while (!done)
 	{
-		OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__RECALL);
-
-		uint8_t done = 0;
-		while (!done)
-		{
-			#if defined(HAL_IWDG_MODULE_ENABLED)
-				HAL_IWDG_Refresh(&hiwdg);
-			#endif
-			OWRead_byte(pSlave->cfg.bus_inst, &done);
-		}
+		#if defined(HAL_IWDG_MODULE_ENABLED)
+			HAL_IWDG_Refresh(&hiwdg);
+		#endif
+		OWRead_byte(pSlave->cfg.bus_inst, &done);
 	}
 
+	ret:
 	return err;
 }
 
@@ -89,21 +88,21 @@ static FctERR NONNULL__ OW_TEMP_Copy_Scratchpad(OW_temp_t * const pTEMP)
 	//if (!OW_is_enabled(pSlave))		{ return ERROR_DISABLED; }	// Peripheral disabled
 
 	OW_set_busy(pSlave, true);
+
 	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	if (err != ERROR_OK)	{ goto ret; }
 
-	if (!err)
+	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__COPY_SCRATCHPAD);
+
+	const uint32_t hStartCopy = HALTicks();
+	while (TPSINF_MS(hStartCopy, 10U))		// Wait for bytes to be copied in EEP
 	{
-		OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__COPY_SCRATCHPAD);
-
-		const uint32_t hStartCopy = HALTicks();
-		while (TPSINF_MS(hStartCopy, 10))		// Wait for bytes to be copied in EEP
-		{
-			#if defined(HAL_IWDG_MODULE_ENABLED)
-				HAL_IWDG_Refresh(&hiwdg);
-			#endif
-		}
+		#if defined(HAL_IWDG_MODULE_ENABLED)
+			HAL_IWDG_Refresh(&hiwdg);
+		#endif
 	}
 
+	ret:
 	return err;
 }
 
@@ -111,22 +110,29 @@ static FctERR NONNULL__ OW_TEMP_Copy_Scratchpad(OW_temp_t * const pTEMP)
 FctERR NONNULL__ OW_TEMP_Write_Scratchpad(OW_temp_t * const pTEMP)
 {
 	OW_slave_t * const	pSlave = pTEMP->slave_inst;
+	FctERR				err = ERROR_OK;
 
-	if (!OW_is_enabled(pSlave))		{ return ERROR_DISABLED; }	// Peripheral disabled
+	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
-	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
 
-	if (!err)
-	{
-		OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__WRITE_SCRATCHPAD);
-		OWWrite(pSlave->cfg.bus_inst, &pTEMP->scratch_data[2], pTEMP->props.cfgBytes);
+	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	if (err != ERROR_OK)	{ goto ret; }
 
-		err = OW_TEMP_Copy_Scratchpad(pTEMP);
-		if (!err)	{ err = OW_TEMP_Recall(pTEMP); }
-		if (!err)	{ err = OW_TEMP_Read_Scratchpad(pTEMP); }
-	}
+	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__WRITE_SCRATCHPAD);
+	OWWrite(pSlave->cfg.bus_inst, &pTEMP->scratch_data[2], pTEMP->props.cfgBytes);
 
+	err = OW_TEMP_Copy_Scratchpad(pTEMP);
+	if (err != ERROR_OK)	{ goto ret; }
+
+	err = OW_TEMP_Recall(pTEMP);
+	if (err != ERROR_OK)	{ goto ret; }
+
+	err = OW_TEMP_Read_Scratchpad(pTEMP);
+	if (err != ERROR_OK)	{ goto ret; }
+
+	ret:
 	OW_set_busy(pSlave, false);
 
 	return err;
@@ -136,19 +142,21 @@ FctERR NONNULL__ OW_TEMP_Write_Scratchpad(OW_temp_t * const pTEMP)
 FctERR NONNULL__ OW_TEMP_Start_Conversion(OW_temp_t * const pTEMP)
 {
 	OW_slave_t * const	pSlave = pTEMP->slave_inst;
+	FctERR				err = ERROR_OK;
 
-	if (!OW_is_enabled(pSlave))		{ return ERROR_DISABLED; }	// Peripheral disabled
+	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
-	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
 
-	if (!err)
-	{
-		OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__CONVERT_T);
-		pTEMP->hStartConv = HALTicks();
-		pTEMP->doneConv = false;
-	}
+	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	if (err != ERROR_OK)	{ goto ret; }
 
+	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__CONVERT_T);
+	pTEMP->hStartConv = HALTicks();
+	pTEMP->doneConv = false;
+
+	ret:
 	OW_set_busy(pSlave, false);
 
 	return err;
@@ -196,7 +204,7 @@ FctERR NONNULL__ OW_TEMP_Convert_Handler(OW_temp_t * const pTEMP)
 		pTEMP->doneConv = true;
 
 		err = OW_TEMP_Read_Conversion(pTEMP);
-		err = OW_TEMP_Start_Conversion(pTEMP);
+		err |= OW_TEMP_Start_Conversion(pTEMP);
 	}
 
 	return err;

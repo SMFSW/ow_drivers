@@ -1,6 +1,6 @@
 /*!\file DS1825.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief DS1825: Programmable Resolution 1-Wire Digital Thermometer With 4-Bit ID
 **/
 /****************************************************************/
@@ -31,6 +31,9 @@ OW_ROM_type DS1825_Get_FamilyCode(void) {
 
 __WEAK FctERR NONNULL__ DS1825_Configuration_Setter_Callback(DS1825_t * const pCpnt)
 {
+	UNUSED(pCpnt);
+
+	// cppcheck-suppres misra-c2012-3.1
 	/**\code
 	FctERR err = ERROR_OK;
 
@@ -67,17 +70,20 @@ __WEAK FctERR NONNULL__ DS1825_Init_Sequence(DS1825_t * const pCpnt)
 
 FctERR NONNULL__ DS1825_Init(const uint8_t idx, OW_DRV * const pOW, const OW_ROM_ID_t * const pROM)
 {
+	FctERR err = ERROR_DEVICE_UNKNOWN;
+
 	assert_param(IS_OW_PERIPHERAL(DS1825, idx));
 
-	if (pROM->familyCode != FAMILY_CODE)	{ return ERROR_COMMON; }	// Family code doesn't match
+	if (pROM->familyCode == FAMILY_CODE)	// Family code matches
+	{
+		OW_SN_SET_DEFAULTS(DS1825, idx, pROM);
+		OW_TEMP_SET_DEFAULTS(DS1825, idx);
 
-	OW_SN_SET_DEFAULTS(DS1825, idx, pROM);
-	OW_TEMP_SET_DEFAULTS(DS1825, idx);
+		OW_slave_init(&DS1825_hal[idx], pOW, pROM);
+		err = DS1825_Init_Sequence(&DS1825[idx]);
+	}
 
-	FctERR err = OW_slave_init(&DS1825_hal[idx], pOW, pROM);
-	if (!err)	{ err = DS1825_Init_Sequence(&DS1825[idx]); }
-
-	if (err)	{ OW_set_enable(&DS1825_hal[idx], false); }
+	if (err != ERROR_OK)	{ OW_set_enable(&DS1825_hal[idx], false); }
 
 	return err;
 }
@@ -91,17 +97,20 @@ FctERR DS1825_Init_Single(const OW_ROM_ID_t * const pROM) {
 
 FctERR NONNULL__ DS1825_Set_Resolution(DS1825_t * const pCpnt, const DS1825_res resolution)
 {
-	if (resolution > pCpnt->temp.props.maxResIdx)	{ return ERROR_VALUE; }
+	FctERR err = ERROR_VALUE;
 
-	FctERR err = DS1825_Read_Scratchpad(pCpnt);
-
-	if (!err)
+	if (resolution <= pCpnt->temp.props.maxResIdx)
 	{
-		pCpnt->pScratch->configuration.Bits.Rx = resolution;
+		err = DS1825_Read_Scratchpad(pCpnt);
 
-		err = DS1825_Write_Scratchpad(pCpnt);
+		if (!err)
+		{
+			pCpnt->pScratch->configuration.Bits.Rx = resolution;
 
-		if (!err)	{ pCpnt->temp.resIdx = pCpnt->pScratch->configuration.Bits.Rx; }
+			err = DS1825_Write_Scratchpad(pCpnt);
+
+			if (!err)	{ pCpnt->temp.resIdx = pCpnt->pScratch->configuration.Bits.Rx; }
+		}
 	}
 
 	return err;

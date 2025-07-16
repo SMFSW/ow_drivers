@@ -1,12 +1,13 @@
 /*!\file OW_component.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief Base One Wire component
 ** \note Needed symbols may be defined in globals.h or at project level. If globals.h is not used, symbol NO_GLOBALS_HEADER needs to be defined.
+** \hideincludedbygraph
 **/
 /****************************************************************/
-#ifndef __OW_COMPONENT_H
-	#define __OW_COMPONENT_H
+#ifndef OW_COMPONENT_H__
+	#define OW_COMPONENT_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -41,25 +42,25 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum OW_ROM_cmd
+/*!\enum _OW_ROM_cmd
 ** \brief Shared commands enum for One Wire
 **/
-typedef enum PACK__ OW_ROM_cmd {
-	OW__OVERDRIVE_SKIP_ROM = 0x3C,	//!< Overdrive skip ROM command
-	OW__READ_ROM = 0x33,			//!< Read ROM command
-	OW__MATCH_ROM = 0x55,			//!< Match ROM command
-	OW__OVERDRIVE_MATCH_ROM = 0x69,	//!< Overdrive match ROM command
-	OW__RESUME = 0xA5,				//!< Resume command
-	OW__READ_POWER_SUPPLY = 0xB4,	//!< Signals power supply mode to the master
-	OW__SKIP_ROM = 0xCC,			//!< Skip ROM command
-	OW__SEARCH_ROM = 0xF0,			//!< Search ROM command
+typedef enum PACK__ _OW_ROM_cmd {
+	OW__OVERDRIVE_SKIP_ROM = 0x3CU,		//!< Overdrive skip ROM command
+	OW__READ_ROM = 0x33U,				//!< Read ROM command
+	OW__MATCH_ROM = 0x55U,				//!< Match ROM command
+	OW__OVERDRIVE_MATCH_ROM = 0x69U,	//!< Overdrive match ROM command
+	OW__RESUME = 0xA5U,					//!< Resume command
+	OW__READ_POWER_SUPPLY = 0xB4U,		//!< Signals power supply mode to the master
+	OW__SKIP_ROM = 0xCCU,				//!< Skip ROM command
+	OW__SEARCH_ROM = 0xF0U,				//!< Search ROM command
 } OW_ROM_cmd;
 
 
 /*! \struct OW_slave_t
 **  \brief One Wire slave config and control parameters
 **/
-typedef struct OW_slave_t {
+typedef struct _OW_slave_t {
 	/*! \struct cfg
 	**  \brief OW pSlave parameters
 	**/
@@ -78,12 +79,12 @@ typedef struct OW_slave_t {
 
 
 /*!\brief OW Slave device initialization
+** \hidecallergraph
 ** \param[in,out] pSlave - pointer to OW slave instance to initialize
 ** \param[in] pOW - pointer to HAL OW instance
 ** \param[in] pROM - pointer to ROM Id
-** \return Error code
 **/
-FctERR NONNULL__ OW_slave_init(OW_slave_t * pSlave, const OW_DRV * pOW, const OW_ROM_ID_t * const pROM);
+void NONNULL__ OW_slave_init(OW_slave_t * const pSlave, OW_DRV * const pOW, const OW_ROM_ID_t * const pROM);
 
 
 /*!\brief OneWire Salve get power supply source
@@ -93,7 +94,7 @@ FctERR NONNULL__ OW_slave_init(OW_slave_t * pSlave, const OW_DRV * pOW, const OW
 ** \param[in,out] pBusPower - pointer to bus power variable result
 ** \return FctERR - Error code
 **/
-FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * pSlave, bool * const pBusPower);
+FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * const pSlave, bool * const pBusPower);
 
 /***************/
 /*** SETTERS ***/
@@ -101,39 +102,32 @@ FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * pSlave, bool * const pBu
 /*!\brief OW Slave device HAL instance change
 ** \param[in,out] pSlave - pointer to OW slave instance
 ** \param[in] pOW - pointer to HAL OW instance
-** \return Error code
 **/
-__INLINE FctERR NONNULL_INLINE__ OW_set_slave_instance(OW_slave_t * pSlave, const OW_DRV * pOW) {
-	pSlave->cfg.bus_inst = (OW_DRV *) pOW;
-	return ERROR_OK; }
+__INLINE void NONNULL_INLINE__ OW_set_slave_instance(OW_slave_t * const pSlave, OW_DRV * const pOW) {
+	pSlave->cfg.bus_inst = pOW; }
 
 /*!\brief OW Slave device id change
 ** \param[in,out] pSlave - pointer to OW slave instance
 ** \param[in] pROM - pointer to ROM Id
-** \return Error code
 **/
-__INLINE FctERR NONNULL_INLINE__ OW_set_slave_id(OW_slave_t * pSlave, const OW_ROM_ID_t * const pROM) {
-	memcpy(pSlave->cfg.ROM_ID.romId, pROM->romId, sizeof(OW_ROM_ID_t));
-	return ERROR_OK; }
+__INLINE void NONNULL_INLINE__ OW_set_slave_id(OW_slave_t * const pSlave, const OW_ROM_ID_t * const pROM) {
+	UNUSED_RET memcpy(pSlave->cfg.ROM_ID.romId, pROM->romId, OW_ROM_ID_SIZE); }
 
 
 /*!\brief Set OW Slave device disabled/enabled state
+** \hidecallergraph
 ** \param[in,out] pSlave - pointer to OW slave instance
 ** \param[in] en - OW device state (disabled/enabled)
-** \return Nothing
 **/
-__INLINE FctERR NONNULL_INLINE__ OW_set_enable(OW_slave_t * pSlave, const bool en) {
-	pSlave->en = en;
-	return ERROR_OK; }
+__INLINE void NONNULL_INLINE__ OW_set_enable(OW_slave_t * const pSlave, const bool en) {
+	pSlave->en = en; }
 
 /*!\brief Set OW Slave bus/device business
 ** \param[in,out] pSlave - pointer to OW slave instance
 ** \param[in] busy - OW bus/device state
-** \return Nothing
 **/
-__INLINE FctERR NONNULL_INLINE__ OW_set_busy(OW_slave_t * pSlave, const bool busy) {
-	pSlave->busy = busy;
-	return ERROR_OK; }
+__INLINE void NONNULL_INLINE__ OW_set_busy(OW_slave_t * const pSlave, const bool busy) {
+	pSlave->busy = busy; }
 
 
 /***************/
@@ -143,28 +137,28 @@ __INLINE FctERR NONNULL_INLINE__ OW_set_busy(OW_slave_t * pSlave, const bool bus
 ** \param[in,out] pSlave - pointer to OW slave instance
 ** \return true if OW slave is enabled
 **/
-__INLINE bool NONNULL_INLINE__ OW_is_enabled(const OW_slave_t * pSlave) {
+__INLINE bool NONNULL_INLINE__ OW_is_enabled(const OW_slave_t * const pSlave) {
 	return pSlave->en; }
 
 /*!\brief Get OW slave device busy state
 ** \param[in,out] pSlave - pointer to OW slave instance
 ** \return true if OW bus/slave is busy
 **/
-__INLINE bool NONNULL_INLINE__ OW_is_busy(const OW_slave_t * pSlave) {
+__INLINE bool NONNULL_INLINE__ OW_is_busy(const OW_slave_t * const pSlave) {
 	return pSlave->busy; }
 
 /*!\brief Get OW slave device HAL OW instance
 ** \param[in,out] pSlave - pointer to OW slave instance
 ** \return OW slave device HAL OW instance
 **/
-__INLINE OW_DRV * NONNULL_INLINE__ OW_get_pSlave_instance(const OW_slave_t * pSlave) {
+__INLINE OW_DRV * NONNULL_INLINE__ OW_get_pSlave_instance(const OW_slave_t * const pSlave) {
 	return pSlave->cfg.bus_inst; }
 
 /*!\brief Get OW slave device id
 ** \param[in] pSlave - pointer to OW slave instance
 ** \return OW slave device id
 **/
-__INLINE OW_ROM_ID_t NONNULL_INLINE__ OW_get_slave_id(const OW_slave_t * pSlave) {
+__INLINE OW_ROM_ID_t NONNULL_INLINE__ OW_get_slave_id(const OW_slave_t * const pSlave) {
 	return pSlave->cfg.ROM_ID; }
 
 
@@ -173,5 +167,5 @@ __INLINE OW_ROM_ID_t NONNULL_INLINE__ OW_get_slave_id(const OW_slave_t * pSlave)
 	}
 #endif
 
-#endif	/* __OW_COMPONENT_H */
+#endif
 /****************************************************************/

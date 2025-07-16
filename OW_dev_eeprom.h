@@ -1,11 +1,11 @@
 /*!\file OW_dev_eeprom.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2024, SMFSW
+** \copyright MIT (c) 2021-2025, SMFSW
 ** \brief OneWire eeprom device type
 **/
 /****************************************************************/
-#ifndef __OW_DEV_EEPROM_H
-	#define __OW_DEV_EEPROM_H
+#ifndef OW_DEV_EEPROM_H__
+	#define OW_DEV_EEPROM_H__
 
 #ifdef __cplusplus
 	extern "C" {
@@ -21,12 +21,12 @@
 /*** Peripheral defaults setter ***/
 /**********************************/
 
-#define OW_EEPROM_SET_DEFAULTS(name, idx)									\
-	const uint8_t * const pData = name[idx].scratch_data;					\
-	memcpy((uint8_t *) &name[idx].scratch.pData, &pData, sizeof(pData));	\
-	memcpy(&name[idx].eep.props, &name##_props, sizeof(OW_eep_props_t));	\
-	name[idx].eep.slave_inst = &name##_hal[idx];							\
-	name[idx].eep.pScratch = &name[idx].scratch;							\
+#define OW_EEPROM_SET_DEFAULTS(name, idx)											\
+	const uint8_t * const pData = name[idx].scratch_data;							\
+	UNUSED_RET memcpy((uint8_t *) &name[idx].scratch.pData, &pData, sizeof(pData));	\
+	UNUSED_RET memcpy(&name[idx].eep.props, &name##_props, sizeof(OW_eep_props_t));	\
+	name[idx].eep.slave_inst = &name##_hal[idx];									\
+	name[idx].eep.pScratch = &name[idx].scratch;									\
 	OW_EEP_Set_WaitProg(&name[idx].eep, true);							//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
@@ -36,33 +36,38 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum OW_EEP_cmd
+/*!\enum _OW_EEP_cmd
 ** \brief Commands enum for EEPROM device type
 **/
-typedef enum PACK__ OW_EEP_cmd {
-	OW_EEP__WRITE_SCRATCHPAD = 0x0F,	//!< Write scratchpad command
-	OW_EEP__COPY_SCRATCHPAD = 0x55,		//!< Copy scratchpad command
-	OW_EEP__READ_SCRATCHPAD = 0xAA,		//!< Read scratchpad command
-	OW_EEP__READ_MEMORY = 0xF0			//!< Read memory command
+typedef enum PACK__ _OW_EEP_cmd {
+	OW_EEP__WRITE_SCRATCHPAD = 0x0FU,	//!< Write scratchpad command
+	OW_EEP__COPY_SCRATCHPAD = 0x55U,	//!< Copy scratchpad command
+	OW_EEP__READ_SCRATCHPAD = 0xAAU,	//!< Read scratchpad command
+	OW_EEP__READ_MEMORY = 0xF0U			//!< Read memory command
 } OW_EEP_cmd;
 
 
-/*!\enum OW_eep_pages
+/*!\enum _OW_eep_pages
 ** \brief Pages values for eeprom type devices
 **/
-typedef enum PACK__ OW_eep_pages {
-	OW_EEP__PAGE0 = 0,			//!< EEPROM Page 0
+typedef enum PACK__ _OW_eep_pages {
+	OW_EEP__PAGE0 = 0U,			//!< EEPROM Page 0
 	OW_EEP__PAGE1,				//!< EEPROM Page 1
 	OW_EEP__PAGE2,				//!< EEPROM Page 2
 	OW_EEP__PAGE3,				//!< EEPROM Page 3
-	OW_EEP__PAGE_ALL = 0xFF		//!< EEPROM All Pages
+	OW_EEP__PAGE4,				//!< EEPROM Page 4
+	OW_EEP__PAGE5,				//!< EEPROM Page 5
+	OW_EEP__PAGE6,				//!< EEPROM Page 6
+	OW_EEP__PAGE7,				//!< EEPROM Page 7
+	OW_EEP__PAGE8,				//!< EEPROM Page 8
+	OW_EEP__PAGE_ALL = 0xFFU	//!< EEPROM All Pages
 } OW_eep_pages;
 
 
-/*!\struct OW_eep_props_t
+/*!\struct _OW_eep_props_t
 ** \brief OneWire EEPROM properties type
 **/
-typedef struct OW_eep_props_t {
+typedef struct _OW_eep_props_t {
 	const size_t	scratchpad_size;	//!< Scratchpad size (in bytes)
 	const size_t	mem_size;			//!< Memory size (in bytes)
 	const size_t	page_size;			//!< Page size (in bytes)
@@ -72,10 +77,10 @@ typedef struct OW_eep_props_t {
 } OW_eep_props_t;
 
 
-/*!\struct OW_eep_scratch_t
+/*!\struct _OW_eep_scratch_t
 ** \brief OneWire EEPROM scratchpad struct
 **/
-typedef struct OW_eep_scratch_t {
+typedef struct _OW_eep_scratch_t {
 	uint8_t			ES;			//!< ES register value
 	uint16_t		iCRC16;		//!< Inverted CRC16
 	uint32_t		address;	//!< Address
@@ -84,10 +89,10 @@ typedef struct OW_eep_scratch_t {
 } OW_eep_scratch_t;
 
 
-/*!\struct OW_eep_t
+/*!\struct _OW_eep_t
 ** \brief OneWire EEPROM configuration type
 **/
-typedef struct OW_eep_t {
+typedef struct _OW_eep_t {
 	OW_slave_t *			slave_inst;		//!< Slave structure
 	OW_eep_props_t			props;			//!< EEPROM properties
 	OW_eep_scratch_t *		pScratch;		//!< Pointer to mirrored scratchpad data
@@ -147,5 +152,5 @@ FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pDat
 	}
 #endif
 
-#endif	/* __OW_DEV_EEPROM_H */
+#endif
 /****************************************************************/
