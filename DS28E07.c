@@ -19,7 +19,12 @@
 static OW_slave_t DS28E07_hal[OW_DS28E07_NB] = { 0 };			//!< DS28E07 Slave structure
 DS28E07_t DS28E07[OW_DS28E07_NB] = { 0 };						//!< DS28E07 User structure
 
-static const OW_eep_props_t DS28E07_props = { DS28E07_SCRATCHPAD_SIZE, DS28E07_MEMORY_SIZE, DS28E07_PAGE_SIZE, DS28E07_PAGES, DS28E07_MAX_WRITE_ADDR, DS28E07_MAX_READ_ADDR };	//!< DS28E07 eeprom parameters
+static const OW_eep_props_t DS28E07_eep_props = {
+	DS28E07_SCRATCHPAD_SIZE, DS28E07_MEMORY_SIZE,
+	DS28E07_PAGE_SIZE, DS28E07_PAGES,
+	DS28E07_MAX_WRITE_ADDR, DS28E07_MAX_READ_ADDR,
+	DS28E07_COPY_TIME };										//!< DS28E07 eeprom parameters
+
 static const OW_ROM_type FAMILY_CODE = OW_TYPE__EEPROM_1024;	//!< DS28E07 family code
 
 OW_ROM_type DS28E07_Get_FamilyCode(void) {
@@ -42,10 +47,10 @@ FctERR NONNULL__ DS28E07_Init(const uint8_t idx, OW_DRV * const pOW, const OW_RO
 
 	if (pROM->familyCode == FAMILY_CODE)	// Family code matches
 	{
+		OW_slave_init(&DS28E07_hal[idx], pOW, pROM);
 		OW_SN_SET_DEFAULTS(DS28E07, idx, pROM);
 		OW_EEPROM_SET_DEFAULTS(DS28E07, idx);
 
-		OW_slave_init(&DS28E07_hal[idx], pOW, pROM);
 		err = DS28E07_Init_Sequence(&DS28E07[idx]);
 	}
 

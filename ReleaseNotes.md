@@ -22,6 +22,11 @@ SOFTWARE.
 
 ## v0.2
 
+* MAX31826: temperature sensor & eeprom component added
+* EEPROM type WriteCycle time handler added
+* Mutex needed variables and init added for devices to check for mutual exclusion
+* Strong pull-up GPIO init and setter functions added (enable state checked by functions that read/write to bus)  
+* OW_Watchdog_Refresh generic watchdog refresh function added as weak implementation
 * Lots of general refactoring
 * OW_drv: fix some memcmp & memcpy size
 

@@ -21,10 +21,11 @@
 /*** Peripheral defaults setter ***/
 /**********************************/
 
-#define OW_TEMP_SET_DEFAULTS(name, idx)													\
-	name[idx].temp.slave_inst = &name##_hal[idx];										\
-	UNUSED_RET memcpy(&name[idx].temp.props, &name##_props, sizeof(OW_temp_props_t));	\
-	name[idx].pScratch = (name##_scratch_t *) name[idx].temp.scratch_data;	//!< Macro to set working defaults for peripheral \b name on index \b idx
+#define OW_TEMP_SET_DEFAULTS(name, idx)														\
+	name[idx].temp.slave_inst = &name##_hal[idx];											\
+	UNUSED_RET memcpy(&name[idx].temp.props, &name##_temp_props, sizeof(OW_temp_props_t));	\
+	name[idx].pScratch = (OW_temp_scratch_t *) name[idx].temp.scratch_data;					\
+	name[idx].temp.doneConv = true;											//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
 #define OW_TEMP_OFFSET(name)	OW_PERIPHERAL_DEV_OFFSET(name, temp)		//!< Macro to get temp structure offset in \b name peripheral structure
@@ -52,6 +53,31 @@ typedef enum PACK__ _OW_TEMP_cmd {
 } OW_TEMP_cmd;
 
 
+/*!\enum _OW_temp_res
+** \brief Resolutions enum for temperature sensor
+**/
+typedef enum PACK__ _OW_temp_res {
+	DS1825__RES_9BIT = 0U,	//!< 9b resolution
+	DS1825__RES_10BIT,		//!< 10b resolution
+	DS1825__RES_11BIT,		//!< 11b resolution
+	DS1825__RES_12BIT,		//!< 12b resolution
+} OW_temp_res;
+
+
+/*!\union uOW_temp_REG__CFG
+** \brief Union for configuration register of temperature sensor
+**/
+typedef union PACK__ _uOW_temp_REG__CFG {
+	uint8_t Byte;
+	struct PACK__ {
+		uint8_t		ADx	:4;	//!< Location information
+		uint8_t			:1;
+		OW_temp_res	Rx	:2;	//!< Resolution
+		uint8_t			:1;
+	} Bits;
+} uOW_temp_REG__CFG;
+
+
 /*!\struct OW_temp_props_t
 ** \brief OneWire Temperature sensor properties type
 **/
@@ -61,6 +87,22 @@ typedef struct _OW_temp_props_t {
 	const float			granularity;	//!< Granularity
 	const uint8_t		cfgBytes;		//!< Number of configuration bytes written to EEPROM
 } OW_temp_props_t;
+
+
+/*!\struct _OW_temp_scratch_t
+** \brief OneWire temperature sensor scratchpad struct
+**/
+typedef union PACK__ _OW_temp_scratch_t {
+	uint8_t					bytes[OW_TEMP_SCRATCHPAD_SIZE];
+	struct PACK__ {
+		int16_t				temp;			//!< Temperature register (little endian)
+		int8_t				Th;				//!< Alarm High
+		int8_t				Tl;				//!< Alarm Low
+		uOW_temp_REG__CFG	configuration;	//!< Configuration
+		uint8_t				reserved[3];	//!< Reserved
+		uint8_t				crc;			//!< CRC
+	};
+} OW_temp_scratch_t;
 
 
 /*!\struct OW_temp_t
@@ -80,6 +122,15 @@ typedef struct _OW_temp_t {
 // *****************************************************************************
 // Section: Interface Routines
 // *****************************************************************************
+
+/*!\brief OneWire Temperature sensor device non blocking temperature conversion
+** \note Non blocking mode: start conversion, test conversion time, read conversion
+** \note Handler shall be called periodically in a main like loop
+** \param[in,out] pTEMP - Pointer to Temperature device type structure
+** \return FctERR - error code
+**/
+FctERR NONNULL__ OW_TEMP_Convert_Handler(OW_temp_t * const pTEMP);
+
 
 /*!\brief OneWire alarm search for all devices
 ** \param[in,out] pOW - Pointer to OneWire driver instance
@@ -132,15 +183,6 @@ FctERR NONNULL__ OW_TEMP_Read_Conversion(OW_temp_t * const pTEMP);
 ** \return FctERR - error code
 **/
 FctERR NONNULL__ OW_TEMP_Convert(OW_temp_t * const pTEMP);
-
-/*!\brief OneWire Temperature sensor device non blocking temperature conversion
-** \note Non blocking mode: start conversion, test conversion time, read conversion
-** \note Handler shall be called periodically in a main like loop
-** \param[in,out] pTEMP - Pointer to Temperature device type structure
-** \return FctERR - error code
-**/
-FctERR NONNULL__ OW_TEMP_Convert_Handler(OW_temp_t * const pTEMP);
-
 
 /*!\brief OneWire Temperature sensor device convert last temperature to Celsius degrees
 ** \param[in,out] pTEMP - Pointer to Temperature device type structure

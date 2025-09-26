@@ -16,7 +16,11 @@
 // TODO: generic instance for OneWire over UART, I2C
 
 
-OW_DRV OWdrv[OW_BUS_NB] = { 0 };		//!< OWdrv structure
+OW_DRV			OWdrv[OW_BUS_NB] = { 0 };				//!< OWdrv structure
+static uint8_t	OWdrv_device_idx[OW_BUS_NB] = { 0 };	//!< OWdrv current device index (used to create individual mutex index)
+
+
+/****************************************************************/
 
 
 FctERR OWInit(OW_Handle_t * const pHandle, const uint8_t idx)
@@ -28,15 +32,103 @@ FctERR OWInit(OW_Handle_t * const pHandle, const uint8_t idx)
 		OW_DRV * const pOW = &OWdrv[idx];
 
 		pOW->phy_inst.inst = pHandle;
-		pOW->bus_powered = true;				// set to true as should be most of the times, and check is called manually
 
 		OWSearch_SetType(pOW, OW__SEARCH_ROM);	// Set default search command
 
 		err = OWInit_phy(idx);
+
+		if (err == ERROR_OK)
+		{
+			OWInit_StrongPull_Output(pOW, idx);	// Init Strong Pull-up output (if any)
+			err = OWCheckPowerSupply(pOW);		// Check for parasite powered devices on bus
+		}
 	}
 
 	return err;
 }
+
+
+/****************************************************************/
+
+
+__WEAK void OWInit_StrongPull_Output(OW_DRV * const pOW, const uint8_t idx)
+{
+	UNUSED(idx);
+
+	pOW->StrongPull_cfg.GPIOx = NULL;
+	pOW->StrongPull_cfg.GPIO_Pin = 0U;
+
+	/**\code
+	switch (idx)
+	{
+		default:
+			break;
+
+		case 0:	// OW bus 0
+			pOW->StrongPull_cfg.GPIOx = stm_port(STRONG_PULL_OW_0);
+			pOW->StrongPull_cfg.GPIO_Pin = stm_pin(STRONG_PULL_OW_0);
+			break;
+
+		case 1:	// OW bus 1
+			pOW->StrongPull_cfg.GPIOx = stm_port(STRONG_PULL_OW_1);
+			pOW->StrongPull_cfg.GPIO_Pin = stm_pin(STRONG_PULL_OW_1);
+			break;
+	}
+	\endcode**/
+}
+
+void OW_StrongPull_Set(OW_DRV * const pOW, const bool en)
+{
+	if (pOW->StrongPull_cfg.GPIOx != NULL)
+	{
+		pOW->strong_pull_en = en;
+		const GPIO_PinState state = en ? GPIO_PIN_SET : GPIO_PIN_RESET;
+		const GPIO_HandleTypeDef * const pGPIO = &pOW->StrongPull_cfg;
+		HAL_GPIO_WritePin(pGPIO->GPIOx, pGPIO->GPIO_Pin, state);
+	}
+}
+
+
+/****************************************************************/
+
+
+OW_mutex_t OWInit_Get_Device_Lock_ID(const OW_DRV * const pOW)
+{
+	// 1st mutex ID is reserved for the driver itself
+	const uint8_t tmp = ++OWdrv_device_idx[pOW - OWdrv];
+	return (OW_mutex_t) LSHIFT32(1U, tmp);
+}
+
+
+bool OW_lock_bus(OW_DRV * const pOW, const OW_mutex_t id)
+{
+	bool ret = false;
+
+	if (pOW->mutex == 0U)
+	{
+		SET_BITS(pOW->mutex, id);
+		ret = true;
+	}
+
+	return ret;
+}
+
+
+bool OW_unlock_bus(OW_DRV * const pOW, const OW_mutex_t id)
+{
+	bool ret = false;
+
+	if (pOW->mutex == id)
+	{
+		CLR_BITS(pOW->mutex, id);
+		ret = true;
+	}
+
+	return ret;
+}
+
+
+/****************************************************************/
 
 
 FctERR NONNULL__ OWWrite_bit(const OW_DRV * const pOW, const uint8_t bit)
@@ -52,21 +144,27 @@ FctERR NONNULL__ OWWrite_bit(const OW_DRV * const pOW, const uint8_t bit)
 FctERR NONNULL__ OWWrite_byte(const OW_DRV * const pOW, const uint8_t byte)
 {
 #if OW_CUSTOM_BYTE_HANDLERS
-	FctERR err = ERROR_INSTANCE;
+	FctERR err = ERROR_OK;
 
-	if (pOW->pfWriteByte != NULL)	{ err = pOW->pfWriteByte(pOW, byte); }
+	if (pOW->pfWriteByte == NULL)	{ err = ERROR_INSTANCE; }
+	else if (pOW->strong_pull_en)	{ err = ERROR_BUSY; }
+
+	if (err == ERROR_OK)			{ err = pOW->pfWriteByte(pOW, byte); }
 
 	return err;
 #else
-	FctERR	err;
+	FctERR	err = ERROR_BUSY;
 	uint8_t	data = byte;
 
-	for (size_t j = 8U ; j ; j--)
+	if (!pOW->strong_pull_en)
 	{
-		err = OWWrite_bit(pOW, data & 0x01U);
-		if (err != ERROR_OK)	{ break; }
+		for (size_t j = 8U ; j ; j--)
+		{
+			err = OWWrite_bit(pOW, data & 0x01U);
+			if (err != ERROR_OK)	{ break; }
 
-		data >>= 1U;
+			data >>= 1U;
+		}
 	}
 
 	return err;
@@ -102,23 +200,29 @@ FctERR NONNULL__ OWRead_bit(const OW_DRV * const pOW, uint8_t * const pBit)
 FctERR NONNULL__ OWRead_byte(const OW_DRV * const pOW, uint8_t * const pByte)
 {
 #if OW_CUSTOM_BYTE_HANDLERS
-	FctERR err = ERROR_INSTANCE;
+	FctERR err = ERROR_OK;
 
-	if (pOW->pfReadByte != NULL)	{ err = pOW->pfReadByte(pOW, pByte); }
+	if (pOW->pfReadByte == NULL)	{ err = ERROR_INSTANCE; }
+	else if (pOW->strong_pull_en)	{ err = ERROR_BUSY; }
+
+	if (err == ERROR_OK)			{ err = pOW->pfReadByte(pOW, pByte); }
 
 	return err;
 #else
-	FctERR	err;
+	FctERR	err = ERROR_BUSY;
 	uint8_t	bit;
 
-	*pByte = 0U;
-
-	for (uint8_t mask = 0x01U ; mask ; mask <<= 1U)
+	if (!pOW->strong_pull_en)
 	{
-		err = OWRead_bit(pOW, &bit);
-		if (err != ERROR_OK)	{ break; }
+		*pByte = 0U;
 
-		if (bit != 0U) 			{ *pByte |= mask; }
+		for (uint8_t mask = 0x01U ; mask ; mask <<= 1U)
+		{
+			err = OWRead_bit(pOW, &bit);
+			if (err != ERROR_OK)	{ break; }
+
+			if (bit != 0U) 			{ *pByte |= mask; }
+		}
 	}
 
 	return err;
@@ -141,6 +245,9 @@ FctERR NONNULL__ OWRead(const OW_DRV * const pOW, uint8_t * const pData, const s
 }
 
 
+/****************************************************************/
+
+
 /*!\brief OneWire bus reset
 ** \param[in] pOW - Pointer to OneWire driver instance
 ** \return FctERR - Error code
@@ -149,28 +256,33 @@ __STATIC FctERR NONNULL__ OWReset(const OW_DRV * const pOW)
 {
 	FctERR err = ERROR_INSTANCE;
 
-	if (pOW->pfReset != NULL)	{ err = pOW->pfReset(pOW); }
+	if (pOW->strong_pull_en)		{ err = ERROR_BUSY; }
+	else if (pOW->pfReset != NULL)	{ err = pOW->pfReset(pOW); }
 
 	return err;
 }
 
 
-void NONNULL__ OWSelect(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM)
+FctERR NONNULL__ OWSelect(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM)
 {
-	OWWrite_byte(pOW, OW__MATCH_ROM);
-	OWWrite(pOW, pROM->romId, sizeof(OW_ROM_ID_t));
+	FctERR err;
+
+	err = OWWrite_byte(pOW, OW__MATCH_ROM);
+	err |= OWWrite(pOW, pROM->romId, sizeof(OW_ROM_ID_t));
+
+	return err;
 }
 
 
-void NONNULL__ OWSkip(const OW_DRV * const pOW)
+FctERR NONNULL__ OWSkip(const OW_DRV * const pOW)
 {
-	OWWrite_byte(pOW, OW__SKIP_ROM);	// Skip ROM
+	return OWWrite_byte(pOW, OW__SKIP_ROM);
 }
 
 
-void NONNULL__ OWResume(const OW_DRV * const pOW)
+FctERR NONNULL__ OWResume(const OW_DRV * const pOW)
 {
-	OWWrite_byte(pOW, OW__RESUME);		// Resume
+	return OWWrite_byte(pOW, OW__RESUME);
 }
 
 
@@ -184,131 +296,141 @@ __STATIC_INLINE void NONNULL_INLINE__ OWSearch_Reset(OW_DRV * const pOW)
 
 
 /*!\brief OneWire search device
+** \note https://www.maximintegrated.com/en/design/technical-documents/app-notes/1/187.html
 ** \param[in,out] pOW - Pointer to OneWire driver instance
 ** \param[in,out] pROMId - Pointer to ROM Id structure
 ** \return FctERR - Error code
 **/
 __STATIC FctERR NONNULLX__(1) OWSearch(OW_DRV * const pOW, OW_ROM_ID_t * const pROMId)
-{	/*** https://www.maximintegrated.com/en/design/technical-documents/app-notes/1/187.html ***/
+{
 	FctERR err = ERROR_BUSOFF;
 
-	// if the last call was not the last one
-	if (!pOW->search_state.lastDeviceFlag)
+	if (	(pOW->strong_pull_en)
+		||	(!OW_lock_bus(pOW, OW_DRV_MUTEX)))	// Try to lock the bus
 	{
-		uint8_t id_bit_number = 1U;
-
-		// 1-Wire reset
-		if (OWReset(pOW) != ERROR_OK)
+		err = ERROR_BUSY;
+	}
+	else
+	{
+		if (!pOW->search_state.lastDeviceFlag)	// if the last call was not the last one
 		{
-			// reset the search
-			OWSearch_Reset(pOW);
-			goto ret;
-		}
+			uint8_t id_bit_number = 1U;
 
-		// issue the search command
-		OWWrite_byte(pOW, pOW->search_type);
-
-		// loop to do the search
-		uint8_t last_zero = 0U;
-		uint8_t	rom_byte_number = 0U;
-		uint8_t	rom_byte_mask = 1U;
-		uint8_t	crc8 = 0U;
-		do
-		{
-			uint8_t	search_direction;
-			uint8_t	id_bit;
-			uint8_t	cmp_id_bit;
-
-			// read a bit and its complement
-			err = OWRead_bit(pOW, &id_bit);
-			if (err != ERROR_OK)	{ goto ret; }
-			err = OWRead_bit(pOW, &cmp_id_bit);
-			if (err != ERROR_OK)	{ goto ret; }
-
-			// check for no devices on 1-wire
-			if ((id_bit == 1U) && (cmp_id_bit == 1U))
+			// 1-Wire reset
+			if (OWReset(pOW) != ERROR_OK)
 			{
-				break;
+				// reset the search
+				OWSearch_Reset(pOW);
+				goto ret;
 			}
-			else
+
+			// issue the search command
+			err = OWWrite_byte(pOW, pOW->search_type);
+			if (err != ERROR_OK)	{ goto ret; }
+
+			// loop to do the search
+			uint8_t last_zero = 0U;
+			uint8_t	rom_byte_number = 0U;
+			uint8_t	rom_byte_mask = 1U;
+			uint8_t	crc8 = 0U;
+			do
 			{
-				// all devices coupled have 0 or 1
-				if (id_bit != cmp_id_bit)
+				uint8_t	search_direction;
+				uint8_t	id_bit;
+				uint8_t	cmp_id_bit;
+
+				// read a bit and its complement
+				err = OWRead_bit(pOW, &id_bit);
+				if (err != ERROR_OK)	{ goto ret; }
+				err = OWRead_bit(pOW, &cmp_id_bit);
+				if (err != ERROR_OK)	{ goto ret; }
+
+				// check for no devices on 1-wire
+				if ((id_bit == 1U) && (cmp_id_bit == 1U))
 				{
-					search_direction = id_bit;  // bit write value for search
+					break;
 				}
 				else
 				{
-					// if this discrepancy if before the Last Discrepancy
-					// on a previous next then pick the same as last time
-					if (id_bit_number < pOW->search_state.lastDiscrepancy)
+					// all devices coupled have 0 or 1
+					if (id_bit != cmp_id_bit)
 					{
-						search_direction = binEval((pOW->search_state.ROM_ID.romId[rom_byte_number] & rom_byte_mask) > 0U);
+						search_direction = id_bit;  // bit write value for search
 					}
 					else
 					{
-						// if equal to last pick 1, if not then pick 0
-						search_direction = binEval(id_bit_number == pOW->search_state.lastDiscrepancy);
-					}
-
-					// if 0 was picked then record its position in LastZero
-					if (search_direction == 0U)
-					{
-						last_zero = id_bit_number;
-
-						// check for Last discrepancy in family
-						if (last_zero < 9U)
+						// if this discrepancy if before the Last Discrepancy
+						// on a previous next then pick the same as last time
+						if (id_bit_number < pOW->search_state.lastDiscrepancy)
 						{
-							pOW->search_state.lastFamilyDiscrepancy = last_zero;
+							search_direction = binEval((pOW->search_state.ROM_ID.romId[rom_byte_number] & rom_byte_mask) > 0U);
+						}
+						else
+						{
+							// if equal to last pick 1, if not then pick 0
+							search_direction = binEval(id_bit_number == pOW->search_state.lastDiscrepancy);
+						}
+
+						// if 0 was picked then record its position in LastZero
+						if (search_direction == 0U)
+						{
+							last_zero = id_bit_number;
+
+							// check for Last discrepancy in family
+							if (last_zero < 9U)
+							{
+								pOW->search_state.lastFamilyDiscrepancy = last_zero;
+							}
 						}
 					}
-				}
 
-				// set or clear the bit in the ROM byte rom_byte_number with mask rom_byte_mask
-				if (search_direction == 1U)	{ SET_BITS(pOW->search_state.ROM_ID.romId[rom_byte_number], rom_byte_mask); }
-				else						{ CLR_BITS(pOW->search_state.ROM_ID.romId[rom_byte_number], rom_byte_mask); }
+					// set or clear the bit in the ROM byte rom_byte_number with mask rom_byte_mask
+					if (search_direction == 1U)	{ SET_BITS(pOW->search_state.ROM_ID.romId[rom_byte_number], rom_byte_mask); }
+					else						{ CLR_BITS(pOW->search_state.ROM_ID.romId[rom_byte_number], rom_byte_mask); }
 
-				// serial number search direction write bit
-				OWWrite_bit(pOW, search_direction);
+					// serial number search direction write bit
+					OWWrite_bit(pOW, search_direction);
 
-				// increment the byte counter id_bit_number
-				// and shift the mask rom_byte_mask
-				id_bit_number++;
-				rom_byte_mask <<= 1U;
+					// increment the byte counter id_bit_number
+					// and shift the mask rom_byte_mask
+					id_bit_number++;
+					rom_byte_mask <<= 1U;
 
-				// if the mask is 0 then go to new SerialNum byte rom_byte_number and reset mask
-				if (rom_byte_mask == 0U)
-				{
-					OWCompute_DallasCRC8(&crc8, &pOW->search_state.ROM_ID.romId[rom_byte_number], 1U);  // accumulate the CRC
-					rom_byte_number++;
-					rom_byte_mask = 1U;
+					// if the mask is 0 then go to new SerialNum byte rom_byte_number and reset mask
+					if (rom_byte_mask == 0U)
+					{
+						OWCompute_DallasCRC8(&crc8, &pOW->search_state.ROM_ID.romId[rom_byte_number], 1U);  // accumulate the CRC
+						rom_byte_number++;
+						rom_byte_mask = 1U;
+					}
 				}
 			}
-		}
-		while (rom_byte_number < OW_ROM_ID_SIZE);	// loop until through all ROM bytes 0-7
+			while (rom_byte_number < OW_ROM_ID_SIZE);	// loop until through all ROM bytes 0-7
 
-		// if the search was successful
-		if (!((id_bit_number < 65U) || (crc8 != 0U)))
+			// if the search was successful
+			if (!((id_bit_number < 65U) || (crc8 != 0U)))
+			{
+				// search successful so set LastDiscrepancy, LastDeviceFlag, err
+				pOW->search_state.lastDiscrepancy = last_zero;
+
+				// check for last device
+				if (pOW->search_state.lastDiscrepancy == 0U)	{ pOW->search_state.lastDeviceFlag = true; }
+
+				err = ERROR_OK;
+			}
+		}
+
+		// if no device found then reset counters so next 'search' will be like a first
+		if (!pOW->search_state.ROM_ID.romId[0])	{ err = ERROR_NOTAVAIL; }
+		if (err != ERROR_OK)					{ OWSearch_Reset(pOW); }
+		else
 		{
-			// search successful so set LastDiscrepancy, LastDeviceFlag, err
-			pOW->search_state.lastDiscrepancy = last_zero;
-
-			// check for last device
-			if (pOW->search_state.lastDiscrepancy == 0U)	{ pOW->search_state.lastDeviceFlag = true; }
-
-			err = ERROR_OK;
+			if (pROMId != NULL)	{ memcpy(pROMId->romId, pOW->search_state.ROM_ID.romId, OW_ROM_ID_SIZE); }
 		}
-	}
-
-	// if no device found then reset counters so next 'search' will be like a first
-	if (!pOW->search_state.ROM_ID.romId[0])	{ err = ERROR_NOTAVAIL; }
-	if (err != ERROR_OK)					{ OWSearch_Reset(pOW); }
-	else
-	{
-		if (pROMId != NULL)	{ memcpy(pROMId->romId, pOW->search_state.ROM_ID.romId, OW_ROM_ID_SIZE); }
 	}
 
 	ret:
+	OW_unlock_bus(pOW, OW_DRV_MUTEX);
 	return err;
 }
 
@@ -397,6 +519,20 @@ void NONNULL__ OWFamilySkipSetup(OW_DRV * const pOW)
 }
 
 
+FctERR NONNULL__ OWROMCmd_Control_Sequence(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM, const bool broadcast)
+{
+	FctERR err = OWReset(pOW);
+
+	if (!err)
+	{
+		if (broadcast)	{ err = OWSkip(pOW); }
+		else			{ err = OWSelect(pOW, pROM); }
+	}
+
+	return err;
+}
+
+
 FctERR NONNULL__ OWCheckPowerSupply(OW_DRV * const pOW)
 {
 	FctERR err = OWReset(pOW);
@@ -411,21 +547,7 @@ FctERR NONNULL__ OWCheckPowerSupply(OW_DRV * const pOW)
 		uint8_t power;
 		OWRead_byte(pOW, &power);
 
-		pOW->bus_powered = nbinEval(power);
-	}
-
-	return err;
-}
-
-
-FctERR NONNULL__ OWROMCmd_Control_Sequence(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM, const bool broadcast)
-{
-	FctERR err = OWReset(pOW);
-
-	if (!err)
-	{
-		if (broadcast)	{ OWSkip(pOW); }
-		else			{ OWSelect(pOW, pROM); }
+		pOW->parasite_powered = nbinEval(power);
 	}
 
 	return err;
@@ -438,8 +560,8 @@ FctERR NONNULL__ OWRead_ROM_Id(const OW_DRV * const pOW, OW_ROM_ID_t * const pRO
 
 	if (!err)
 	{
-		OWWrite_byte(pOW, OW__READ_ROM);
-		OWRead(pOW, pROM->romId, OW_ROM_ID_SIZE);
+		err = OWWrite_byte(pOW, OW__READ_ROM);
+		err |= OWRead(pOW, pROM->romId, OW_ROM_ID_SIZE);
 
 		err = OWCheck_DallasCRC8(pROM->romId, 7, pROM->romId[7]);
 	}

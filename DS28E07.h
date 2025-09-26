@@ -37,7 +37,7 @@
 #define DS28E07_MAX_WRITE_ADDR	DS28E07__ADDR_USER_BYTE_2			//!< DS28E07 Maximum write address
 #define DS28E07_MAX_READ_ADDR	(DS28E07__ADDR_USER_BYTE_2 + 8U)	//!< DS28E07 Maximum read address
 #define DS28E07_NB_USER_BYTES	2U									//!< DS28E07 Number of User Bytes
-
+#define DS28E07_COPY_TIME		12U									//!< DS28E07 Time to copy scratchpad to EEPROM
 
 // *****************************************************************************
 // Section: Types
@@ -208,28 +208,15 @@ FctERR DS28E07_Init_Single(const OW_ROM_ID_t * const pROM);
 OW_SN_GETTER(DS28E07);
 
 
-/*!\brief DS28E07 read administrative data
+/*!\brief DS28E07 EEPROM device write cycle time handler
+** \note Non blocking mode: start copy, test copy time, release bus
+** \note Handler shall be called periodically in a main like loop
 ** \param[in,out] pCpnt - Pointer to DS28E07 component
 ** \return FctERR - error code
 **/
-FctERR NONNULL__ DS28E07_Read_AdminData(DS28E07_t * const pCpnt);
+__INLINE FctERR NONNULL_INLINE__ DS28E07_WriteCycle_Handler(DS28E07_t * const pCpnt) {
+	return OW_EEP_WriteCycle_Handler(&pCpnt->eep); }
 
-/*!\brief DS28E07 read scratchpad
-** \param[in,out] pCpnt - Pointer to DS28E07 component
-** \return FctERR - error code
-**/
-__INLINE FctERR NONNULL_INLINE__ DS28E07_Read_Scratchpad(DS28E07_t * const pCpnt) {
-	return OW_EEP_Read_Scratchpad(&pCpnt->eep); }
-
-/*!\brief DS28E07 write scratchpad
-** \param[in,out] pCpnt - Pointer to DS28E07 component
-** \param[in] pData - Pointer to data for transmission
-** \param[in] addr - Target memory cell start address
-** \param[in] len - Number of data bytes to transmit
-** \return FctERR - error code
-**/
-__INLINE FctERR NONNULL_INLINE__ DS28E07_Write_Scratchpad(DS28E07_t * const pCpnt, const uint8_t * pData, const uint32_t addr, const size_t len) {
-	return OW_EEP_Write_Scratchpad(&pCpnt->eep, pData, addr, len); }
 
 /*!\brief DS28E07 read from memory
 ** \param[in,out] pCpnt - Pointer to DS28E07 component
@@ -250,6 +237,31 @@ __INLINE FctERR NONNULL_INLINE__ DS28E07_Read_Memory(DS28E07_t * const pCpnt, ui
 **/
 __INLINE FctERR NONNULL_INLINE__ DS28E07_Write_Memory(DS28E07_t * const pCpnt, const uint8_t * pData, const uint32_t addr, const size_t len) {
 	return OW_EEP_Write_Memory(&pCpnt->eep, pData, addr, len); }
+
+
+/*!\brief DS28E07 read scratchpad
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \return FctERR - error code
+**/
+__INLINE FctERR NONNULL_INLINE__ DS28E07_Read_Scratchpad(DS28E07_t * const pCpnt) {
+	return OW_EEP_Read_Scratchpad(&pCpnt->eep); }
+
+/*!\brief DS28E07 write scratchpad
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \param[in] pData - Pointer to data for transmission
+** \param[in] addr - Target memory cell start address
+** \param[in] len - Number of data bytes to transmit
+** \return FctERR - error code
+**/
+__INLINE FctERR NONNULL_INLINE__ DS28E07_Write_Scratchpad(DS28E07_t * const pCpnt, const uint8_t * pData, const uint32_t addr, const size_t len) {
+	return OW_EEP_Write_Scratchpad(&pCpnt->eep, pData, addr, len); }
+
+
+/*!\brief DS28E07 read administrative data
+** \param[in,out] pCpnt - Pointer to DS28E07 component
+** \return FctERR - error code
+**/
+FctERR NONNULL__ DS28E07_Read_AdminData(DS28E07_t * const pCpnt);
 
 
 /*!\brief DS28E07 get page protection value

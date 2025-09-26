@@ -6,6 +6,8 @@
 /****************************************************************/
 #include "sarmfsw.h"
 
+#include "WDG_ex.h"
+
 #include "OW_component.h"
 /****************************************************************/
 
@@ -24,6 +26,7 @@ void NONNULL__ OW_slave_init(OW_slave_t * const pSlave, OW_DRV * const pOW, cons
 FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * const pSlave, bool * const pBusPower)
 {
 	OW_set_busy(pSlave, true);
+
 	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
 
 	if (!err)
@@ -34,8 +37,15 @@ FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * const pSlave, bool * con
 		*pBusPower = nbinEval(power);
 	}
 
-	OW_set_busy(pSlave, true);
+	OW_set_busy(pSlave, false);
 
 	return err;
 }
 
+
+__WEAK void OW_Watchdog_Refresh(void)
+{
+	#if defined(HAL_IWDG_MODULE_ENABLED)
+	WDG_ex_refresh_IWDG();
+	#endif
+}

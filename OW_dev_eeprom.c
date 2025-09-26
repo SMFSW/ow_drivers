@@ -12,6 +12,32 @@
 /****************************************************************/
 
 
+FctERR NONNULL__ OW_EEP_WriteCycle_Handler(OW_eep_t * const pEEP)
+{
+	FctERR err = ERROR_OK;
+
+	if (!pEEP->doneWrite)
+	{
+		if (TPSSUP_MS(pEEP->hStartWrite, pEEP->props.write_cycle_time + 1U))	// Add 1ms to max write time
+		{
+			pEEP->doneWrite = true;
+
+			OW_StrongPull_Set(pEEP->slave_inst->cfg.bus_inst, false);
+			OW_set_busy(pEEP->slave_inst, false);
+		}
+		else
+		{
+			err = ERROR_BUSY;
+		}
+	}
+
+	return err;
+}
+
+
+/****************************************************************/
+
+
 /*!\brief OneWire EEPROM device copy scratchpad (to memory)
 ** \param[in,out] pEEP - Pointer to EEPROM device type structure
 ** \return FctERR - error code
@@ -19,34 +45,29 @@
 __STATIC FctERR NONNULL__ OW_EEP_Copy_Scratchpad(OW_eep_t * const pEEP)
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
+	OW_DRV * const		pDrv = pSlave->cfg.bus_inst;
 
 	OW_set_busy(pSlave, true);
 
 	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)			{ goto ret; }
+	if (err != ERROR_OK)
+	{
+		OW_set_busy(pSlave, false);
+		goto ret;
+	}
 
 	const uint8_t mask_bits = pEEP->props.scratchpad_size - 1U;
 	const uint8_t cmd[4] = { OW_EEP__COPY_SCRATCHPAD, LOBYTE(pEEP->pScratch->address), HIBYTE(pEEP->pScratch->address), pEEP->pScratch->ES & mask_bits };
-	OWWrite(pSlave->cfg.bus_inst, cmd, sizeof(cmd));
+	OWWrite(pDrv, cmd, sizeof(cmd));
 
-	if (pEEP->wait_prog)
-	{
-		uint8_t done = 0U;
-		do
-		{
-			#if defined(HAL_IWDG_MODULE_ENABLED)
-				UNUSED_RET HAL_IWDG_Refresh(&hiwdg);
-			#endif
-			HAL_Delay(2U);
-			OWRead(pSlave->cfg.bus_inst, &done, 1U);
-			if (done == 0xFFU)	{ err = ERROR_FAILED; }
-		}
-		while ((done != 0xAAU) && (!err));
-	}
+	pEEP->hStartWrite = HALTicks();
+	pEEP->doneWrite = false;
+
+	OW_StrongPull_Set(pEEP->slave_inst->cfg.bus_inst, true);
+
+	// Do not release slave at this stage, copy to eeprom is ongoing
 
 	ret:
-	OW_set_busy(pSlave, false);
-
 	return err;
 }
 
@@ -54,42 +75,46 @@ __STATIC FctERR NONNULL__ OW_EEP_Copy_Scratchpad(OW_eep_t * const pEEP)
 FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP)
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
-	uint16_t			iCRC16 = 0U;
-	uint8_t				crc[2];
+	OW_DRV * const		pDrv = pSlave->cfg.bus_inst;
+	uWord				crc;
 	uint8_t				tmp[3];
 	FctERR				err = ERROR_OK;
 
 	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (OW_is_busy(pSlave))			{ err = ERROR_BUSY; }		// Device busy
+	if (!pEEP->doneWrite)			{ err = ERROR_BUSY; }		// Copy in progess
 	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
 
-	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
 	if (err != ERROR_OK)			{ goto ret; }
 
-	OWWrite_byte(pSlave->cfg.bus_inst, OW_EEP__READ_SCRATCHPAD);
-	OWRead(pSlave->cfg.bus_inst, tmp, sizeof(tmp));
+	OWWrite_byte(pDrv, OW_EEP__READ_SCRATCHPAD);
+	OWRead(pDrv, tmp, sizeof(tmp));
 
 	const uint32_t	mask_bits = pEEP->props.scratchpad_size - 1U;
 	const size_t	len = (tmp[2] & mask_bits) + 1U;
-	OWRead(pSlave->cfg.bus_inst, pEEP->pScratch->pData, len);
-	OWRead(pSlave->cfg.bus_inst, crc, sizeof(crc));
+
+	OWRead(pDrv, pEEP->pScratch->pData, len);
+	OWRead(pDrv, crc.Byte, sizeof(crc.Byte));
+
+	OW_set_busy(pSlave, false);
 
 	pEEP->pScratch->ES = tmp[2];
 	pEEP->pScratch->nb = len;
 	pEEP->pScratch->address = MAKEWORD(tmp[0], tmp[1]);
-	pEEP->pScratch->iCRC16 = MAKEWORD(crc[0], crc[1]);
+	pEEP->pScratch->crc = MAKEWORD(crc.Byte[0], crc.Byte[1]);
 
-	OWCompute_DallasCRC16(&iCRC16, &((uint8_t) { OW_EEP__READ_SCRATCHPAD }), 1U);
-	OWCompute_DallasCRC16(&iCRC16, tmp, sizeof(tmp));
-	OWCompute_DallasCRC16(&iCRC16, pEEP->pScratch->pData, len);
-	iCRC16 = ~iCRC16;
+	crc.Word = 0U;
+	OWCompute_DallasCRC16(&crc.Word, &((uint8_t) { OW_EEP__READ_SCRATCHPAD }), 1U);
+	OWCompute_DallasCRC16(&crc.Word, tmp, sizeof(tmp));
+	OWCompute_DallasCRC16(&crc.Word, pEEP->pScratch->pData, len);
+	crc.Word = ~crc.Word;
 
-	if (iCRC16 != pEEP->pScratch->iCRC16) { err = ERROR_CRC; }
+	if (crc.Word != pEEP->pScratch->crc) { err = ERROR_CRC; }
 
 	ret:
-	OW_set_busy(pSlave, false);
-
 	return err;
 }
 
@@ -97,9 +122,11 @@ FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP)
 FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * pData, const uint32_t addr, const size_t len)
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
+	OW_DRV * const		pDrv = pSlave->cfg.bus_inst;
 	FctERR				err = ERROR_OK;
 
 	//if (!OW_is_enabled(pSlave))			{ err = ERROR_DISABLED; }	// Peripheral disabled
+	//if (OW_is_busy(pSlave))				{ err = ERROR_BUSY; }		// Device busy
 	if (len > pEEP->props.scratchpad_size)	{ err = ERROR_OVERFLOW; }	// Scratchpad overflow
 	if (err != ERROR_OK)					{ goto ret; }
 
@@ -107,42 +134,39 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 	pEEP->pScratch->address = addr;
 	pEEP->pScratch->nb = len;
 
-	OW_set_busy(pSlave, true);
-
-	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
-
 	// Write scratchpad
 	const uint8_t cmd[3] = { OW_EEP__WRITE_SCRATCHPAD, LOBYTE(addr), HIBYTE(addr) };
 	UNUSED_RET memcpy(pEEP->pScratch->pData, pData, len);
 
-	uint16_t iCRC16_data = 0U;
-	OWCompute_DallasCRC16(&iCRC16_data, cmd, sizeof(cmd));
-	OWCompute_DallasCRC16(&iCRC16_data, pData, len);
-	iCRC16_data = ~iCRC16_data;
+	uWord CRC_data = { 0 };
+	OWCompute_DallasCRC16(&CRC_data.Word, cmd, sizeof(cmd));
+	OWCompute_DallasCRC16(&CRC_data.Word, pData, len);
+	CRC_data.Word = ~CRC_data.Word;
 
-	OWWrite(pSlave->cfg.bus_inst, cmd, sizeof(cmd));
-	OWWrite(pSlave->cfg.bus_inst, pEEP->pScratch->pData, len);
+	OW_set_busy(pSlave, true);
 
-	// Get 2 Bytes to verify CRC16
-	uWord iCRC16_received = { 0 };
-	OWRead(pSlave->cfg.bus_inst, iCRC16_received.Byte, sizeof(iCRC16_received.Byte));
-	iCRC16_received.Word = MAKEWORD(iCRC16_received.Byte[0], iCRC16_received.Byte[1]);
+	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
+	if (err != ERROR_OK)	{ goto ret; }
 
-	if (iCRC16_data != iCRC16_received.Word) { err = ERROR_CRC; }
+	OWWrite(pDrv, cmd, sizeof(cmd));
+	OWWrite(pDrv, pEEP->pScratch->pData, len);
+
+	// Get returned CRC
+	uWord CRC_received = { 0 };
+	OWRead(pDrv, CRC_received.Byte, sizeof(CRC_received.Word));
+	CRC_received.Word = MAKEWORD(CRC_received.Byte[0], CRC_received.Byte[1]);
+
+	OW_set_busy(pSlave, false);
+
+	if (CRC_data.Word != CRC_received.Word) { err = ERROR_CRC; }
 	else
 	{
 		err = OW_EEP_Read_Scratchpad(pEEP);
 
-		// TODO: check data & iCRC16 ?
-
-		// If further operations done on bus, set busy again
-		//OW_set_busy(pSlave, true);
+		// TODO: check data & iCRC ?
 	}
 
 	ret:
-	OW_set_busy(pSlave, false);
-
 	return err;
 }
 
@@ -150,25 +174,27 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, const uint32_t addr, const size_t len)
 {
 	OW_slave_t * const	pSlave = pEEP->slave_inst;
+	OW_DRV * const		pDrv = pSlave->cfg.bus_inst;
 	FctERR				err = ERROR_OK;
 
 	if (!OW_is_enabled(pSlave))								{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (OW_is_busy(pSlave))									{ err = ERROR_BUSY; }		// Device busy
 	if (addr > pEEP->props.max_read_address)				{ err = ERROR_RANGE; }		// Unknown address
 	if ((addr + len) > (pEEP->props.max_read_address + 1U))	{ err = ERROR_OVERFLOW; }	// Bank overflow
 	if (err != ERROR_OK)									{ goto ret; }
 
 	OW_set_busy(pSlave, true);
 
-	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
 	if (err != ERROR_OK)	{ goto ret; }
 
 	const uint8_t cmd[3] = { OW_EEP__READ_MEMORY, LOBYTE(addr), HIBYTE(addr) };
-	OWWrite(pSlave->cfg.bus_inst, cmd, sizeof(cmd));
-	OWRead(pSlave->cfg.bus_inst, pData, len);
+	OWWrite(pDrv, cmd, sizeof(cmd));
+	OWRead(pDrv, pData, len);
 
-	ret:
 	OW_set_busy(pSlave, false);
 
+	ret:
 	return err;
 }
 
@@ -179,8 +205,10 @@ FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pDat
 	FctERR						err = ERROR_OK;
 
 	if (!OW_is_enabled(pSlave))									{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (OW_is_busy(pSlave))										{ err = ERROR_BUSY; }		// Device busy
 	if (addr > pEEP->props.max_write_address)					{ err = ERROR_RANGE; }		// Unknown address
 	if ((addr + len) > (pEEP->props.max_write_address + 1U))	{ err = ERROR_OVERFLOW; }	// Bank overflow
+	if (!pEEP->doneWrite)										{ err = ERROR_BUSY; }		// Copy in progess
 	if (err != ERROR_OK)										{ goto ret; }
 
 	size_t		data_len = len;
@@ -193,6 +221,12 @@ FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pDat
 
 		if (unaligned_len != 0U)
 		{
+			while (OW_EEP_WriteCycle_Handler(pEEP) != ERROR_OK)	// Wait for a previous write to complete
+			{
+				OW_Watchdog_Refresh();
+				HAL_Delay(1U);
+			}
+
 			const size_t read_len = ((write_len + unaligned_len) == pEEP->props.scratchpad_size) ? unaligned_len : pEEP->props.scratchpad_size;
 
 			err = OW_EEP_Read_Memory(pEEP, pEEP->pScratch->pData, address, read_len);
@@ -229,5 +263,4 @@ FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pDat
 	ret:
 	return err;
 }
-
 

@@ -49,6 +49,7 @@ typedef enum PACK__ _OW_ROM_type {							// Description: (iButton refs), device 
 	OW_TYPE__EEPROM_1024						= 0x2DU,	//!< 1024-bit, 1-Wire EEPROM: (DS1972), DS2431
 	OW_TYPE__EEPROM_32K_PROTECTED				= 0x37U,	//!< Password-protected 32KB (bytes) EEPROM: (DS1977)
 	OW_TYPE__SWITCH_2							= 0x3AU,	//!< 2-channel addressable switch: (DS2413)
+	OW_TYPE__THERMOMETER__EEPROM_1K				= 0x3BU,	//!< Digital Temperature Sensor with 1Kb Lockable EEPROM: (MAX31826)
 	OW_TYPE__THERMOCRON__HYGROCHRON				= 0x41U,	//!< High-capacity Thermochron (temperature) and Hygrochron™ (humidity) loggers: (DS1922L), (DS1922T), (DS1923), DS2422
 	OW_TYPE__THERMOMETER__PIO					= 0x42U,	//!< Programmable resolution digital thermometer with sequenced detection and PIO: DS28EA00
 	OW_TYPE__EEPROM_20K							= 0x43U,	//!< 20Kb 1-Wire EEPROM: DS28EC20

@@ -29,7 +29,7 @@
 // *****************************************************************************
 // Section: Constants
 // *****************************************************************************
-#define DS1825__GRANULARITY		0.0625f		//!< DS1825 granularity
+#define DS1825__GRANULARITY		0.0625f		//!< DS1825 temperature sensor granularity
 
 
 // *****************************************************************************
@@ -49,46 +49,6 @@ typedef enum PACK__ _DS1825_cmd {
 } DS1825_cmd;
 
 
-/*!\enum _DS1825_res
-** \brief Resolutions enum for DS1825
-**/
-typedef enum PACK__ _DS1825_res {
-	DS1825__RES_9BIT = 0U,	//!< DS1825 9b resolution
-	DS1825__RES_10BIT,		//!< DS1825 10b resolution
-	DS1825__RES_11BIT,		//!< DS1825 11b resolution
-	DS1825__RES_12BIT,		//!< DS1825 12b resolution
-} DS1825_res;
-
-/*!\union uDS1825_REG__CFG
-** \brief Union for configuration register of DS1825
-**/
-typedef union PACK__ _uDS1825_REG__CFG {
-	uint8_t Byte;
-	struct PACK__ {
-		uint8_t		ADx	:4;	//!< Location information
-		uint8_t			:1;
-		DS1825_res	Rx	:2;	//!< Resolution
-		uint8_t			:1;
-	} Bits;
-} uDS1825_REG__CFG;
-
-
-/*!\struct DS1825_scratch_t
-** \brief DS1825 scratchpad struct
-**/
-typedef union PACK__ _DS1825_scratch_t {
-	uint8_t					bytes[OW_TEMP_SCRATCHPAD_SIZE];
-	struct PACK__ {
-		int16_t				temp;			//!< Temperature register (little endian)
-		int8_t				Th;				//!< Alarm High
-		int8_t				Tl;				//!< Alarm Low
-		uDS1825_REG__CFG	configuration;	//!< Configuration
-		uint8_t				reserved[3];	//!< Reserved
-		uint8_t				crc;			//!< CRC
-	};
-} DS1825_scratch_t;
-
-
 /*!\struct DS1825_t
 ** \brief DS1825 user interface struct
 **/
@@ -97,9 +57,8 @@ typedef struct _DS1825_t {
 	OW_sn_t				sn;			//!< Serial Number device type structure
 	OW_temp_t			temp;		//!< Temperature Sensor device type structure
 	/*** device specific variables ***/
-	DS1825_scratch_t *	pScratch;	//!< Pointer to scratchpad structure
+	OW_temp_scratch_t *	pScratch;	//!< Pointer to scratchpad structure
 	uint8_t				location;	//!< Device location (defined by hardware pin coding)
-	bool				bus_power;	//!< Bus power type (Parasite power from bus or Vcc)
 } DS1825_t;
 
 extern DS1825_t DS1825[OW_DS1825_NB];	//!< DS1825 User structure
@@ -161,36 +120,21 @@ FctERR DS1825_Init_Single(const OW_ROM_ID_t * const pROM);
 OW_SN_GETTER(DS1825);
 
 
-/*!\brief DS1825 read scratchpad
-** \param[in,out] pCpnt - Pointer to DS1825 peripheral
-** \return FctERR - error code
-**/
-__INLINE float NONNULL_INLINE__ DS1825_Read_Scratchpad(DS1825_t * const pCpnt) {
-	return OW_TEMP_Read_Scratchpad(&pCpnt->temp); }
-
-/*!\brief DS1825 write scratchpad
-** \param[in,out] pCpnt - Pointer to DS1825 peripheral
-** \return FctERR - error code
-**/
-__INLINE float NONNULL_INLINE__ DS1825_Write_Scratchpad(DS1825_t * const pCpnt) {
-	return OW_TEMP_Write_Scratchpad(&pCpnt->temp); }
-
-
 /*!\brief DS1825 get power supply source
 ** \note May be useful to keep bus as busy during a conversion (line should be held high, no other transaction allowed on bus)
 ** \param[in,out] pCpnt - Pointer to DS1825 peripheral
 ** \return FctERR - Error code
 **/
 __INLINE float NONNULL_INLINE__ DS1825_Get_Power_Supply(DS1825_t * const pCpnt) {
-	return OW_slave_get_power_supply(pCpnt->temp.slave_inst, &pCpnt->bus_power); }
+	return OW_slave_get_power_supply(pCpnt->temp.slave_inst, &pCpnt->sn.parasite_powered); }
 
 
 /*!\brief DS1825 set conversion resolution
 ** \param[in,out] pCpnt - Pointer to DS1825 peripheral
-** \param[in] resolution - Conversion resolution from \ref DS1825_res
+** \param[in] resolution - Conversion resolution from \ref OW_temp_res
 ** \return FctERR - Error code
 **/
-FctERR NONNULL__ DS1825_Set_Resolution(DS1825_t * const pCpnt, const DS1825_res resolution);
+FctERR NONNULL__ DS1825_Set_Resolution(DS1825_t * const pCpnt, const OW_temp_res resolution);
 
 
 /*!\brief DS1825 start temperature conversion

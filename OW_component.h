@@ -69,15 +69,13 @@ typedef struct _OW_slave_t {
 		OW_ROM_ID_t	ROM_ID;		//!< One Wire pSlave ROM_ID
 	} cfg;
 	bool			en;			//!< State of pSlave (disabled/enabled)
-	bool			busy;		//!< TODO: implement to be checked if transaction pending (it?)
+	bool			busy;		//!< Device busy flag (ongoing operation), useful for devices including multiple functionalities
 } OW_slave_t;
 
 
 // *****************************************************************************
 // Section: Interface Routines
 // *****************************************************************************
-
-
 /*!\brief OW Slave device initialization
 ** \hidecallergraph
 ** \param[in,out] pSlave - pointer to OW slave instance to initialize
@@ -95,6 +93,7 @@ void NONNULL__ OW_slave_init(OW_slave_t * const pSlave, OW_DRV * const pOW, cons
 ** \return FctERR - Error code
 **/
 FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * const pSlave, bool * const pBusPower);
+
 
 /***************/
 /*** SETTERS ***/
@@ -160,6 +159,15 @@ __INLINE OW_DRV * NONNULL_INLINE__ OW_get_pSlave_instance(const OW_slave_t * con
 **/
 __INLINE OW_ROM_ID_t NONNULL_INLINE__ OW_get_slave_id(const OW_slave_t * const pSlave) {
 	return pSlave->cfg.ROM_ID; }
+
+
+/*****************/
+/*** CALLBACKS ***/
+/*****************/
+/*!\brief OW Watchdog refresh callback
+** \weak Function declared as weak, can be customly implemented in user code is specific actions needs to be taken (IWDG refreshed by default)
+**/
+void OW_Watchdog_Refresh(void);
 
 
 /****************************************************************/

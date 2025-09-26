@@ -42,7 +42,7 @@ typedef struct _OWSearch_State_t {
 	bool			lastDeviceFlag;				//!< Last device found flag
 } OWSearch_State_t;
 
-
+typedef uint32_t				OW_mutex_t;		//!< Typedef for mutual exclusion variable
 typedef struct _StructOW_DRV	OW_DRV;			//!< Typedef for OW_DRV used by function pointers included in struct
 
 typedef FctERR (*pfOW_phyWrite_t)(const OW_DRV * const pOW, const uint8_t data);	//!< OneWire Write function typedef
@@ -58,6 +58,7 @@ struct _StructOW_DRV {
 	OWPhy						phy;				//!< OWdrv physical peripheral type
 	OW_phy_u					phy_inst;			//!< OWdrv physical instance
 	OW_GPIO_HandleTypeDef		GPIO_cfg;			//!< OneWire bus GPIO configuration (if selected phy)
+	GPIO_HandleTypeDef			StrongPull_cfg;		//!< OneWire bus Strong Pull-up configuration
 	pfOW_phyReset_t				pfReset;			//!< OneWire bus Reset function pointer
 	pfOW_phyWrite_t				pfWriteBit;			//!< OneWire bus Bit Write function pointer
 	pfOW_phyRead_t				pfReadBit;			//!< OneWire bus Bit Read function pointer
@@ -69,7 +70,9 @@ struct _StructOW_DRV {
 #endif
 	OWSearch_State_t			search_state;		//!< OneWire bus search state
 	uint8_t						search_type;		//!< Search command
-	bool						bus_powered;		//!< OneWire bus powered device(s) found
+	OW_mutex_t					mutex;				//!< Mutex for up to 32 devices
+	bool						strong_pull_en;		//!< Set to true when strong pull-up is driven
+	bool						parasite_powered;	//!< Set to true when at least one device uses parasite power on the bus
 };
 
 
@@ -88,6 +91,43 @@ extern OW_DRV OWdrv[OW_BUS_NB];						//!< OWdrv structure
 ** \return FctERR - Error code
 **/
 FctERR OWInit(OW_Handle_t * const pHandle, const uint8_t idx);
+
+
+/*!\brief OneWire driver Strong Pull-up output init
+** \weak OWInit_StrongPull_Output may be user implemented when a strong pull-up output is used on the bus
+** \param[in,out] pOW - Pointer to OneWire driver instance
+** \param[in] idx - Instance index
+**/
+void OWInit_StrongPull_Output(OW_DRV * const pOW, const uint8_t idx);
+
+/*!\brief OneWire driver Strong Pull-up setter
+** \param[in,out] pOW - Pointer to OneWire driver instance
+** \param[in] en - Pull-up state (enabled/disabled)
+**/
+void OW_StrongPull_Set(OW_DRV * const pOW, const bool en);
+
+
+/*!\brief Get unique lock identifier for new registered device
+** \param[in] pOW - Pointer to OneWire driver instance
+** \return Lock identifier to affect the new registered device with
+**/
+OW_mutex_t OWInit_Get_Device_Lock_ID(const OW_DRV * const pOW);
+
+/*!\brief One Wire bus locking attempt
+** \param[in,out] pOW - Pointer to OneWire driver instance
+** \param[in] id - Device mutex identifier
+** \return true: lock successful / false: declined
+**/
+bool OW_lock_bus(OW_DRV * const pOW, const OW_mutex_t id);
+
+/*!\brief One Wire bus unlocking attempt
+** \param[in,out] pOW - Pointer to OneWire driver instance
+** \param[in] id - Device mutex identifier
+** \return true: unlock successful / false: already unlocked or locked by another device
+**/
+bool OW_unlock_bus(OW_DRV * const pOW, const OW_mutex_t id);
+
+#define OW_DRV_MUTEX	1U		//!< OW bus Lock ID (always 1st ID)
 
 
 /*!\brief OneWire write bit to bus
@@ -139,18 +179,21 @@ FctERR NONNULL__ OWRead(const OW_DRV * const pOW, uint8_t * const pData, const s
 /*!\brief OneWire device select
 ** \param[in,out] pOW - Pointer to OneWire driver instance
 ** \param[in] pROM - Pointer to ROM Id structure
+** \return FctERR - Error code
 **/
-void NONNULL__ OWSelect(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM);
+FctERR NONNULL__ OWSelect(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM);
 
 /*!\brief OneWire skip ROM (allowing to send commands as broadcast)
 ** \param[in,out] pOW - Pointer to OneWire driver instance
+** \return FctERR - Error code
 **/
-void NONNULL__ OWSkip(const OW_DRV * const pOW);
+FctERR NONNULL__ OWSkip(const OW_DRV * const pOW);
 
 /*!\brief OneWire resume
 ** \param[in,out] pOW - Pointer to OneWire driver instance
+** \return FctERR - Error code
 **/
-void NONNULL__ OWResume(const OW_DRV * const pOW);
+FctERR NONNULL__ OWResume(const OW_DRV * const pOW);
 
 
 /*!\brief OneWire search device (first)
@@ -202,14 +245,6 @@ void NONNULL__ OWTargetSetup(OW_DRV * const pOW, const OW_ROM_type family_code);
 **/
 void NONNULL__ OWFamilySkipSetup(OW_DRV * const pOW);
 
-/*!\brief OneWire check if at least one device is powered by the bus
-** \note May be useful to keep bus as busy during a copy scratchpad command or during a conversion (line should be held high, no other transaction allowed on bus)
-** \warning Use only if at least one device supports the command (meaning it can be powered by power or bus), otherwise result will be wrong and irrelevant
-** \param[in,out] pOW - Pointer to OneWire driver instance
-** \return FctERR - Error code
-**/
-FctERR NONNULL__ OWCheckPowerSupply(OW_DRV * const pOW);
-
 /*!\brief OneWire control sequence
 ** \param[in,out] pOW - Pointer to OneWire driver instance
 ** \param[in] pROM - Pointer to ROM Id structure
@@ -218,6 +253,14 @@ FctERR NONNULL__ OWCheckPowerSupply(OW_DRV * const pOW);
 **/
 FctERR NONNULL__ OWROMCmd_Control_Sequence(const OW_DRV * const pOW, const OW_ROM_ID_t * const pROM, const bool broadcast);
 
+
+/*!\brief OneWire check if at least one device is powered by the bus
+** \note May be useful to keep bus as busy during a copy scratchpad command or during a conversion (line should be held high, no other transaction allowed on bus)
+** \warning Use only if at least one device supports the command (meaning it can be powered by power or bus), otherwise result will be wrong and irrelevant
+** \param[in,out] pOW - Pointer to OneWire driver instance
+** \return FctERR - Error code
+**/
+FctERR NONNULL__ OWCheckPowerSupply(OW_DRV * const pOW);
 
 /*!\brief OneWire read ROM Id
 ** \warning Assume a single chip connected (otherwise will fail, CRC check will mismatch as multiple devices will answer)

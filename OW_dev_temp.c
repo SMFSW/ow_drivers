@@ -12,6 +12,35 @@
 /****************************************************************/
 
 
+FctERR NONNULL__ OW_TEMP_Convert_Handler(OW_temp_t * const pTEMP)
+{
+	FctERR err = ERROR_OK;
+
+	if (!pTEMP->doneConv)
+	{
+		if (TPSSUP_MS(pTEMP->hStartConv, pTEMP->props.convTimes[pTEMP->resIdx] + 1U))	// Add 1ms to max conversion time
+		{
+			pTEMP->doneConv = true;
+
+			OW_StrongPull_Set(pTEMP->slave_inst->cfg.bus_inst, false);
+			OW_set_busy(pTEMP->slave_inst, false);
+
+			err = OW_TEMP_Read_Conversion(pTEMP);
+			//err |= OW_TEMP_Start_Conversion(pTEMP);
+		}
+		else
+		{
+			err = ERROR_BUSY;
+		}
+	}
+
+	return err;
+}
+
+
+/****************************************************************/
+
+
 FctERR NONNULL__ OWAlarmSearch_All(OW_DRV * const pOW, OW_ROM_ID_t ROMId[], const uint8_t max_nb)
 {
 	OWSearch_SetType(pOW, OW_TEMP__ALARM_SEARCH);
@@ -32,24 +61,26 @@ __STATIC_INLINE FctERR NONNULL_INLINE__ OW_TEMP_Check_CRC_Scratchpad(const OW_te
 FctERR NONNULL__ OW_TEMP_Read_Scratchpad(OW_temp_t * const pTEMP)
 {
 	OW_slave_t * const	pSlave = pTEMP->slave_inst;
+	OW_DRV * const		pDrv = pSlave->cfg.bus_inst;
 	FctERR				err = ERROR_OK;
 
 	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (OW_is_busy(pSlave))			{ err = ERROR_BUSY; }		// Device busy
 	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
 
-	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
 	if (err != ERROR_OK)	{ goto ret; }
 
-	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__READ_SCRATCHPAD);
-	OWRead(pSlave->cfg.bus_inst, pTEMP->scratch_data, OW_TEMP_SCRATCHPAD_SIZE);
+	OWWrite_byte(pDrv, OW_TEMP__READ_SCRATCHPAD);
+	OWRead(pDrv, pTEMP->scratch_data, OW_TEMP_SCRATCHPAD_SIZE);
+
+	OW_set_busy(pSlave, false);
 
 	err = OW_TEMP_Check_CRC_Scratchpad(pTEMP);
 
 	ret:
-	OW_set_busy(pSlave, false);
-
 	return err;
 }
 
@@ -57,12 +88,16 @@ FctERR NONNULL__ OW_TEMP_Read_Scratchpad(OW_temp_t * const pTEMP)
 static FctERR NONNULL__ OW_TEMP_Recall(OW_temp_t * const pTEMP)
 {
 	OW_slave_t * const	pSlave = pTEMP->slave_inst;
+	OW_DRV * const		pDrv = pSlave->cfg.bus_inst;
+	FctERR				err = ERROR_OK;
 
-	//if (!OW_is_enabled(pSlave))		{ return ERROR_DISABLED; }	// Peripheral disabled
+	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (OW_is_busy(pSlave))			{ err = ERROR_BUSY; }		// Device busy
+	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
 
-	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
 	if (err != ERROR_OK)	{ goto ret; }
 
 	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__RECALL);
@@ -70,11 +105,11 @@ static FctERR NONNULL__ OW_TEMP_Recall(OW_temp_t * const pTEMP)
 	uint8_t done = 0U;
 	while (!done)
 	{
-		#if defined(HAL_IWDG_MODULE_ENABLED)
-			HAL_IWDG_Refresh(&hiwdg);
-		#endif
-		OWRead_byte(pSlave->cfg.bus_inst, &done);
+		OW_Watchdog_Refresh();
+		OWRead_byte(pDrv, &done);
 	}
+
+	OW_set_busy(pSlave, false);
 
 	ret:
 	return err;
@@ -84,23 +119,34 @@ static FctERR NONNULL__ OW_TEMP_Recall(OW_temp_t * const pTEMP)
 static FctERR NONNULL__ OW_TEMP_Copy_Scratchpad(OW_temp_t * const pTEMP)
 {
 	OW_slave_t * const	pSlave = pTEMP->slave_inst;
+	OW_DRV * const		pDrv = pSlave->cfg.bus_inst;
+	FctERR				err = ERROR_OK;
 
-	//if (!OW_is_enabled(pSlave))		{ return ERROR_DISABLED; }	// Peripheral disabled
+	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (OW_is_busy(pSlave))			{ err = ERROR_BUSY; }		// Device busy
+	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
 
-	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
+	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
+	if (err != ERROR_OK)			{ goto ret;	}
 
-	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__COPY_SCRATCHPAD);
+	OWWrite_byte(pDrv, OW_TEMP__COPY_SCRATCHPAD);
 
-	const uint32_t hStartCopy = HALTicks();
-	while (TPSINF_MS(hStartCopy, 10U))		// Wait for bytes to be copied in EEP
+	OW_StrongPull_Set(pTEMP->slave_inst->cfg.bus_inst, true);
+
+	// Wait for bytes to be copied in EEP
+	uint8_t cpt = 10U;
+	do
 	{
-		#if defined(HAL_IWDG_MODULE_ENABLED)
-			HAL_IWDG_Refresh(&hiwdg);
-		#endif
+		OW_Watchdog_Refresh();
+		HAL_Delay(1U);
 	}
+	while (--cpt);
+
+	OW_StrongPull_Set(pTEMP->slave_inst->cfg.bus_inst, false);
+
+	OW_set_busy(pSlave, false);
 
 	ret:
 	return err;
@@ -110,18 +156,22 @@ static FctERR NONNULL__ OW_TEMP_Copy_Scratchpad(OW_temp_t * const pTEMP)
 FctERR NONNULL__ OW_TEMP_Write_Scratchpad(OW_temp_t * const pTEMP)
 {
 	OW_slave_t * const	pSlave = pTEMP->slave_inst;
+	OW_DRV * const		pDrv = pSlave->cfg.bus_inst;
 	FctERR				err = ERROR_OK;
 
 	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (OW_is_busy(pSlave))			{ err = ERROR_BUSY; }		// Device busy
 	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
 
-	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
 	if (err != ERROR_OK)	{ goto ret; }
 
-	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__WRITE_SCRATCHPAD);
-	OWWrite(pSlave->cfg.bus_inst, &pTEMP->scratch_data[2], pTEMP->props.cfgBytes);
+	OWWrite_byte(pDrv, OW_TEMP__WRITE_SCRATCHPAD);
+	OWWrite(pDrv, &pTEMP->scratch_data[2], pTEMP->props.cfgBytes);
+
+	OW_set_busy(pSlave, false);
 
 	err = OW_TEMP_Copy_Scratchpad(pTEMP);
 	if (err != ERROR_OK)	{ goto ret; }
@@ -132,9 +182,9 @@ FctERR NONNULL__ OW_TEMP_Write_Scratchpad(OW_temp_t * const pTEMP)
 	err = OW_TEMP_Read_Scratchpad(pTEMP);
 	if (err != ERROR_OK)	{ goto ret; }
 
-	ret:
 	OW_set_busy(pSlave, false);
 
+	ret:
 	return err;
 }
 
@@ -142,23 +192,28 @@ FctERR NONNULL__ OW_TEMP_Write_Scratchpad(OW_temp_t * const pTEMP)
 FctERR NONNULL__ OW_TEMP_Start_Conversion(OW_temp_t * const pTEMP)
 {
 	OW_slave_t * const	pSlave = pTEMP->slave_inst;
+	OW_DRV * const		pDrv = pSlave->cfg.bus_inst;
 	FctERR				err = ERROR_OK;
 
 	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (OW_is_busy(pSlave))			{ err = ERROR_BUSY; }		// Device busy
 	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
 
-	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
 	if (err != ERROR_OK)	{ goto ret; }
 
-	OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__CONVERT_T);
+	OWWrite_byte(pDrv, OW_TEMP__CONVERT_T);
+
+	OW_StrongPull_Set(pTEMP->slave_inst->cfg.bus_inst, true);
+
 	pTEMP->hStartConv = HALTicks();
 	pTEMP->doneConv = false;
 
-	ret:
-	OW_set_busy(pSlave, false);
+	// Do not release slave at this stage, conversion is ongoing
 
+	ret:
 	return err;
 }
 
@@ -179,35 +234,19 @@ FctERR NONNULL__ OW_TEMP_Convert(OW_temp_t * const pTEMP)
 
 	if (!err)
 	{
-		while (TPSINF_MS(pTEMP->hStartConv, pTEMP->props.convTimes[pTEMP->resIdx]))
+		while (TPSINF_MS(pTEMP->hStartConv, pTEMP->props.convTimes[pTEMP->resIdx] + 1U))	// Add 1ms to max conversion time
 		{
-			#if defined(HAL_IWDG_MODULE_ENABLED)
-				HAL_IWDG_Refresh(&hiwdg);
-			#endif
+			OW_Watchdog_Refresh();
 		}
 
-		err = OW_TEMP_Read_Conversion(pTEMP);
-
-		if (!err)	{ pTEMP->doneConv = true; }
-	}
-
-	return err;
-}
-
-
-FctERR NONNULL__ OW_TEMP_Convert_Handler(OW_temp_t * const pTEMP)
-{
-	FctERR err = ERROR_BUSY;
-
-	if (TPSSUP_MS(pTEMP->hStartConv, pTEMP->props.convTimes[pTEMP->resIdx]))
-	{
 		pTEMP->doneConv = true;
 
+		OW_StrongPull_Set(pTEMP->slave_inst->cfg.bus_inst, false);
+		OW_set_busy(pTEMP->slave_inst, false);
+
 		err = OW_TEMP_Read_Conversion(pTEMP);
-		err |= OW_TEMP_Start_Conversion(pTEMP);
 	}
 
 	return err;
 }
-
 

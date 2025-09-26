@@ -21,20 +21,23 @@
 /*** Peripheral defaults setter ***/
 /**********************************/
 
-#define OW_SN_SET_DEFAULTS(name, idx, pROM)										\
-	name[idx].sn.slave_inst = &name##_hal[idx];									\
-	const uint64_t sn = OWGetSerialNumber(pROM);								\
+#define OW_SN_SET_DEFAULTS(name, idx, pROM)												\
+	name[idx].sn.slave_inst = &name##_hal[idx];											\
+	name[idx].sn.parasite_powered = true;												\
+	const OW_mutex_t mut_id = OWInit_Get_Device_Lock_ID(name##_hal[idx].cfg.bus_inst);	\
+	UNUSED_RET memcpy((uint8_t *) &name[idx].sn.mutex_id, &mut_id, sizeof(mut_id));		\
+	const uint64_t sn = OWGetSerialNumber(pROM);										\
 	UNUSED_RET memcpy((uint8_t *) &name[idx].sn.serial_number, &sn, sizeof(sn));	//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
-#define OW_SN_GETTER(name)													\
-	/*!\brief name Serial Number getter										\
-	** \param[in] pCpnt - Pointer to name peripheral						\
-	** \return name peripheral serial number								\
-	**/																		\
-__INLINE uint64_t NONNULL_INLINE__ name##_SN_Get(name##_t * const pCpnt) {	\
-	uint64_t SN;															\
-	OW_SN_Get(&pCpnt->sn, &SN);												\
+#define OW_SN_GETTER(name)														\
+/*!\brief name Serial Number getter												\
+** \param[in] pCpnt - Pointer to name peripheral								\
+** \return name peripheral serial number										\
+**/																				\
+__INLINE uint64_t NONNULL_INLINE__ name##_SN_Get(name##_t * const pCpnt) {		\
+	uint64_t SN;																\
+	OW_SN_Get(&pCpnt->sn, &SN);													\
 	return SN; }														//!< Macro to generate serial number getter for peripheral \b name
 
 
@@ -48,8 +51,10 @@ __INLINE uint64_t NONNULL_INLINE__ name##_SN_Get(name##_t * const pCpnt) {	\
 ** \brief OneWire Serial Number configuration type
 **/
 typedef struct _OW_sn_t {
-	OW_slave_t *	slave_inst;		//!< Slave structure
-	const uint64_t	serial_number;	//!< Serial Number
+	OW_slave_t *		slave_inst;			//!< Slave structure
+	const uint64_t		serial_number;		//!< Serial Number
+	const OW_mutex_t	mutex_id;			//!< Device mutex identifier on OW instance (for mutual exclusion) -> put in sn type as every device has one
+	bool				parasite_powered;	//!< Device power type (Parasite power from bus or Vcc)
 } OW_sn_t;
 
 

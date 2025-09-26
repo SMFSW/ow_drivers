@@ -21,13 +21,13 @@
 /*** Peripheral defaults setter ***/
 /**********************************/
 
-#define OW_EEPROM_SET_DEFAULTS(name, idx)											\
-	const uint8_t * const pData = name[idx].scratch_data;							\
-	UNUSED_RET memcpy((uint8_t *) &name[idx].scratch.pData, &pData, sizeof(pData));	\
-	UNUSED_RET memcpy(&name[idx].eep.props, &name##_props, sizeof(OW_eep_props_t));	\
-	name[idx].eep.slave_inst = &name##_hal[idx];									\
-	name[idx].eep.pScratch = &name[idx].scratch;									\
-	OW_EEP_Set_WaitProg(&name[idx].eep, true);							//!< Macro to set working defaults for peripheral \b name on index \b idx
+#define OW_EEPROM_SET_DEFAULTS(name, idx)												\
+	const uint8_t * const pData = name[idx].scratch_data;								\
+	UNUSED_RET memcpy((uint8_t *) &name[idx].scratch.pData, &pData, sizeof(pData));		\
+	UNUSED_RET memcpy(&name[idx].eep.props, &name##_eep_props, sizeof(OW_eep_props_t));	\
+	name[idx].eep.slave_inst = &name##_hal[idx];										\
+	name[idx].eep.pScratch = &name[idx].scratch;										\
+	name[idx].eep.doneWrite = true;										//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
 #define OW_EEPROM_OFFSET(name)	OW_PERIPHERAL_DEV_OFFSET(name, eep)		//!< Macro to get eep structure offset in \b name peripheral structure
@@ -68,12 +68,13 @@ typedef enum PACK__ _OW_eep_pages {
 ** \brief OneWire EEPROM properties type
 **/
 typedef struct _OW_eep_props_t {
-	const size_t	scratchpad_size;	//!< Scratchpad size (in bytes)
-	const size_t	mem_size;			//!< Memory size (in bytes)
-	const size_t	page_size;			//!< Page size (in bytes)
-	const uint32_t	page_nb;			//!< Number of pages
-	const uint32_t	max_write_address;	//!< Maximum write address
-	const uint32_t	max_read_address;	//!< Maximum read address
+	const size_t			scratchpad_size;	//!< Scratchpad size (in bytes)
+	const size_t			mem_size;			//!< Memory size (in bytes)
+	const size_t			page_size;			//!< Page size (in bytes)
+	const uint32_t			page_nb;			//!< Number of pages
+	const uint32_t			max_write_address;	//!< Maximum write address
+	const uint32_t			max_read_address;	//!< Maximum read address
+	const uint8_t			write_cycle_time;	//!< Maximum time for a write cycle
 } OW_eep_props_t;
 
 
@@ -82,7 +83,7 @@ typedef struct _OW_eep_props_t {
 **/
 typedef struct _OW_eep_scratch_t {
 	uint8_t			ES;			//!< ES register value
-	uint16_t		iCRC16;		//!< Inverted CRC16
+	uint16_t		crc;		//!< Scratchpad CRC
 	uint32_t		address;	//!< Address
 	size_t			nb;			//!< Number of bytes
 	uint8_t * const	pData;		//!< Pointer to scratchpad data (data shall be defined in device struct with its address copied to this data pointer)
@@ -96,7 +97,8 @@ typedef struct _OW_eep_t {
 	OW_slave_t *			slave_inst;		//!< Slave structure
 	OW_eep_props_t			props;			//!< EEPROM properties
 	OW_eep_scratch_t *		pScratch;		//!< Pointer to mirrored scratchpad data
-	bool					wait_prog;		//!< Wait until eeprom programming is done (otherwise, only checks for command error byte)
+	uint32_t				hStartWrite;	//!< Write time start
+	bool					doneWrite;		//!< Write done status
 } OW_eep_t;
 
 
@@ -104,12 +106,13 @@ typedef struct _OW_eep_t {
 // Section: Interface Routines
 // *****************************************************************************
 
-/*!\brief OneWire EEPROM device wait programming end setter
+/*!\brief OneWire EEPROM device write cycle time handler
+** \note Non blocking mode: start copy, test copy time, release bus
+** \note Handler shall be called periodically in a main like loop
 ** \param[in,out] pEEP - Pointer to EEPROM device type structure
-** \param[in] en - Enable state
+** \return FctERR - error code
 **/
-__INLINE void NONNULL_INLINE__ OW_EEP_Set_WaitProg(OW_eep_t * const pEEP, const bool en) {
-	pEEP->wait_prog = en; }
+FctERR NONNULL__ OW_EEP_WriteCycle_Handler(OW_eep_t * const pEEP);
 
 
 /*!\brief OneWire EEPROM device read scratchpad
@@ -138,6 +141,11 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, const uint32_t addr, const size_t len);
 
 /*!\brief OneWire EEPROM device write to memory
+** \note This function allows writing across banks for convenience.
+** 		 Be aware that writing across banks includes programming wait time for each targeted bank (except for single bank or last in the sequence).
+** 		 Non blocking write can be achieved by writing each bank at once manually,
+** 		 after testing return value of \ref OW_EEP_WriteCycle_Handler to ensure eeprom is ready for write operation
+** \note In any case, \ref OW_EEP_WriteCycle_Handler has to be called somewhere in main like loop to release one wire bus after a write operation.
 ** \param[in,out] pEEP - Pointer to EEPROM device type structure
 ** \param[in] pData - Pointer to data for transmission
 ** \param[in] addr - Target memory cell start address
