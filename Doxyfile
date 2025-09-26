@@ -2476,6 +2476,7 @@ PREDEFINED             = DOXY=1 \
                          HAL_I2C_MODULE_ENABLED \
                          OW_DS28E07=&amp;OWdrv[0] \
                          OW_DS1825=&amp;OWdrv[0] \
+                         OW_MAX31826=&amp;OWdrv[0] \
                          __INLINE=inline \
                          "__STATIC_INLINE=static inline" \
                          __WEAK= \
