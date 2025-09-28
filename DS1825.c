@@ -74,9 +74,7 @@ __WEAK FctERR NONNULL__ DS1825_Configuration_Setter_Callback(DS1825_t * const pC
 
 __WEAK FctERR NONNULL__ DS1825_Init_Sequence(DS1825_t * const pCpnt)
 {
-	FctERR err = DS1825_Get_Power_Supply(pCpnt);
-
-	if (!err)	{ err = DS1825_Read_Scratchpad(pCpnt); }
+	FctERR err = DS1825_Read_Scratchpad(pCpnt);
 
 	if (!err)
 	{

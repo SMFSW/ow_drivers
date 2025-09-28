@@ -65,11 +65,12 @@ typedef struct _OW_slave_t {
 	**  \brief OW pSlave parameters
 	**/
 	struct {
-		OW_DRV *	bus_inst;	//!< One Wire bus instance
-		OW_ROM_ID_t	ROM_ID;		//!< One Wire pSlave ROM_ID
+		OW_DRV *	bus_inst;			//!< One Wire bus instance
+		OW_ROM_ID_t	ROM_ID;				//!< One Wire pSlave ROM_ID
+		bool		parasite_powered;	//!< Device power type (Parasite power from bus or Vcc)
 	} cfg;
-	bool			en;			//!< State of pSlave (disabled/enabled)
-	bool			busy;		//!< Device busy flag (ongoing operation), useful for devices including multiple functionalities
+	bool			en;					//!< State of pSlave (disabled/enabled)
+	bool			busy;				//!< Device busy flag (ongoing operation), useful for devices including multiple functionalities
 } OW_slave_t;
 
 
@@ -83,16 +84,6 @@ typedef struct _OW_slave_t {
 ** \param[in] pROM - pointer to ROM Id
 **/
 void NONNULL__ OW_slave_init(OW_slave_t * const pSlave, OW_DRV * const pOW, const OW_ROM_ID_t * const pROM);
-
-
-/*!\brief OneWire Salve get power supply source
-** \note May be useful to keep bus as busy during a copy scratchpad command or during a conversion (line should be held high, no other transaction allowed on bus)
-** \warning Use only if device supports the command (meaning it can be powered by power or bus), otherwise result will be wrong and irrelevant
-** \param[in] pSlave - pointer to OW slave instance
-** \param[in,out] pBusPower - pointer to bus power variable result
-** \return FctERR - Error code
-**/
-FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * const pSlave, bool * const pBusPower);
 
 
 /***************/
@@ -159,6 +150,13 @@ __INLINE OW_DRV * NONNULL_INLINE__ OW_get_pSlave_instance(const OW_slave_t * con
 **/
 __INLINE OW_ROM_ID_t NONNULL_INLINE__ OW_get_slave_id(const OW_slave_t * const pSlave) {
 	return pSlave->cfg.ROM_ID; }
+
+/*!\brief Get OW slave power source
+** \param[in] pSlave - pointer to OW slave instance
+** \return OW slave power source (true when parasite powered)
+**/
+__INLINE bool NONNULL_INLINE__ OW_get_power_source(const OW_slave_t * const pSlave) {
+	return pSlave->cfg.parasite_powered; }
 
 
 /*****************/

@@ -23,7 +23,6 @@
 
 #define OW_SN_SET_DEFAULTS(name, idx, pROM)												\
 	name[idx].sn.slave_inst = &name##_hal[idx];											\
-	name[idx].sn.parasite_powered = true;												\
 	const OW_mutex_t mut_id = OWInit_Get_Device_Lock_ID(name##_hal[idx].cfg.bus_inst);	\
 	UNUSED_RET memcpy((uint8_t *) &name[idx].sn.mutex_id, &mut_id, sizeof(mut_id));		\
 	const uint64_t sn = OWGetSerialNumber(pROM);										\
@@ -54,7 +53,6 @@ typedef struct _OW_sn_t {
 	OW_slave_t *		slave_inst;			//!< Slave structure
 	const uint64_t		serial_number;		//!< Serial Number
 	const OW_mutex_t	mutex_id;			//!< Device mutex identifier on OW instance (for mutual exclusion) -> put in sn type as every device has one
-	bool				parasite_powered;	//!< Device power type (Parasite power from bus or Vcc)
 } OW_sn_t;
 
 

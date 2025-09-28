@@ -60,9 +60,7 @@ __STATIC_INLINE float NONNULL_INLINE__ MAX31826_Write_Scratchpad(MAX31826_t * co
 
 __WEAK FctERR NONNULL__ MAX31826_Init_Sequence(MAX31826_t * const pCpnt)
 {
-	FctERR err = MAX31826_Get_Power_Supply(pCpnt);
-
-	if (!err)	{ err = MAX31826_Read_Scratchpad(pCpnt); }
+	FctERR err = MAX31826_Read_Scratchpad(pCpnt);
 
 	if (!err)
 	{

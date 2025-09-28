@@ -179,15 +179,6 @@ FctERR MAX31826_Init_Single(const OW_ROM_ID_t * const pROM);
 OW_SN_GETTER(MAX31826);
 
 
-/*!\brief MAX31826 get power supply source
-** \note May be useful to keep bus as busy during a conversion (line should be held high, no other transaction allowed on bus)
-** \param[in,out] pCpnt - Pointer to MAX31826 peripheral
-** \return FctERR - Error code
-**/
-__INLINE float NONNULL_INLINE__ MAX31826_Get_Power_Supply(MAX31826_t * const pCpnt) {
-	return OW_slave_get_power_supply(pCpnt->temp.slave_inst, &pCpnt->sn.parasite_powered); }
-
-
 /*!\brief MAX31826 EEPROM device write cycle time handler
 ** \note Non blocking mode: start copy, test copy time, release bus
 ** \note Handler shall be called periodically in a main like loop
