@@ -21,11 +21,10 @@
 /*** Peripheral defaults setter ***/
 /**********************************/
 
-#define OW_TEMP_SET_DEFAULTS(name, idx)														\
-	name[idx].temp.slave_inst = &name##_hal[idx];											\
-	UNUSED_RET memcpy(&name[idx].temp.props, &name##_temp_props, sizeof(OW_temp_props_t));	\
-	name[idx].pScratch = (OW_temp_scratch_t *) name[idx].temp.scratch_data;					\
-	name[idx].temp.doneConv = true;											//!< Macro to set working defaults for peripheral \b name on index \b idx
+#define OW_TEMP_SET_DEFAULTS(name, idx)				\
+	name[idx].temp.slave_inst = &name##_hal[idx];	\
+	name[idx].temp.props = &name##_temp_props;		\
+	name[idx].temp.doneConv = true;					//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
 #define OW_TEMP_OFFSET(name)	OW_PERIPHERAL_DEV_OFFSET(name, temp)		//!< Macro to get temp structure offset in \b name peripheral structure
@@ -57,10 +56,10 @@ typedef enum PACK__ _OW_TEMP_cmd {
 ** \brief Resolutions enum for temperature sensor
 **/
 typedef enum PACK__ _OW_temp_res {
-	DS1825__RES_9BIT = 0U,	//!< 9b resolution
-	DS1825__RES_10BIT,		//!< 10b resolution
-	DS1825__RES_11BIT,		//!< 11b resolution
-	DS1825__RES_12BIT,		//!< 12b resolution
+	OW_TEMP__RES_9BIT = 0U,	//!< 9b resolution
+	OW_TEMP__RES_10BIT,		//!< 10b resolution
+	OW_TEMP__RES_11BIT,		//!< 11b resolution
+	OW_TEMP__RES_12BIT,		//!< 12b resolution
 } OW_temp_res;
 
 
@@ -83,9 +82,9 @@ typedef union PACK__ _uOW_temp_REG__CFG {
 **/
 typedef struct _OW_temp_props_t {
 	const uint16_t *	convTimes;		//!< Conversion times array (following resolution)
-	const uint8_t		maxResIdx;		//!< Maximum resolution index
-	const float			granularity;	//!< Granularity
-	const uint8_t		cfgBytes;		//!< Number of configuration bytes written to EEPROM
+	OW_temp_res			maxResIdx;		//!< Maximum resolution index
+	float				granularity;	//!< Granularity
+	uint8_t				cfgBytes;		//!< Number of configuration bytes written to EEPROM
 } OW_temp_props_t;
 
 
@@ -109,13 +108,13 @@ typedef union PACK__ _OW_temp_scratch_t {
 ** \brief OneWire Temperature sensor configuration type
 **/
 typedef struct _OW_temp_t {
-	OW_slave_t *		slave_inst;		//!< Slave structure
-	OW_temp_props_t		props;			//!< Temperature sensor properties
-	uint8_t				scratch_data[OW_TEMP_SCRATCHPAD_SIZE];
-	uint8_t				resIdx;			//!< Resolution index (for arrays)
-	int16_t				tempConv;		//!< Temperature
-	uint32_t			hStartConv;		//!< Conversion time start
-	bool				doneConv;		//!< Conversion done status
+	OW_slave_t *			slave_inst;		//!< Slave structure
+	const OW_temp_props_t *	props;			//!< Temperature sensor properties
+	OW_temp_scratch_t		scratch;		//!< Scratchpad structure
+	OW_temp_res				resIdx;			//!< Resolution index (for arrays)
+	int16_t					tempConv;		//!< Temperature
+	uint32_t				hStartConv;		//!< Conversion time start
+	bool					doneConv;		//!< Conversion done status
 } OW_temp_t;
 
 
@@ -189,7 +188,7 @@ FctERR NONNULL__ OW_TEMP_Convert(OW_temp_t * const pTEMP);
 ** \return Temperature in Celsius degrees
 **/
 __INLINE float NONNULL__ OW_TEMP_Get_Temperature_Celsius(const OW_temp_t * const pTEMP) {
-	return (float) pTEMP->tempConv * pTEMP->props.granularity; }
+	return (float) pTEMP->tempConv * pTEMP->props->granularity; }
 
 /*!\brief OneWire Temperature sensor device convert last temperature to Fahrenheit degrees
 ** \param[in,out] pTEMP - Pointer to Temperature device type structure

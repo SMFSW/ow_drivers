@@ -21,13 +21,11 @@
 /*** Peripheral defaults setter ***/
 /**********************************/
 
-#define OW_EEPROM_SET_DEFAULTS(name, idx)												\
-	const uint8_t * const pData = name[idx].scratch_data;								\
-	UNUSED_RET memcpy((uint8_t *) &name[idx].scratch.pData, &pData, sizeof(pData));		\
-	UNUSED_RET memcpy(&name[idx].eep.props, &name##_eep_props, sizeof(OW_eep_props_t));	\
-	name[idx].eep.slave_inst = &name##_hal[idx];										\
-	name[idx].eep.pScratch = &name[idx].scratch;										\
-	name[idx].eep.doneWrite = true;										//!< Macro to set working defaults for peripheral \b name on index \b idx
+#define OW_EEPROM_SET_DEFAULTS(name, idx)					\
+	name[idx].eep.slave_inst = &name##_hal[idx];			\
+	name[idx].eep.scratch.pData = name[idx].scratch_data;	\
+	name[idx].eep.props = &name##_eep_props;				\
+	name[idx].eep.doneWrite = true;							//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
 #define OW_EEPROM_OFFSET(name)	OW_PERIPHERAL_DEV_OFFSET(name, eep)		//!< Macro to get eep structure offset in \b name peripheral structure
@@ -68,13 +66,13 @@ typedef enum PACK__ _OW_eep_pages {
 ** \brief OneWire EEPROM properties type
 **/
 typedef struct _OW_eep_props_t {
-	const size_t			scratchpad_size;	//!< Scratchpad size (in bytes)
-	const size_t			mem_size;			//!< Memory size (in bytes)
-	const size_t			page_size;			//!< Page size (in bytes)
-	const uint32_t			page_nb;			//!< Number of pages
-	const uint32_t			max_write_address;	//!< Maximum write address
-	const uint32_t			max_read_address;	//!< Maximum read address
-	const uint8_t			write_cycle_time;	//!< Maximum time for a write cycle
+	size_t		scratchpad_size;	//!< Scratchpad size (in bytes)
+	size_t		mem_size;			//!< Memory size (in bytes)
+	size_t		page_size;			//!< Page size (in bytes)
+	uint32_t	page_nb;			//!< Number of pages
+	uint32_t	max_write_address;	//!< Maximum write address
+	uint32_t	max_read_address;	//!< Maximum read address
+	uint8_t		write_cycle_time;	//!< Maximum time for a write cycle
 } OW_eep_props_t;
 
 
@@ -82,11 +80,11 @@ typedef struct _OW_eep_props_t {
 ** \brief OneWire EEPROM scratchpad struct
 **/
 typedef struct _OW_eep_scratch_t {
-	uint8_t			ES;			//!< ES register value
-	uint16_t		crc;		//!< Scratchpad CRC
-	uint32_t		address;	//!< Address
-	size_t			nb;			//!< Number of bytes
-	uint8_t * const	pData;		//!< Pointer to scratchpad data (data shall be defined in device struct with its address copied to this data pointer)
+	uint8_t		ES;			//!< ES register value
+	uint16_t	crc;		//!< Scratchpad CRC
+	uint32_t	address;	//!< Address
+	size_t		nb;			//!< Number of bytes
+	uint8_t *	pData;		//!< Pointer to scratchpad data (data shall be defined in device struct with its address copied to this data pointer)
 } OW_eep_scratch_t;
 
 
@@ -95,8 +93,8 @@ typedef struct _OW_eep_scratch_t {
 **/
 typedef struct _OW_eep_t {
 	OW_slave_t *			slave_inst;		//!< Slave structure
-	OW_eep_props_t			props;			//!< EEPROM properties
-	OW_eep_scratch_t *		pScratch;		//!< Pointer to mirrored scratchpad data
+	const OW_eep_props_t *	props;			//!< EEPROM properties
+	OW_eep_scratch_t		scratch;		//!< Scratchpad structure
 	uint32_t				hStartWrite;	//!< Write time start
 	bool					doneWrite;		//!< Write done status
 } OW_eep_t;

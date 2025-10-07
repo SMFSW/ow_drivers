@@ -28,10 +28,10 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum _EnumOWPhy
+/*!\enum _OWPhy
 ** \brief OW driver peripheral type
 **/
-typedef enum _EnumOWPhy {
+typedef enum _OWPhy {
 	OW_PHY_NONE = 0U,	//!< OW without peripheral
 	OW_PHY_SWPM,		//!< OW physical peripheral
 	OW_PHY_UART,		//!< OW UART physical peripheral

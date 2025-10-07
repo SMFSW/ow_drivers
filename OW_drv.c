@@ -57,6 +57,7 @@ __WEAK void OWInit_StrongPull_Output(OW_DRV * const pOW, const uint8_t idx)
 
 	pOW->StrongPull_cfg.GPIOx = NULL;
 	pOW->StrongPull_cfg.GPIO_Pin = 0U;
+	pOW->StrongPull_cfg.GPIO_Active = GPIO_PIN_RESET;
 
 	/**\code
 	switch (idx)
@@ -67,22 +68,26 @@ __WEAK void OWInit_StrongPull_Output(OW_DRV * const pOW, const uint8_t idx)
 		case 0:	// OW bus 0
 			pOW->StrongPull_cfg.GPIOx = stm_port(STRONG_PULL_OW_0);
 			pOW->StrongPull_cfg.GPIO_Pin = stm_pin(STRONG_PULL_OW_0);
+			pOW->StrongPull_cfg.GPIO_Active = GPIO_PIN_RESET;
 			break;
 
 		case 1:	// OW bus 1
 			pOW->StrongPull_cfg.GPIOx = stm_port(STRONG_PULL_OW_1);
 			pOW->StrongPull_cfg.GPIO_Pin = stm_pin(STRONG_PULL_OW_1);
+			pOW->StrongPull_cfg.GPIO_Active = GPIO_PIN_RESET;
 			break;
 	}
+
+	OW_StrongPull_Set(pOW, false);
 	\endcode**/
 }
 
 void OW_StrongPull_Set(OW_DRV * const pOW, const bool en)
 {
-	if (pOW->StrongPull_cfg.GPIOx != NULL)
+	if ((pOW->StrongPull_cfg.GPIOx != NULL) && (pOW->StrongPull_cfg.GPIO_Pin != 0U))
 	{
 		pOW->strong_pull_en = en;
-		const GPIO_PinState state = en ? GPIO_PIN_SET : GPIO_PIN_RESET;
+		const GPIO_PinState state = (en ? GPIO_PIN_RESET : GPIO_PIN_SET) ^ pOW->StrongPull_cfg.GPIO_Active;
 		const GPIO_HandleTypeDef * const pGPIO = &pOW->StrongPull_cfg;
 		HAL_GPIO_WritePin(pGPIO->GPIOx, pGPIO->GPIO_Pin, state);
 	}
@@ -154,10 +159,10 @@ FctERR NONNULL__ OWWrite_byte(const OW_DRV * const pOW, const uint8_t byte)
 	return err;
 #else
 	FctERR	err = ERROR_BUSY;
-	uint8_t	data = byte;
 
 	if (!pOW->strong_pull_en)
 	{
+		uint8_t	data = byte;
 		for (size_t j = 8U ; j ; j--)
 		{
 			err = OWWrite_bit(pOW, data & 0x01U);
@@ -389,7 +394,7 @@ __STATIC FctERR NONNULLX__(1) OWSearch(OW_DRV * const pOW, OW_ROM_ID_t * const p
 					else						{ CLR_BITS(pOW->search_state.ROM_ID.romId[rom_byte_number], rom_byte_mask); }
 
 					// serial number search direction write bit
-					OWWrite_bit(pOW, search_direction);
+					UNUSED_RET OWWrite_bit(pOW, search_direction);
 
 					// increment the byte counter id_bit_number
 					// and shift the mask rom_byte_mask
@@ -425,12 +430,12 @@ __STATIC FctERR NONNULLX__(1) OWSearch(OW_DRV * const pOW, OW_ROM_ID_t * const p
 		if (err != ERROR_OK)					{ OWSearch_Reset(pOW); }
 		else
 		{
-			if (pROMId != NULL)	{ memcpy(pROMId->romId, pOW->search_state.ROM_ID.romId, OW_ROM_ID_SIZE); }
+			if (pROMId != NULL)	{ UNUSED_RET memcpy(pROMId->romId, pOW->search_state.ROM_ID.romId, OW_ROM_ID_SIZE); }
 		}
 	}
 
 	ret:
-	OW_unlock_bus(pOW, OW_DRV_MUTEX);
+	UNUSED_RET OW_unlock_bus(pOW, OW_DRV_MUTEX);
 	return err;
 }
 
@@ -539,13 +544,13 @@ FctERR NONNULL__ OWCheckPowerSupply(OW_DRV * const pOW)
 
 	if (!err)
 	{
-		OWSkip(pOW);
+		err = OWSkip(pOW);
 
 		// issue the read power supply command
-		OWWrite_byte(pOW, OW__READ_POWER_SUPPLY);
+		UNUSED_RET OWWrite_byte(pOW, OW__READ_POWER_SUPPLY);
 
 		uint8_t power;
-		OWRead_byte(pOW, &power);
+		UNUSED_RET OWRead_byte(pOW, &power);
 
 		pOW->parasite_powered = nbinEval(power);
 	}
@@ -560,8 +565,8 @@ FctERR NONNULL__ OWRead_ROM_Id(const OW_DRV * const pOW, OW_ROM_ID_t * const pRO
 
 	if (!err)
 	{
-		err = OWWrite_byte(pOW, OW__READ_ROM);
-		err |= OWRead(pOW, pROM->romId, OW_ROM_ID_SIZE);
+		UNUSED_RET OWWrite_byte(pOW, OW__READ_ROM);
+		UNUSED_RET OWRead(pOW, pROM->romId, OW_ROM_ID_SIZE);
 
 		err = OWCheck_DallasCRC8(pROM->romId, 7, pROM->romId[7]);
 	}

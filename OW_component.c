@@ -28,8 +28,8 @@ __STATIC FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * const pSlave)
 	{
 		uint8_t power;
 
-		OWWrite_byte(pSlave->cfg.bus_inst, OW__READ_POWER_SUPPLY);
-		OWRead_byte(pSlave->cfg.bus_inst, &power);
+		UNUSED_RET OWWrite_byte(pSlave->cfg.bus_inst, OW__READ_POWER_SUPPLY);
+		UNUSED_RET OWRead_byte(pSlave->cfg.bus_inst, &power);
 
 		pSlave->cfg.parasite_powered = nbinEval(power);
 	}
@@ -46,10 +46,11 @@ void NONNULL__ OW_slave_init(OW_slave_t * const pSlave, OW_DRV * const pOW, cons
 	//assert_param(IS_OW_ALL_INSTANCE(pOW->Instance));
 
 	pSlave->cfg.bus_inst = pOW;
+	pSlave->cfg.mutex_id = OWInit_Get_Device_Lock_ID(pOW);
 	pSlave->en = true;
 
 	OW_set_slave_id(pSlave, pROM);
-	OW_slave_get_power_supply(pSlave);
+	UNUSED_RET OW_slave_get_power_supply(pSlave);
 }
 
 

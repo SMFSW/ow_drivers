@@ -21,12 +21,9 @@
 /*** Peripheral defaults setter ***/
 /**********************************/
 
-#define OW_SN_SET_DEFAULTS(name, idx, pROM)												\
-	name[idx].sn.slave_inst = &name##_hal[idx];											\
-	const OW_mutex_t mut_id = OWInit_Get_Device_Lock_ID(name##_hal[idx].cfg.bus_inst);	\
-	UNUSED_RET memcpy((uint8_t *) &name[idx].sn.mutex_id, &mut_id, sizeof(mut_id));		\
-	const uint64_t sn = OWGetSerialNumber(pROM);										\
-	UNUSED_RET memcpy((uint8_t *) &name[idx].sn.serial_number, &sn, sizeof(sn));	//!< Macro to set working defaults for peripheral \b name on index \b idx
+#define OW_SN_SET_DEFAULTS(name, idx, pROM)					\
+	name[idx].sn.slave_inst = &name##_hal[idx];				\
+	name[idx].sn.serial_number = OWGetSerialNumber(pROM);				//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
 #define OW_SN_GETTER(name)														\
@@ -50,9 +47,8 @@ __INLINE uint64_t NONNULL_INLINE__ name##_SN_Get(name##_t * const pCpnt) {		\
 ** \brief OneWire Serial Number configuration type
 **/
 typedef struct _OW_sn_t {
-	OW_slave_t *		slave_inst;			//!< Slave structure
-	const uint64_t		serial_number;		//!< Serial Number
-	const OW_mutex_t	mutex_id;			//!< Device mutex identifier on OW instance (for mutual exclusion) -> put in sn type as every device has one
+	OW_slave_t *	slave_inst;		//!< Slave structure
+	uint64_t		serial_number;	//!< Serial Number
 } OW_sn_t;
 
 

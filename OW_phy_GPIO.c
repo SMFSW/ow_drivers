@@ -243,7 +243,7 @@ FctERR OWInit_GPIO(const uint8_t idx)
 	OW_DRV * const	pOW = &OWdrv[idx];
 	uintCPU_t		RegShift = 0U;
 
-	init_Delay_Generator();
+	err = init_Delay_Generator();
 
 	pOW->pfReset = OW_GPIO_Reset;
 	pOW->pfWriteBit = OW_GPIO_Write_bit;

@@ -83,13 +83,6 @@ typedef enum PACK__ _MAX31826_cmd {
 } MAX31826_cmd;
 
 
-/*!\enum _MAX31826_res
-** \brief Resolutions enum for MAX31826
-**/
-typedef enum PACK__ _MAX31826_res {
-	MAX31826__RES_12BIT = 0U,	//!< MAX31826 12b resolution
-} MAX31826_res;
-
 /*!\enum _MAX31826_eep_area
 ** \brief EEP areas enum for MAX31826
 **/
@@ -107,7 +100,7 @@ typedef union PACK__ _uMAX31826_REG__CFG {
 	struct PACK__ {
 		uint8_t			ADx	:4;	//!< Location information
 		uint8_t				:1;
-		MAX31826_res	Rx	:2;	//!< Resolution
+		OW_temp_res		Rx	:2;	//!< Resolution
 		uint8_t				:1;
 	} Bits;
 } uMAX31826_REG__CFG;
@@ -118,14 +111,12 @@ typedef union PACK__ _uMAX31826_REG__CFG {
 **/
 typedef struct _MAX31826_t {
 	/*** device generic peripheral types structures ***/
-	OW_sn_t					sn;			//!< Serial Number device type structure
-	OW_temp_t				temp;		//!< Temperature Sensor device type structure
-	OW_eep_t				eep;		//!< EEPROM device type structure
+	OW_sn_t		sn;			//!< Serial Number device type structure
+	OW_temp_t	temp;		//!< Temperature Sensor device type structure
+	OW_eep_t	eep;		//!< EEPROM device type structure
 	/*** device specific variables ***/
-	OW_eep_scratch_t		scratch;								//!< Scratchpad structure (EEPROM)
-	uint8_t					scratch_data[MAX31826_SCRATCHPAD_SIZE];	//!< Scratchpad data array (EEPROM)
-	OW_temp_scratch_t *		pScratch;	//!< Pointer to scratchpad structure (temperature sensor)
-	uint8_t					location;	//!< Device location (defined by hardware pin coding)
+	uint8_t		scratch_data[MAX31826_SCRATCHPAD_SIZE];	//!< Scratchpad data array (EEPROM)
+	uint8_t		location;	//!< Device location (defined by hardware pin coding)
 } MAX31826_t;
 
 extern MAX31826_t MAX31826[OW_MAX31826_NB];	//!< MAX31826 User structure

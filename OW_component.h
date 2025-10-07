@@ -66,6 +66,7 @@ typedef struct _OW_slave_t {
 	**/
 	struct {
 		OW_DRV *	bus_inst;			//!< One Wire bus instance
+		OW_mutex_t	mutex_id;			//!< Device mutex identifier on OW instance (for mutual exclusion)
 		OW_ROM_ID_t	ROM_ID;				//!< One Wire pSlave ROM_ID
 		bool		parasite_powered;	//!< Device power type (Parasite power from bus or Vcc)
 	} cfg;

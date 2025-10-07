@@ -37,8 +37,9 @@ typedef struct _OW_GPIO_HandleTypeDef {
 ** \brief GPIO configuration handle structure definition
 **/
 typedef struct _GPIO_HandleTypeDef {
-	GPIO_TypeDef *	GPIOx;			//!< Pointer to pin port
-	uint16_t		GPIO_Pin;		//!< Port pin
+	GPIO_TypeDef *	GPIOx;			//!< HAL GPIO instance
+	uint16_t		GPIO_Pin;		//!< HAL GPIO pin
+	GPIO_PinState	GPIO_Active;	//!< HAL GPIO pin active state
 } GPIO_HandleTypeDef;
 
 

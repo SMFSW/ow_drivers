@@ -54,11 +54,10 @@ typedef enum PACK__ _DS1825_cmd {
 **/
 typedef struct _DS1825_t {
 	/*** device generic peripheral types structures ***/
-	OW_sn_t				sn;			//!< Serial Number device type structure
-	OW_temp_t			temp;		//!< Temperature Sensor device type structure
+	OW_sn_t		sn;			//!< Serial Number device type structure
+	OW_temp_t	temp;		//!< Temperature Sensor device type structure
 	/*** device specific variables ***/
-	OW_temp_scratch_t *	pScratch;	//!< Pointer to scratchpad structure
-	uint8_t				location;	//!< Device location (defined by hardware pin coding)
+	uint8_t		location;	//!< Device location (defined by hardware pin coding)
 } DS1825_t;
 
 extern DS1825_t DS1825[OW_DS1825_NB];	//!< DS1825 User structure
