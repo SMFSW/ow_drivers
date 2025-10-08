@@ -15,24 +15,25 @@
 /****************************************************************/
 
 
-static OW_slave_t MAX31826_hal[OW_MAX31826_NB] = { 0 };						//!< MAX31826 Slave structure
-MAX31826_t MAX31826[OW_MAX31826_NB] = { 0 };								//!< MAX31826 User structure
+static OW_slave_t MAX31826_hal[OW_MAX31826_NB] = { 0 };								//!< MAX31826 Slave structure
+MAX31826_t MAX31826[OW_MAX31826_NB] = { 0 };										//!< MAX31826 User structure
 
-static const uint16_t MAX31826_convTimes[] = { 150 };						//!< MAX31826 conversion times (in ms)
+static const uint16_t MAX31826_convTimes[] = { 150 };								//!< MAX31826 conversion times (in ms)
 
 static const OW_temp_props_t MAX31826_temp_props = {
-	MAX31826_convTimes, OW_TEMP__RES_12BIT, MAX31826__GRANULARITY, 0 };		//!< MAX31826 temperature sensor parameters
+	MAX31826_convTimes, OW_TEMP__RES_12BIT, OW_TEMP__RES_12BIT,
+	MAX31826__GRANULARITY, 0 };														//!< MAX31826 temperature sensor parameters
 
 static const OW_eep_props_t MAX31826_eep_props = {
 	MAX31826_SCRATCHPAD_SIZE, MAX31826_MEMORY_SIZE,
 	MAX31826_PAGE_SIZE, MAX31826_PAGES,
 	MAX31826_MAX_WRITE_ADDR, MAX31826_MAX_READ_ADDR,
-	MAX31826_COPY_TIME };													//!< MAX31826 eeprom parameters
+	MAX31826_COPY_TIME };															//!< MAX31826 eeprom parameters
 
-static const OW_ROM_type FAMILY_CODE = OW_TYPE__THERMOMETER__EEPROM_1K;		//!< MAX31826 family code
+static const OW_ROM_type MAX31826_FAMILY_CODE = OW_TYPE__THERMOMETER__EEPROM_1K;	//!< MAX31826 family code
 
 OW_ROM_type MAX31826_Get_FamilyCode(void) {
-	return FAMILY_CODE; }
+	return MAX31826_FAMILY_CODE; }
 
 
 /****************************************************************/
@@ -77,7 +78,7 @@ FctERR NONNULL__ MAX31826_Init(const uint8_t idx, OW_DRV * const pOW, const OW_R
 
 	assert_param(IS_OW_PERIPHERAL(MAX31826, idx));
 
-	if (pROM->familyCode == FAMILY_CODE)	// Family code matches
+	if (pROM->familyCode == MAX31826_FAMILY_CODE)	// Family code matches
 	{
 		OW_slave_init(&MAX31826_hal[idx], pOW, pROM);
 		OW_SN_SET_DEFAULTS(MAX31826, idx, pROM);
@@ -149,15 +150,13 @@ __STATIC FctERR NONNULL__ MAX31826_EEP_Read_Scratchpad(OW_eep_t * const pEEP)
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)			{ goto ret; }
+	if (err != ERROR_OK)	{ goto err; }
 
 	const uint8_t cmd[2] = { OW_EEP__READ_SCRATCHPAD, LOBYTE(pEEP->scratch.address) };
 	UNUSED_RET OWWrite(pDrv, cmd, sizeof(cmd));
 
 	UNUSED_RET OWRead(pDrv, pEEP->scratch.pData, pEEP->props->scratchpad_size);
 	UNUSED_RET OWRead(pDrv, &crc, sizeof(crc));
-
-	OW_set_busy(pSlave, false);
 
 	pEEP->scratch.crc = crc;
 
@@ -166,6 +165,9 @@ __STATIC FctERR NONNULL__ MAX31826_EEP_Read_Scratchpad(OW_eep_t * const pEEP)
 	OWCompute_DallasCRC8(&crc, pEEP->scratch.pData, pEEP->props->scratchpad_size);
 
 	if (crc != pEEP->scratch.crc) { err = ERROR_CRC; }
+
+	err:
+	OW_set_busy(pSlave, false);
 
 	ret:
 	return err;
@@ -205,7 +207,11 @@ __STATIC FctERR NONNULL__ MAX31826_EEP_Write_Scratchpad(OW_eep_t * const pEEP, c
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
+	if (err != ERROR_OK)
+	{
+		OW_set_busy(pSlave, false);
+		goto ret;
+	}
 
 	UNUSED_RET OWWrite(pDrv, cmd, sizeof(cmd));
 	UNUSED_RET OWWrite(pDrv, pEEP->scratch.pData, len);
@@ -248,12 +254,13 @@ FctERR NONNULL__ MAX31826_Read_Memory(MAX31826_t * const pCpnt, uint8_t * pData,
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
+	if (err != ERROR_OK)	{ goto err; }
 
 	const uint8_t cmd[2] = { OW_EEP__READ_MEMORY, LOBYTE(addr) };
 	UNUSED_RET OWWrite(pDrv, cmd, sizeof(cmd));
 	UNUSED_RET OWRead(pDrv, pData, len);
 
+	err:
 	OW_set_busy(pSlave, false);
 
 	ret:
@@ -333,15 +340,21 @@ FctERR NONNULL__ MAX31826_Write_Memory(MAX31826_t * const pCpnt, const uint8_t *
 FctERR NONNULL__ MAX31826_Lock_Memory(MAX31826_t * const pCpnt, const MAX31826_eep_area area)
 {
 	OW_slave_t * const	pSlave = pCpnt->eep.slave_inst;
+	FctERR				err = ERROR_OK;
+
+	if (!OW_is_enabled(pSlave))		{ err = ERROR_DISABLED; }	// Peripheral disabled
+	if (OW_is_busy(pSlave))			{ err = ERROR_BUSY; }		// Device busy
+	if (err != ERROR_OK)			{ goto ret; }
 
 	OW_set_busy(pSlave, true);
 
-	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)			{ goto ret; }
+	err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
+	if (err != ERROR_OK)	{ goto err; }
 
 	const uint8_t cmd[2] = { (area == MAX31826__EEP_LOW) ? MAX31826__LOCK_EEP_LOW : MAX31826__LOCK_EEP_HIGH, 0x55U };
 	UNUSED_RET OWWrite(pSlave->cfg.bus_inst, cmd, sizeof(cmd));
 
+	err:
 	OW_set_busy(pSlave, false);
 
 	ret:

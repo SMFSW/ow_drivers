@@ -82,6 +82,7 @@ typedef union PACK__ _uOW_temp_REG__CFG {
 **/
 typedef struct _OW_temp_props_t {
 	const uint16_t *	convTimes;		//!< Conversion times array (following resolution)
+	OW_temp_res			minResIdx;		//!< Minimum resolution index
 	OW_temp_res			maxResIdx;		//!< Maximum resolution index
 	float				granularity;	//!< Granularity
 	uint8_t				cfgBytes;		//!< Number of configuration bytes written to EEPROM
@@ -145,9 +146,9 @@ FctERR NONNULL__ OWAlarmSearch_All(OW_DRV * const pOW, OW_ROM_ID_t ROMId[], cons
 ** \param[in] max_nb - Maximum number of devices to search for (most likely number of ROMId array elements)
 ** \return FctERR - Error code
 **/
-__INLINE FctERR NONNULL_INLINE__ OW_TEMP_AlarmSearch_All(OW_temp_t * const pTEMP, OW_ROM_ID_t ROMId[], const uint8_t max_nb) {
+__INLINE FctERR NONNULL_INLINE__ OW_TEMP_AlarmSearch_All(OW_temp_t * const pTEMP, OW_ROM_ID_t romid[], const uint8_t max_nb) {
 	OW_DRV * const pDrv = pTEMP->slave_inst->cfg.bus_inst;
-	return OWAlarmSearch_All(pDrv, ROMId, max_nb); }
+	return OWAlarmSearch_All(pDrv, romid, max_nb); }
 
 
 /*!\brief OneWire Temperature sensor device read scratchpad

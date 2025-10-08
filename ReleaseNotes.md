@@ -22,6 +22,7 @@ SOFTWARE.
 
 ## v0.2
 
+* Bus locking (busy) implementation for ongoing actions
 * MAX31826: temperature sensor & eeprom component added
 * EEPROM type WriteCycle time handler added
 * Mutex needed variables and init added for devices to check for mutual exclusion

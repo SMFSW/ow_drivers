@@ -39,7 +39,9 @@ FctERR OWInit(OW_Handle_t * const pHandle, const uint8_t idx)
 
 		if (err == ERROR_OK)
 		{
-			OWInit_StrongPull_Output(pOW, idx);	// Init Strong Pull-up output (if any)
+			OWInit_StrongPull_Output(&pOW->StrongPull_cfg, idx);	// Init Strong Pull-up output (if any)
+			OW_StrongPull_Set(pOW, false);							// Set Strong Pull-up to inactive state
+
 			err = OWCheckPowerSupply(pOW);		// Check for parasite powered devices on bus
 		}
 	}
@@ -51,36 +53,33 @@ FctERR OWInit(OW_Handle_t * const pHandle, const uint8_t idx)
 /****************************************************************/
 
 
-__WEAK void OWInit_StrongPull_Output(OW_DRV * const pOW, const uint8_t idx)
+__WEAK void OWInit_StrongPull_Output(GPIO_HandleTypeDef * const pGPIO, const uint8_t idx)
 {
-	UNUSED(idx);
-
-	pOW->StrongPull_cfg.GPIOx = NULL;
-	pOW->StrongPull_cfg.GPIO_Pin = 0U;
-	pOW->StrongPull_cfg.GPIO_Active = GPIO_PIN_RESET;
-
-	/**\code
 	switch (idx)
 	{
 		default:
+			pGPIO->GPIOx = NULL;
+			pGPIO->GPIO_Pin = 0U;
+			pGPIO->GPIO_Active = GPIO_PIN_RESET;
 			break;
 
+		// cppcheck-suppres misra-c2012-3.1
+		/**\code
 		case 0:	// OW bus 0
-			pOW->StrongPull_cfg.GPIOx = stm_port(STRONG_PULL_OW_0);
-			pOW->StrongPull_cfg.GPIO_Pin = stm_pin(STRONG_PULL_OW_0);
-			pOW->StrongPull_cfg.GPIO_Active = GPIO_PIN_RESET;
+			pGPIO->GPIOx = stm_port(STRONG_PULL_OW_0);
+			pGPIO->GPIO_Pin = stm_pin(STRONG_PULL_OW_0);
+			pGPIO->GPIO_Active = GPIO_PIN_RESET;
 			break;
 
 		case 1:	// OW bus 1
-			pOW->StrongPull_cfg.GPIOx = stm_port(STRONG_PULL_OW_1);
-			pOW->StrongPull_cfg.GPIO_Pin = stm_pin(STRONG_PULL_OW_1);
-			pOW->StrongPull_cfg.GPIO_Active = GPIO_PIN_RESET;
+			pGPIO->GPIOx = stm_port(STRONG_PULL_OW_1);
+			pGPIO->GPIO_Pin = stm_pin(STRONG_PULL_OW_1);
+			pGPIO->GPIO_Active = GPIO_PIN_RESET;
 			break;
+		\endcode**/
 	}
-
-	OW_StrongPull_Set(pOW, false);
-	\endcode**/
 }
+
 
 void OW_StrongPull_Set(OW_DRV * const pOW, const bool en)
 {
@@ -163,7 +162,7 @@ FctERR NONNULL__ OWWrite_byte(const OW_DRV * const pOW, const uint8_t byte)
 	if (!pOW->strong_pull_en)
 	{
 		uint8_t	data = byte;
-		for (size_t j = 8U ; j ; j--)
+		for (size_t i = 8U ; i ; i--)
 		{
 			err = OWWrite_bit(pOW, data & 0x01U);
 			if (err != ERROR_OK)	{ break; }

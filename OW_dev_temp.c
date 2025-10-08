@@ -18,7 +18,7 @@ FctERR NONNULL__ OW_TEMP_Convert_Handler(OW_temp_t * const pTEMP)
 
 	if (!pTEMP->doneConv)
 	{
-		if (TPSSUP_MS(pTEMP->hStartConv, pTEMP->props->convTimes[pTEMP->resIdx] + 1U))	// Add 1ms to max conversion time
+		if (TPSSUP_MS(pTEMP->hStartConv, pTEMP->props->convTimes[pTEMP->resIdx - pTEMP->props->minResIdx] + 1U))	// Add 1ms to max conversion time
 		{
 			pTEMP->doneConv = true;
 
@@ -71,14 +71,15 @@ FctERR NONNULL__ OW_TEMP_Read_Scratchpad(OW_temp_t * const pTEMP)
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
+	if (err != ERROR_OK)	{ goto err; }
 
 	UNUSED_RET OWWrite_byte(pDrv, OW_TEMP__READ_SCRATCHPAD);
 	UNUSED_RET OWRead(pDrv, pTEMP->scratch.bytes, OW_TEMP_SCRATCHPAD_SIZE);
 
-	OW_set_busy(pSlave, false);
-
 	err = OW_TEMP_Check_CRC_Scratchpad(pTEMP);
+
+	err:
+	OW_set_busy(pSlave, false);
 
 	ret:
 	return err;
@@ -98,7 +99,7 @@ static FctERR NONNULL__ OW_TEMP_Recall(OW_temp_t * const pTEMP)
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
+	if (err != ERROR_OK)	{ goto err; }
 
 	UNUSED_RET OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__RECALL);
 
@@ -109,6 +110,7 @@ static FctERR NONNULL__ OW_TEMP_Recall(OW_temp_t * const pTEMP)
 		UNUSED_RET OWRead_byte(pDrv, &done);
 	}
 
+	err:
 	OW_set_busy(pSlave, false);
 
 	ret:
@@ -129,7 +131,7 @@ static FctERR NONNULL__ OW_TEMP_Copy_Scratchpad(OW_temp_t * const pTEMP)
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)			{ goto ret;	}
+	if (err != ERROR_OK)			{ goto err;	}
 
 	UNUSED_RET OWWrite_byte(pDrv, OW_TEMP__COPY_SCRATCHPAD);
 
@@ -146,6 +148,7 @@ static FctERR NONNULL__ OW_TEMP_Copy_Scratchpad(OW_temp_t * const pTEMP)
 
 	OW_StrongPull_Set(pTEMP->slave_inst->cfg.bus_inst, false);
 
+	err:
 	OW_set_busy(pSlave, false);
 
 	ret:
@@ -166,7 +169,7 @@ FctERR NONNULL__ OW_TEMP_Write_Scratchpad(OW_temp_t * const pTEMP)
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
+	if (err != ERROR_OK)	{ goto err; }
 
 	UNUSED_RET OWWrite_byte(pDrv, OW_TEMP__WRITE_SCRATCHPAD);
 	UNUSED_RET OWWrite(pDrv, &pTEMP->scratch.bytes[2], pTEMP->props->cfgBytes);
@@ -182,6 +185,7 @@ FctERR NONNULL__ OW_TEMP_Write_Scratchpad(OW_temp_t * const pTEMP)
 	err = OW_TEMP_Read_Scratchpad(pTEMP);
 	if (err != ERROR_OK)	{ goto ret; }
 
+	err:
 	OW_set_busy(pSlave, false);
 
 	ret:
@@ -202,7 +206,11 @@ FctERR NONNULL__ OW_TEMP_Start_Conversion(OW_temp_t * const pTEMP)
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
+	if (err != ERROR_OK)
+	{
+		OW_set_busy(pSlave, false);
+		goto ret;
+	}
 
 	UNUSED_RET OWWrite_byte(pDrv, OW_TEMP__CONVERT_T);
 
@@ -234,7 +242,7 @@ FctERR NONNULL__ OW_TEMP_Convert(OW_temp_t * const pTEMP)
 
 	if (!err)
 	{
-		while (TPSINF_MS(pTEMP->hStartConv, pTEMP->props->convTimes[pTEMP->resIdx] + 1U))	// Add 1ms to max conversion time
+		while (TPSINF_MS(pTEMP->hStartConv, pTEMP->props->convTimes[pTEMP->resIdx - pTEMP->props->minResIdx] + 1U))	// Add 1ms to max conversion time
 		{
 			OW_Watchdog_Refresh();
 		}

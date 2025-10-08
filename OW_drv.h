@@ -20,7 +20,7 @@
 
 
 #ifndef OW_BUS_NB
-#define OW_BUS_NB				1	//!< Number of One Wire bus
+#define OW_BUS_NB				1U	//!< Number of One Wire bus
 #endif
 
 #ifndef	OW_CUSTOM_BYTE_HANDLERS
@@ -86,7 +86,8 @@ extern OW_DRV OWdrv[OW_BUS_NB];						//!< OWdrv structure
 // *****************************************************************************
 /*!\brief OneWire driver instance init
 ** \param[in,out] pHandle - Pointer to physical handler
-** \note OW_Handle_t can be any peripheral instance, or GPIO_HandleTypeDef to init OW on GPIO
+** \note OW_Handle_t can be any peripheral instance, or \ref GPIO_HandleTypeDef to init OW on GPIO
+** \note GPIO_Active field of \ref GPIO_HandleTypeDef is unused
 ** \param[in] idx - Instance index
 ** \return FctERR - Error code
 **/
@@ -95,10 +96,10 @@ FctERR OWInit(OW_Handle_t * const pHandle, const uint8_t idx);
 
 /*!\brief OneWire driver Strong Pull-up output init
 ** \weak OWInit_StrongPull_Output may be user implemented when a strong pull-up output is used on the bus
-** \param[in,out] pOW - Pointer to OneWire driver instance
+** \param[in,out] pGPIO - Pointer to Strong Pull-up handle instance
 ** \param[in] idx - Instance index
 **/
-void OWInit_StrongPull_Output(OW_DRV * const pOW, const uint8_t idx);
+void OWInit_StrongPull_Output(GPIO_HandleTypeDef * const pGPIO, const uint8_t idx);
 
 /*!\brief OneWire driver Strong Pull-up setter
 ** \param[in,out] pOW - Pointer to OneWire driver instance

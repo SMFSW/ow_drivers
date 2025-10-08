@@ -88,7 +88,7 @@ FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP)
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)			{ goto ret; }
+	if (err != ERROR_OK)			{ goto err; }
 
 	UNUSED_RET OWWrite_byte(pDrv, OW_EEP__READ_SCRATCHPAD);
 	UNUSED_RET OWRead(pDrv, tmp, sizeof(tmp));
@@ -98,8 +98,6 @@ FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP)
 
 	UNUSED_RET OWRead(pDrv, pEEP->scratch.pData, len);
 	UNUSED_RET OWRead(pDrv, crc.Byte, sizeof(crc.Byte));
-
-	OW_set_busy(pSlave, false);
 
 	pEEP->scratch.ES = tmp[2];
 	pEEP->scratch.nb = len;
@@ -113,6 +111,9 @@ FctERR NONNULL__ OW_EEP_Read_Scratchpad(OW_eep_t * const pEEP)
 	crc.Word = ~crc.Word;
 
 	if (crc.Word != pEEP->scratch.crc) { err = ERROR_CRC; }
+
+	err:
+	OW_set_busy(pSlave, false);
 
 	ret:
 	return err;
@@ -146,7 +147,11 @@ FctERR NONNULL__ OW_EEP_Write_Scratchpad(OW_eep_t * const pEEP, const uint8_t * 
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
+	if (err != ERROR_OK)
+	{
+		OW_set_busy(pSlave, false);
+		goto ret;
+	}
 
 	UNUSED_RET OWWrite(pDrv, cmd, sizeof(cmd));
 	UNUSED_RET OWWrite(pDrv, pEEP->scratch.pData, len);
@@ -185,12 +190,13 @@ FctERR NONNULL__ OW_EEP_Read_Memory(OW_eep_t * const pEEP, uint8_t * pData, cons
 	OW_set_busy(pSlave, true);
 
 	err = OWROMCmd_Control_Sequence(pDrv, &pSlave->cfg.ROM_ID, false);
-	if (err != ERROR_OK)	{ goto ret; }
+	if (err != ERROR_OK)	{ goto err; }
 
 	const uint8_t cmd[3] = { OW_EEP__READ_MEMORY, LOBYTE(addr), HIBYTE(addr) };
 	UNUSED_RET OWWrite(pDrv, cmd, sizeof(cmd));
 	UNUSED_RET OWRead(pDrv, pData, len);
 
+	err:
 	OW_set_busy(pSlave, false);
 
 	ret:
@@ -216,16 +222,16 @@ FctERR NONNULL__ OW_EEP_Write_Memory(OW_eep_t * const pEEP, const uint8_t * pDat
 
 	while (data_len != 0U)
 	{
+		while (OW_EEP_WriteCycle_Handler(pEEP) != ERROR_OK)	// Wait for a previous write to complete
+		{
+			OW_Watchdog_Refresh();
+			HAL_Delay(1U);
+		}
+
 		const size_t write_len = min(pEEP->props->scratchpad_size - unaligned_len, data_len);
 
 		if (unaligned_len != 0U)
 		{
-			while (OW_EEP_WriteCycle_Handler(pEEP) != ERROR_OK)	// Wait for a previous write to complete
-			{
-				OW_Watchdog_Refresh();
-				HAL_Delay(1U);
-			}
-
 			const size_t read_len = ((write_len + unaligned_len) == pEEP->props->scratchpad_size) ? unaligned_len : pEEP->props->scratchpad_size;
 
 			err = OW_EEP_Read_Memory(pEEP, pEEP->scratch.pData, address, read_len);
