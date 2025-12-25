@@ -481,7 +481,7 @@ FctERR NONNULL__ OWVerify(OW_DRV * const pOW)
 	OWSearch_State_t	bak;
 
 	/* Backup current state */
-	UNUSED_RET memcpy(&bak, &pOW->search_state, sizeof(OWSearch_State_t));
+	UNUSED_RET memcpy(&bak, &pOW->search_state, sizeof(OWSearch_State_t));	// cppcheck-suppress uninitvar ; memcpy purpose is to initialize bak
 
 	/* Set search to find the same device */
 	pOW->search_state.lastDiscrepancy = 64U;
@@ -527,7 +527,7 @@ FctERR NONNULL__ OWROMCmd_Control_Sequence(const OW_DRV * const pOW, const OW_RO
 {
 	FctERR err = OWReset(pOW);
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		if (broadcast)	{ err = OWSkip(pOW); }
 		else			{ err = OWSelect(pOW, pROM); }
@@ -541,14 +541,13 @@ FctERR NONNULL__ OWCheckPowerSupply(OW_DRV * const pOW)
 {
 	FctERR err = OWReset(pOW);
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		err = OWSkip(pOW);
 
-		// issue the read power supply command
-		UNUSED_RET OWWrite_byte(pOW, OW__READ_POWER_SUPPLY);
+		uint8_t power = 0;
 
-		uint8_t power;
+		UNUSED_RET OWWrite_byte(pOW, OW__READ_POWER_SUPPLY);
 		UNUSED_RET OWRead_byte(pOW, &power);
 
 		pOW->parasite_powered = nbinEval(power);
@@ -562,7 +561,7 @@ FctERR NONNULL__ OWRead_ROM_Id(const OW_DRV * const pOW, OW_ROM_ID_t * const pRO
 {
 	FctERR err = OWReset(pOW);
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		UNUSED_RET OWWrite_byte(pOW, OW__READ_ROM);
 		UNUSED_RET OWRead(pOW, pROM->romId, OW_ROM_ID_SIZE);

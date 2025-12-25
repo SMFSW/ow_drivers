@@ -82,7 +82,7 @@ FctERR NONNULL__ DS28E07_Get_Protect_Page(DS28E07_t * const pCpnt, DS28E07_prot_
 	if (page < DS28E07_PAGES)
 	{
 		err = DS28E07_Read_AdminData(pCpnt);
-		if (!err)	{ *pProt = pCpnt->admin.admin_data[page]; }
+		if (err == ERROR_OK)	{ *pProt = pCpnt->admin.admin_data[page]; }
 	}
 
 	return err;
@@ -93,7 +93,7 @@ FctERR NONNULL__ DS28E07_Get_Protect_Copy(DS28E07_t * const pCpnt, DS28E07_prot_
 {
 	const FctERR err = DS28E07_Read_AdminData(pCpnt);
 
-	if (!err)	{ *pProt = pCpnt->admin.protect_copy; }
+	if (err == ERROR_OK)	{ *pProt = pCpnt->admin.protect_copy; }
 
 	return err;
 }
@@ -103,7 +103,7 @@ FctERR NONNULL__ DS28E07_Get_Protect_UserBytes(DS28E07_t * const pCpnt, DS28E07_
 {
 	const FctERR err = DS28E07_Read_AdminData(pCpnt);
 
-	if (!err)	{ *pProt = pCpnt->admin.protect_user; }
+	if (err == ERROR_OK)	{ *pProt = pCpnt->admin.protect_user; }
 
 	return err;
 }
@@ -114,7 +114,7 @@ FctERR NONNULL__ DS28E07_Protect_Page(DS28E07_t * const pCpnt, const DS28E07_pro
 	FctERR			err = DS28E07_Read_AdminData(pCpnt);
 	FctERR			err_page = ERROR_OK;
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		OW_eep_pages	p = 0U;
 		OW_eep_pages	p_max = 0U;
@@ -138,7 +138,7 @@ FctERR NONNULL__ DS28E07_Protect_Page(DS28E07_t * const pCpnt, const DS28E07_pro
 			else if (prot == DS28E07__PAGE_EEPROM_MODE)	// If eeprom mode, write 0xFF on the whole page prior to set as eeprom mode
 			{
 				uint8_t data[DS28E07_PAGE_SIZE];
-				UNUSED_RET memset(data, 0xFF, DS28E07_PAGE_SIZE);
+				UNUSED_RET memset(data, 0xFF, DS28E07_PAGE_SIZE);	// cppcheck-suppress uninitvar ; memset purpose is to initialize data
 				err |= DS28E07_Write_Memory(pCpnt, data, DS28E07_PAGE_SIZE * p, sizeof(data));
 				if (err != ERROR_OK)	{ break; }
 			}
@@ -146,7 +146,7 @@ FctERR NONNULL__ DS28E07_Protect_Page(DS28E07_t * const pCpnt, const DS28E07_pro
 			pCpnt->admin.admin_data[p] = prot;
 		}
 
-		if (!err)	{ err = DS28E07_Write_AdminData(pCpnt); }
+		if (err == ERROR_OK)	{ err = DS28E07_Write_AdminData(pCpnt); }
 	}
 
 	return (err | err_page);
@@ -157,12 +157,12 @@ FctERR NONNULL__ DS28E07_Protect_Copy(DS28E07_t * const pCpnt, const DS28E07_pro
 {
 	FctERR err = DS28E07_Read_AdminData(pCpnt);
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		if (	(pCpnt->admin.protect_copy == DS28E07__COPY_WRITE_PROTECT_1)								// Administrative data protected
 			||	(pCpnt->admin.protect_copy == DS28E07__COPY_WRITE_PROTECT_2))	{ err = ERROR_PROTECT; }	// Administrative data protected
 
-		if (!err)
+		if (err == ERROR_OK)
 		{
 			pCpnt->admin.protect_copy = prot;
 			err = DS28E07_Write_AdminData(pCpnt);
@@ -177,13 +177,13 @@ FctERR NONNULL__ DS28E07_Protect_UserBytes(DS28E07_t * const pCpnt, const DS28E0
 {
 	FctERR err = DS28E07_Read_AdminData(pCpnt);
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		if (	(pCpnt->admin.protect_copy == DS28E07__COPY_WRITE_PROTECT_1)								// Administrative data protected
 			||	(pCpnt->admin.protect_copy == DS28E07__COPY_WRITE_PROTECT_2)								// Administrative data protected
 			||	(pCpnt->admin.protect_user == DS28E07__USER_WRITE_PROTECT))		{ err = ERROR_PROTECT; }	// User bytes write protected
 
-		if (!err)
+		if (err == ERROR_OK)
 		{
 			pCpnt->admin.protect_user = prot;
 			err = DS28E07_Write_AdminData(pCpnt);
@@ -219,13 +219,13 @@ FctERR NONNULL__ DS28E07_Write_UserBytes(DS28E07_t * const pCpnt, const uint8_t 
 	DS28E07_prot_copy	copy_prot;
 	FctERR				err = DS28E07_Get_Protect_Copy(pCpnt, &copy_prot);	// Reads all Administrative area
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		if (	(copy_prot == DS28E07__COPY_WRITE_PROTECT_1)											// Administrative data protected
 			||	(copy_prot == DS28E07__COPY_WRITE_PROTECT_2)											// Administrative data protected
 			||	(pCpnt->admin.protect_user == DS28E07__USER_WRITE_PROTECT))	{ err = ERROR_PROTECT; }	// User bytes write protected
 
-		if (!err)
+		if (err == ERROR_OK)
 		{
 			UNUSED_RET memcpy(pCpnt->admin.user.Byte, user, DS28E07_NB_USER_BYTES);
 

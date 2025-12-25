@@ -103,8 +103,8 @@ static FctERR NONNULL__ OW_TEMP_Recall(OW_temp_t * const pTEMP)
 
 	UNUSED_RET OWWrite_byte(pSlave->cfg.bus_inst, OW_TEMP__RECALL);
 
-	uint8_t done = 0U;
-	while (!done)
+	uint8_t done = 0;
+	while (done == 0)	// cppcheck-suppress knownConditionTrueFalse ; done is written by OWRead_byte, thus condition is not always true
 	{
 		OW_Watchdog_Refresh();
 		UNUSED_RET OWRead_byte(pDrv, &done);
@@ -230,7 +230,7 @@ FctERR NONNULL__ OW_TEMP_Read_Conversion(OW_temp_t * const pTEMP)
 {
 	FctERR err = OW_TEMP_Read_Scratchpad(pTEMP);
 
-	if (!err)	{ pTEMP->tempConv = MAKEWORD(pTEMP->scratch.bytes[0], pTEMP->scratch.bytes[1]); }
+	if (err == ERROR_OK)	{ pTEMP->tempConv = MAKEWORD(pTEMP->scratch.bytes[0], pTEMP->scratch.bytes[1]); }
 
 	return err;
 }
@@ -240,7 +240,7 @@ FctERR NONNULL__ OW_TEMP_Convert(OW_temp_t * const pTEMP)
 {
 	FctERR err = OW_TEMP_Start_Conversion(pTEMP);
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		while (TPSINF_MS(pTEMP->hStartConv, pTEMP->props->convTimes[pTEMP->resIdx - pTEMP->props->minResIdx] + 1U))	// Add 1ms to max conversion time
 		{

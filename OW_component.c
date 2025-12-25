@@ -24,9 +24,9 @@ __STATIC FctERR NONNULL__ OW_slave_get_power_supply(OW_slave_t * const pSlave)
 
 	FctERR err = OWROMCmd_Control_Sequence(pSlave->cfg.bus_inst, &pSlave->cfg.ROM_ID, false);
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
-		uint8_t power;
+		uint8_t power = 0;
 
 		UNUSED_RET OWWrite_byte(pSlave->cfg.bus_inst, OW__READ_POWER_SUPPLY);
 		UNUSED_RET OWRead_byte(pSlave->cfg.bus_inst, &power);

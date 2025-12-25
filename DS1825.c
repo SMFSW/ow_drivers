@@ -77,7 +77,7 @@ __WEAK FctERR NONNULL__ DS1825_Init_Sequence(DS1825_t * const pCpnt)
 {
 	FctERR err = DS1825_Read_Scratchpad(pCpnt);
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		pCpnt->location = pCpnt->temp.scratch.configuration.Bits.ADx;
 		pCpnt->temp.resIdx = pCpnt->temp.scratch.configuration.Bits.Rx;
@@ -123,13 +123,13 @@ FctERR NONNULL__ DS1825_Set_Resolution(DS1825_t * const pCpnt, const OW_temp_res
 	{
 		err = DS1825_Read_Scratchpad(pCpnt);
 
-		if (!err)
+		if (err == ERROR_OK)
 		{
 			pCpnt->temp.scratch.configuration.Bits.Rx = resolution;
 
 			err = DS1825_Write_Scratchpad(pCpnt);
 
-			if (!err)	{ pCpnt->temp.resIdx = pCpnt->temp.scratch.configuration.Bits.Rx; }
+			if (err == ERROR_OK)	{ pCpnt->temp.resIdx = pCpnt->temp.scratch.configuration.Bits.Rx; }
 		}
 	}
 

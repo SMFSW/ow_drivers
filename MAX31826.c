@@ -63,7 +63,7 @@ __WEAK FctERR NONNULL__ MAX31826_Init_Sequence(MAX31826_t * const pCpnt)
 {
 	FctERR err = MAX31826_Read_Scratchpad(pCpnt);
 
-	if (!err)
+	if (err == ERROR_OK)
 	{
 		pCpnt->location = pCpnt->temp.scratch.configuration.Bits.ADx;
 		pCpnt->temp.resIdx = OW_TEMP__RES_12BIT;
