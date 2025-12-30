@@ -144,7 +144,7 @@ static FctERR NONNULL__ OW_TEMP_Copy_Scratchpad(OW_temp_t * const pTEMP)
 		OW_Watchdog_Refresh();
 		HAL_Delay(1U);
 	}
-	while (--cpt);
+	while (--cpt != 0);
 
 	OW_StrongPull_Set(pTEMP->slave_inst->cfg.bus_inst, false);
 
