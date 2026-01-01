@@ -1,6 +1,6 @@
 /*!\file DS1825.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief DS1825: Programmable Resolution 1-Wire Digital Thermometer With 4-Bit ID
 **/
 // cppcheck-suppress-begin misra-c2012-19.2
@@ -35,11 +35,11 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum _DS1825_cmd
+/*!\enum DS1825_cmd
 ** \brief Commands enum for DS1825
 ** \note Unused
 **/
-typedef enum PACK__ _DS1825_cmd {
+typedef enum PACK__ {
 	DS1825__CONVERT_T = OW_TEMP__CONVERT_T,					//!< Initiates temperature conversion
 	DS1825__WRITE_SCRATCHPAD = OW_TEMP__WRITE_SCRATCHPAD,	//!< Writes data into scratchpad bytes 2, 3, and 4 (Th, Tl, and configuration registers)
 	DS1825__COPY_SCRATCHPAD = OW_TEMP__COPY_SCRATCHPAD,		//!< Copies Th, Tl, and configuration register data from the scratchpad to EEPROM
@@ -52,7 +52,7 @@ typedef enum PACK__ _DS1825_cmd {
 /*!\struct DS1825_t
 ** \brief DS1825 user interface struct
 **/
-typedef struct _DS1825_t {
+typedef struct {
 	/*** device generic peripheral types structures ***/
 	OW_sn_t		sn;			//!< Serial Number device type structure
 	OW_temp_t	temp;		//!< Temperature Sensor device type structure

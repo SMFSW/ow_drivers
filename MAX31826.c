@@ -1,6 +1,6 @@
 /*!\file MAX31826.c
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief MAX31826:  Digital Temperature Sensor with 1Kb Lockable EEPROM
 **/
 /****************************************************************/

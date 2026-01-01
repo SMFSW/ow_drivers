@@ -1,6 +1,6 @@
 /*!\file OW_phy_UART.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief OneWire UART physical layer
 ** \warning Assuming UART instance has already been configured once at init with following parameters:
 **			Half duplex configuration

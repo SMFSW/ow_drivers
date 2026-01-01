@@ -1,6 +1,6 @@
 /*!\file OW_drv.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief GPIO OneWire driver
 **/
 /****************************************************************/
@@ -35,25 +35,25 @@
 /*!\struct OWSearch_State_t
 ** \brief OneWire Search State struct
 **/
-typedef struct _OWSearch_State_t {
+typedef struct {
 	OW_ROM_ID_t		ROM_ID;						//!< Last found ROM Id
 	uint8_t			lastDiscrepancy;			//!< Last found Id
 	uint8_t			lastFamilyDiscrepancy;		//!< Last found Family	// TODO: check if needs to be type OW_ROM_type
 	bool			lastDeviceFlag;				//!< Last device found flag
 } OWSearch_State_t;
 
-typedef uint32_t				OW_mutex_t;		//!< Typedef for mutual exclusion variable
-typedef struct _StructOW_DRV	OW_DRV;			//!< Typedef for OW_DRV used by function pointers included in struct
+typedef uint32_t		OW_mutex_t;		//!< Typedef for mutual exclusion variable
+typedef struct sOW_DRV	OW_DRV;			//!< Typedef for OW_DRV used by function pointers included in struct
 
 typedef FctERR (*pfOW_phyWrite_t)(const OW_DRV * const pOW, const uint8_t data);	//!< OneWire Write function typedef
 typedef FctERR (*pfOW_phyRead_t)(const OW_DRV * const pOW, uint8_t * const pData);	//!< OneWire Read function typedef
 typedef FctERR (*pfOW_phyReset_t)(const OW_DRV * const pOW);						//!< OneWire Reset bus function typedef
 
 
-/*!\struct StructOW_DRV
+/*!\struct sOW_DRV
 ** \brief OneWire driver struct
 **/
-struct _StructOW_DRV {
+struct sOW_DRV {
 	uint8_t						idx;				//!< OWdrv index
 	OWPhy						phy;				//!< OWdrv physical peripheral type
 	OW_phy_u					phy_inst;			//!< OWdrv physical instance

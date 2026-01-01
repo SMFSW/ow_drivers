@@ -1,6 +1,6 @@
 /*!\file MAX31826.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief MAX31826:  Digital Temperature Sensor with 1Kb Lockable EEPROM
 **/
 // cppcheck-suppress-begin misra-c2012-19.2
@@ -44,10 +44,10 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum _MAX31826_reg_map
+/*!\enum MAX31826_reg_map
 ** \brief Register map enum of MAX31826
 **/
-typedef enum PACK__ _MAX31826_reg_map {
+typedef enum PACK__ {
 	MAX31826__ADDR_PAGE_0 = 0U,			//!< User memory Page 0
 	MAX31826__ADDR_PAGE_1 = 0x08U,		//!< User memory Page 1
 	MAX31826__ADDR_PAGE_2 = 0x10U,		//!< User memory Page 2
@@ -68,11 +68,11 @@ typedef enum PACK__ _MAX31826_reg_map {
 	MAX31826__LOCK_EEP_HIGH = 0x81U,	//!< Lock EEPROM High Memory (bytes 40h–7Fh)
 } MAX31826_reg;
 
-/*!\enum _MAX31826_cmd
+/*!\enum MAX31826_cmd
 ** \brief Commands enum for MAX31826
 ** \note Unused
 **/
-typedef enum PACK__ _MAX31826_cmd {
+typedef enum PACK__ {
 	MAX31826__TEMP_CONVERT_T = OW_TEMP__CONVERT_T,					//!< Initiates temperature conversion
 	MAX31826__TEMP_WRITE_SCRATCHPAD = OW_TEMP__WRITE_SCRATCHPAD,	//!< Write data into scratchpad 1 (temperature sensor scratchpad)
 	MAX31826__TEMP_READ_SCRATCHPAD = OW_TEMP__READ_SCRATCHPAD,		//!< Read entire scratchpad 1 including the CRC byte (temperature sensor scratchpad)
@@ -83,10 +83,10 @@ typedef enum PACK__ _MAX31826_cmd {
 } MAX31826_cmd;
 
 
-/*!\enum _MAX31826_eep_area
+/*!\enum MAX31826_eep_area
 ** \brief EEP areas enum for MAX31826
 **/
-typedef enum PACK__ _MAX31826_eep_area {
+typedef enum PACK__ {
 	MAX31826__EEP_LOW = 0U,	//!< MAX31826 low eeprom area (0h-3Fh)
 	MAX31826__EEP_HIGH		//!< MAX31826 high eeprom area (40h-7Fh)
 } MAX31826_eep_area;
@@ -95,7 +95,7 @@ typedef enum PACK__ _MAX31826_eep_area {
 /*!\union uMAX31826_REG__CFG
 ** \brief Union for configuration register of MAX31826
 **/
-typedef union PACK__ _uMAX31826_REG__CFG {
+typedef union PACK__ {
 	uint8_t Byte;
 	struct PACK__ {
 		uint8_t			ADx	:4;	//!< Location information
@@ -109,7 +109,7 @@ typedef union PACK__ _uMAX31826_REG__CFG {
 /*!\struct MAX31826_t
 ** \brief MAX31826 user interface struct
 **/
-typedef struct _MAX31826_t {
+typedef struct {
 	/*** device generic peripheral types structures ***/
 	OW_sn_t		sn;			//!< Serial Number device type structure
 	OW_temp_t	temp;		//!< Temperature Sensor device type structure

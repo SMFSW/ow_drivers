@@ -1,6 +1,6 @@
 /*!\file OW_dev_temp.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief OneWire temperature sensor device type
 **/
 /****************************************************************/
@@ -39,10 +39,10 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum _OW_TEMP_cmd
+/*!\enum OW_TEMP_cmd
 ** \brief Commands enum for Temperature Sensor device type
 **/
-typedef enum PACK__ _OW_TEMP_cmd {
+typedef enum PACK__ {
 	OW_TEMP__CONVERT_T = 0x44U,			//!< Initiates temperature conversion
 	OW_TEMP__WRITE_SCRATCHPAD = 0x4EU,	//!< Writes data into scratchpad bytes 2, 3, and 4 (Th, Tl, and configuration registers)
 	OW_TEMP__COPY_SCRATCHPAD = 0x48U,	//!< Copies Th, Tl, and configuration register data from the scratchpad to EEPROM
@@ -52,10 +52,10 @@ typedef enum PACK__ _OW_TEMP_cmd {
 } OW_TEMP_cmd;
 
 
-/*!\enum _OW_temp_res
+/*!\enum OW_temp_res
 ** \brief Resolutions enum for temperature sensor
 **/
-typedef enum PACK__ _OW_temp_res {
+typedef enum PACK__ {
 	OW_TEMP__RES_9BIT = 0U,	//!< 9b resolution
 	OW_TEMP__RES_10BIT,		//!< 10b resolution
 	OW_TEMP__RES_11BIT,		//!< 11b resolution
@@ -66,7 +66,7 @@ typedef enum PACK__ _OW_temp_res {
 /*!\union uOW_temp_REG__CFG
 ** \brief Union for configuration register of temperature sensor
 **/
-typedef union PACK__ _uOW_temp_REG__CFG {
+typedef union PACK__ {
 	uint8_t Byte;
 	struct PACK__ {
 		uint8_t		ADx	:4;	//!< Location information
@@ -80,7 +80,7 @@ typedef union PACK__ _uOW_temp_REG__CFG {
 /*!\struct OW_temp_props_t
 ** \brief OneWire Temperature sensor properties type
 **/
-typedef struct _OW_temp_props_t {
+typedef struct {
 	const uint16_t *	convTimes;		//!< Conversion times array (following resolution)
 	OW_temp_res			minResIdx;		//!< Minimum resolution index
 	OW_temp_res			maxResIdx;		//!< Maximum resolution index
@@ -89,10 +89,10 @@ typedef struct _OW_temp_props_t {
 } OW_temp_props_t;
 
 
-/*!\struct _OW_temp_scratch_t
+/*!\struct OW_temp_scratch_t
 ** \brief OneWire temperature sensor scratchpad struct
 **/
-typedef union PACK__ _OW_temp_scratch_t {
+typedef union PACK__ {
 	uint8_t					bytes[OW_TEMP_SCRATCHPAD_SIZE];
 	struct PACK__ {
 		int16_t				temp;			//!< Temperature register (little endian)
@@ -108,7 +108,7 @@ typedef union PACK__ _OW_temp_scratch_t {
 /*!\struct OW_temp_t
 ** \brief OneWire Temperature sensor configuration type
 **/
-typedef struct _OW_temp_t {
+typedef struct {
 	OW_slave_t *			slave_inst;		//!< Slave structure
 	const OW_temp_props_t *	props;			//!< Temperature sensor properties
 	OW_temp_scratch_t		scratch;		//!< Scratchpad structure

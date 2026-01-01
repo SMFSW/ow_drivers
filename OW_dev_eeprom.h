@@ -1,6 +1,6 @@
 /*!\file OW_dev_eeprom.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief OneWire eeprom device type
 **/
 /****************************************************************/
@@ -34,10 +34,10 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum _OW_EEP_cmd
+/*!\enum OW_EEP_cmd
 ** \brief Commands enum for EEPROM device type
 **/
-typedef enum PACK__ _OW_EEP_cmd {
+typedef enum PACK__ {
 	OW_EEP__WRITE_SCRATCHPAD = 0x0FU,	//!< Write scratchpad command
 	OW_EEP__COPY_SCRATCHPAD = 0x55U,	//!< Copy scratchpad command
 	OW_EEP__READ_SCRATCHPAD = 0xAAU,	//!< Read scratchpad command
@@ -45,10 +45,10 @@ typedef enum PACK__ _OW_EEP_cmd {
 } OW_EEP_cmd;
 
 
-/*!\enum _OW_eep_pages
+/*!\enum OW_eep_pages
 ** \brief Pages values for eeprom type devices
 **/
-typedef enum PACK__ _OW_eep_pages {
+typedef enum PACK__ {
 	OW_EEP__PAGE0 = 0U,			//!< EEPROM Page 0
 	OW_EEP__PAGE1,				//!< EEPROM Page 1
 	OW_EEP__PAGE2,				//!< EEPROM Page 2
@@ -62,10 +62,10 @@ typedef enum PACK__ _OW_eep_pages {
 } OW_eep_pages;
 
 
-/*!\struct _OW_eep_props_t
+/*!\struct OW_eep_props_t
 ** \brief OneWire EEPROM properties type
 **/
-typedef struct _OW_eep_props_t {
+typedef struct {
 	size_t		scratchpad_size;	//!< Scratchpad size (in bytes)
 	size_t		mem_size;			//!< Memory size (in bytes)
 	size_t		page_size;			//!< Page size (in bytes)
@@ -76,10 +76,10 @@ typedef struct _OW_eep_props_t {
 } OW_eep_props_t;
 
 
-/*!\struct _OW_eep_scratch_t
+/*!\struct OW_eep_scratch_t
 ** \brief OneWire EEPROM scratchpad struct
 **/
-typedef struct _OW_eep_scratch_t {
+typedef struct {
 	uint8_t		ES;			//!< ES register value
 	uint16_t	crc;		//!< Scratchpad CRC
 	uint32_t	address;	//!< Address
@@ -88,10 +88,10 @@ typedef struct _OW_eep_scratch_t {
 } OW_eep_scratch_t;
 
 
-/*!\struct _OW_eep_t
+/*!\struct OW_eep_t
 ** \brief OneWire EEPROM configuration type
 **/
-typedef struct _OW_eep_t {
+typedef struct {
 	OW_slave_t *			slave_inst;		//!< Slave structure
 	const OW_eep_props_t *	props;			//!< EEPROM properties
 	OW_eep_scratch_t		scratch;		//!< Scratchpad structure

@@ -1,6 +1,6 @@
 /*!\file OW_dev_type.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief OneWire device types
 **/
 /****************************************************************/
@@ -15,10 +15,10 @@
 /****************************************************************/
 
 
-/*!\enum _OW_ROM_type
+/*!\enum OW_ROM_type
 ** \brief Shared ROM type enum for One Wire
 **/
-typedef enum PACK__ _OW_ROM_type {							// Description: (iButton refs), device refs
+typedef enum PACK__ {							// Description: (iButton refs), device refs
 	OW_TYPE__NO_DEVICE							= 0x00U,	//!< No device
 	/*** MAXIMINTEGRATED AIBU's software library handled ***/
 	OW_TYPE__NET_ADDRESS						= 0x01U,	//!< 1-Wire net address (registration number) only: (DS1990A), (DS1990R), DS2401, DS2411

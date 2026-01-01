@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2021-2025 SMFSW (Sebastien Bizien)
+Copyright (c) 2021-2026 SMFSW (Sebastien Bizien)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@ SOFTWARE.
 
 ## v0.2
 
+* Unused tags removal (enum/struct/union)
 * Bus locking (busy) implementation for ongoing actions
 * MAX31826: temperature sensor & eeprom component added
 * EEPROM type WriteCycle time handler added

@@ -1,6 +1,6 @@
 /*!\file OW_rom_id.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief OneWire ROM Id
 **/
 /****************************************************************/
@@ -30,7 +30,7 @@
 **  \brief One Wire ROM Identification type
 **  \note S
 **/
-typedef struct PACK__ _OW_ROM_ID_t {
+typedef struct PACK__ {
 	union PACK__ {
 		uint8_t			romId[OW_ROM_ID_SIZE];	//!< ROM Id bytes array
 		struct PACK__ {

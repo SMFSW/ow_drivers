@@ -1,6 +1,6 @@
 /*!\file OW_component.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief Base One Wire component
 ** \note Needed symbols may be defined in globals.h or at project level. If globals.h is not used, symbol NO_GLOBALS_HEADER needs to be defined.
 ** \hideincludedbygraph
@@ -42,10 +42,10 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum _OW_ROM_cmd
+/*!\enum OW_ROM_cmd
 ** \brief Shared commands enum for One Wire
 **/
-typedef enum PACK__ _OW_ROM_cmd {
+typedef enum PACK__ {
 	OW__OVERDRIVE_SKIP_ROM = 0x3CU,		//!< Overdrive skip ROM command
 	OW__READ_ROM = 0x33U,				//!< Read ROM command
 	OW__MATCH_ROM = 0x55U,				//!< Match ROM command
@@ -60,7 +60,7 @@ typedef enum PACK__ _OW_ROM_cmd {
 /*! \struct OW_slave_t
 **  \brief One Wire slave config and control parameters
 **/
-typedef struct _OW_slave_t {
+typedef struct {
 	/*! \struct cfg
 	**  \brief OW pSlave parameters
 	**/

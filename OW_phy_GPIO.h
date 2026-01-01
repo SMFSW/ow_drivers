@@ -1,6 +1,6 @@
 /*!\file OW_phy_GPIO.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief OneWire GPIO physical layer
 **/
 /****************************************************************/
@@ -23,7 +23,7 @@
 /*!\struct OW_GPIO_HandleTypeDef
 ** \brief GPIO handle structure definition
 **/
-typedef struct _OW_GPIO_HandleTypeDef {
+typedef struct {
 	GPIO_TypeDef *	port;			//!< Pointer to pin port
 	__IO uint32_t *	reg;			//!< Pointer to pin register
 	uint32_t		regMask;		//!< Pin register mask
@@ -36,7 +36,7 @@ typedef struct _OW_GPIO_HandleTypeDef {
 /*!\struct GPIO_HandleTypeDef
 ** \brief GPIO configuration handle structure definition
 **/
-typedef struct _GPIO_HandleTypeDef {
+typedef struct {
 	GPIO_TypeDef *	GPIOx;			//!< HAL GPIO instance
 	uint16_t		GPIO_Pin;		//!< HAL GPIO pin
 	GPIO_PinState	GPIO_Active;	//!< HAL GPIO pin active state

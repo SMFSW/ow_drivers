@@ -1,6 +1,6 @@
 /*!\file DS28E07.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief DS28E07: 1024-Bit, 1-Wire EEPROM
 ** \note Alternate PNs: (DS1972), DS2431
 **/
@@ -42,10 +42,10 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum _DS28E07_reg_map
+/*!\enum DS28E07_reg_map
 ** \brief Register map enum of DS28E07
 **/
-typedef enum PACK__ _DS28E07_reg_map {
+typedef enum PACK__ {
 	DS28E07__ADDR_PAGE_0 = 0U,				//!< User memory Page 0
 	DS28E07__ADDR_PAGE_1 = 0x20U,			//!< User memory Page 1
 	DS28E07__ADDR_PAGE_2 = 0x40U,			//!< User memory Page 2
@@ -64,11 +64,11 @@ typedef enum PACK__ _DS28E07_reg_map {
 } DS28E07_reg;
 
 
-/*!\enum _DS28E07_cmd
+/*!\enum DS28E07_cmd
 ** \brief Commands enum for DS28E07
 ** \note Unused
 **/
-typedef enum PACK__ _DS28E07_cmd {
+typedef enum PACK__ {
 	DS28E07__WRITE_SCRATCHPAD = OW_EEP__WRITE_SCRATCHPAD,	//!< Write scratchpad command
 	DS28E07__COPY_SCRATCHPAD = OW_EEP__COPY_SCRATCHPAD,		//!< Copy scratchpad command
 	DS28E07__READ_SCRATCHPAD = OW_EEP__READ_SCRATCHPAD,		//!< Read scratchpad command
@@ -76,36 +76,36 @@ typedef enum PACK__ _DS28E07_cmd {
 } DS28E07_cmd;
 
 
-/*!\enum _DS28E07_prot_page
+/*!\enum DS28E07_prot_page
 ** \brief Pages write protection values for DS28E07
 ** \note Unknown values corresponds to DS28E07__PAGE_WRITE_NOT_SET
 ** \warning Write protect registers are locked once written to any known protection value
 **/
-typedef enum PACK__ _DS28E07_prot_page {
+typedef enum PACK__ {
 	DS28E07__PAGE_WRITE_NOT_SET = 0U,		//!< Write protect not-set value
 	DS28E07__PAGE_WRITE_PROTECT = 0x55U,	//!< Write protect value
 	DS28E07__PAGE_EEPROM_MODE = 0xAAU		//!< EEPROM mode value (write allowed)
 } DS28E07_prot_page;
 
 
-/*!\enum _DS28E07_prot_copy
+/*!\enum DS28E07_prot_copy
 ** \brief Copy write protection values for DS28E07
 ** \note Unknown values corresponds to DS28E07__COPY_WRITE_NOT_SET
 ** \warning Write protect registers are locked once written to any known protection value
 **/
-typedef enum PACK__ _DS28E07_prot_copy {
+typedef enum PACK__ {
 	DS28E07__COPY_WRITE_NOT_SET = 0U,		//!< Copy protect not set value
 	DS28E07__COPY_WRITE_PROTECT_1 = 0x55U,	//!< Copy protect value
 	DS28E07__COPY_WRITE_PROTECT_2 = 0xAAU	//!< Copy protect value
 } DS28E07_prot_copy;
 
 
-/*!\enum _DS28E07_prot_user
+/*!\enum DS28E07_prot_user
 ** \brief User bytes write protection values for DS28E07
 ** \note Unknown values corresponds to DS28E07__USER_WRITE_NOT_SET
 ** \warning Write protect registers are locked once written to any known protection value
 **/
-typedef enum PACK__ _DS28E07_prot_user {
+typedef enum PACK__ {
 	DS28E07__USER_WRITE_NOT_SET = 0U,		//!< User protect not set value
 	DS28E07__USER_WRITE_UNPROTECT = 0x55U,	//!< User un-protect value
 	DS28E07__USER_WRITE_PROTECT = 0xAAU		//!< User protect value
@@ -115,7 +115,7 @@ typedef enum PACK__ _DS28E07_prot_user {
 /*!\union uDS28E07_REG__ES
 ** \brief Union for E/S register of DS28E07
 **/
-typedef union PACK__ _uDS28E07_REG__ES {
+typedef union PACK__ {
 	uint8_t Byte;
 	struct PACK__ {
 		uint8_t E		:3;	/*!<
@@ -136,7 +136,7 @@ typedef union PACK__ _uDS28E07_REG__ES {
 /*!\struct DS28E07_t
 ** \brief DS28E07 user interface struct
 **/
-typedef struct _DS28E07_t {
+typedef struct {
 	/*** device generic peripheral types structures ***/
 	OW_sn_t						sn;				//!< Serial Number device type structure
 	OW_eep_t					eep;			//!< EEPROM device type structure

@@ -1,6 +1,6 @@
 /*!\file OW_dev_sn.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief OneWire serial number device type (every OneWire device inheriting from serial number)
 **/
 /****************************************************************/
@@ -46,7 +46,7 @@ __INLINE uint64_t NONNULL_INLINE__ name##_SN_Get(name##_t * const pCpnt) {		\
 /*!\struct OW_sn_t
 ** \brief OneWire Serial Number configuration type
 **/
-typedef struct _OW_sn_t {
+typedef struct {
 	OW_slave_t *	slave_inst;		//!< Slave structure
 	uint64_t		serial_number;	//!< Serial Number
 } OW_sn_t;

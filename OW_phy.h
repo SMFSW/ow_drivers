@@ -1,6 +1,6 @@
 /*!\file OW_phy.h
 ** \author SMFSW
-** \copyright MIT (c) 2021-2025, SMFSW
+** \copyright MIT (c) 2021-2026, SMFSW
 ** \brief OneWire physical layer
 ** \note Needed symbols may be defined at project level. If globals.h is not used, symbol NO_GLOBALS_HEADER needs to be defined.
 **/
@@ -28,10 +28,10 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum _OWPhy
+/*!\enum OWPhy
 ** \brief OW driver peripheral type
 **/
-typedef enum _OWPhy {
+typedef enum {
 	OW_PHY_NONE = 0U,	//!< OW without peripheral
 	OW_PHY_SWPM,		//!< OW physical peripheral
 	OW_PHY_UART,		//!< OW UART physical peripheral
@@ -43,7 +43,7 @@ typedef enum _OWPhy {
 
 typedef void	OW_Handle_t;	//!< OW Instance for any type of physical driver (SWPM / UART / ...), to be used as pointer of OW_Handle_t
 
-typedef union _OW_phy_u {
+typedef union {
 #if defined(HAL_SWPMI_MODULE_ENABLED)
 	SWPMI_HandleTypeDef *	SWPMI_inst;		//!< Instance for driver (explicitly SWPMI)
 #endif
