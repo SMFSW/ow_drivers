@@ -22,6 +22,10 @@ SOFTWARE.
 
 ## v0.2
 
+* OW_dev_sn: simplified (no more c file)
+* OW_dev_temp (and related devices):
+  * automatic conversion flag added (set by default)
+  * newData flag added 
 * Unused tags removal (enum/struct/union)
 * Bus locking (busy) implementation for ongoing actions
 * MAX31826: temperature sensor & eeprom component added

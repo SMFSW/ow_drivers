@@ -24,7 +24,8 @@
 #define OW_TEMP_SET_DEFAULTS(name, idx)				\
 	name[idx].temp.slave_inst = &name##_hal[idx];	\
 	name[idx].temp.props = &name##_temp_props;		\
-	name[idx].temp.doneConv = true;					//!< Macro to set working defaults for peripheral \b name on index \b idx
+	name[idx].temp.automatic = true;				/*\
+	name[idx].temp.doneConv = true;				*/	//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
 #define OW_TEMP_OFFSET(name)	OW_PERIPHERAL_DEV_OFFSET(name, temp)		//!< Macro to get temp structure offset in \b name peripheral structure
@@ -116,6 +117,8 @@ typedef struct {
 	int16_t					tempConv;		//!< Temperature
 	uint32_t				hStartConv;		//!< Conversion time start
 	bool					doneConv;		//!< Conversion done status
+	bool					newData;		//!< New data available since last read
+	bool					automatic;		//!< Automatically launch conversions
 } OW_temp_t;
 
 
@@ -164,6 +167,13 @@ FctERR NONNULL__ OW_TEMP_Read_Scratchpad(OW_temp_t * const pTEMP);
 FctERR NONNULL__ OW_TEMP_Write_Scratchpad(OW_temp_t * const pTEMP);
 
 
+/*!\brief OneWire Temperature sensor device conversion mode setter (single/automatic)
+** \param[in,out] pTEMP - Pointer to Temperature device type structure
+** \param[in] automatic - Automatic conversion enable flag
+**/
+void NONNULL__ OW_TEMP_Set_Conversion_Mode(OW_temp_t * const pTEMP, const bool automatic);
+
+
 /*!\brief OneWire Temperature sensor device start temperature conversion
 ** \param[in,out] pTEMP - Pointer to Temperature device type structure
 ** \return FctERR - error code
@@ -184,25 +194,33 @@ FctERR NONNULL__ OW_TEMP_Read_Conversion(OW_temp_t * const pTEMP);
 **/
 FctERR NONNULL__ OW_TEMP_Convert(OW_temp_t * const pTEMP);
 
+
+/*!\brief OneWire Temperature sensor device get new data flag
+** \param[in] pTEMP - Pointer to Temperature device type structure
+** \return True if data not read since previous acquisition
+**/
+__INLINE bool NONNULL__ OW_TEMP_Get_New_Data(const OW_temp_t * const pTEMP) {
+	return pTEMP->newData; }
+
+
 /*!\brief OneWire Temperature sensor device convert last temperature to Celsius degrees
 ** \param[in,out] pTEMP - Pointer to Temperature device type structure
 ** \return Temperature in Celsius degrees
 **/
-__INLINE float NONNULL__ OW_TEMP_Get_Temperature_Celsius(const OW_temp_t * const pTEMP) {
-	return (float) pTEMP->tempConv * pTEMP->props->granularity; }
+float NONNULL__ OW_TEMP_Get_Temperature_Celsius(OW_temp_t * const pTEMP);
 
 /*!\brief OneWire Temperature sensor device convert last temperature to Fahrenheit degrees
 ** \param[in,out] pTEMP - Pointer to Temperature device type structure
 ** \return Temperature in Fahrenheit degrees
 **/
-__INLINE float NONNULL__ OW_TEMP_Get_Temperature_Fahrenheit(const OW_temp_t * const pTEMP) {
+__INLINE float NONNULL__ OW_TEMP_Get_Temperature_Fahrenheit(OW_temp_t * const pTEMP) {
 	return celsius2fahrenheit(OW_TEMP_Get_Temperature_Celsius(pTEMP)); }
 
 /*!\brief OneWire Temperature sensor device convert last temperature to Kelvin degrees
 ** \param[in,out] pTEMP - Pointer to Temperature device type structure
 ** \return Temperature in Kelvins
 **/
-__INLINE float NONNULL__ OW_TEMP_Get_Temperature_Kelvin(const OW_temp_t * const pTEMP) {
+__INLINE float NONNULL__ OW_TEMP_Get_Temperature_Kelvin(OW_temp_t * const pTEMP) {
 	return celsius2kelvin(OW_TEMP_Get_Temperature_Celsius(pTEMP)); }
 
 

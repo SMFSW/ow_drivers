@@ -44,7 +44,7 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum MAX31826_reg_map
+/*!\enum MAX31826_reg
 ** \brief Register map enum of MAX31826
 **/
 typedef enum PACK__ {
@@ -130,6 +130,14 @@ extern MAX31826_t MAX31826[OW_MAX31826_NB];	//!< MAX31826 User structure
 **/
 OW_ROM_type MAX31826_Get_FamilyCode(void);
 
+/*!\brief MAX31826 Serial Number getter
+** \param[in] pCpnt - Pointer to MAX31826 peripheral
+** \return MAX31826 peripheral serial number
+**/
+__INLINE uint64_t NONNULL_INLINE__ MAX31826_Get_SN(MAX31826_t * const pCpnt) {
+	return OW_SN_Get_SN(&pCpnt->sn); }
+
+
 
 /******************/
 /*** Slave init ***/
@@ -161,15 +169,6 @@ FctERR MAX31826_Init_Single(const OW_ROM_ID_t * const pROM);
 /*** Low level access / Procedures ***/
 /*************************************/
 
-#ifndef DOXY
-/*!\brief MAX31826 Serial Number getter
-** \param[in] pCpnt - Pointer to MAX31826 peripheral
-** \return MAX31826 peripheral serial number
-**/
-#endif
-OW_SN_GETTER(MAX31826);
-
-
 /*!\brief MAX31826 EEPROM device write cycle time handler
 ** \note Non blocking mode: start copy, test copy time, release bus
 ** \note Handler shall be called periodically in a main like loop
@@ -183,6 +182,13 @@ __INLINE FctERR NONNULL_INLINE__ MAX31826_WriteCycle_Handler(MAX31826_t * const 
 /**************************/
 /*** Temperature sensor ***/
 /**************************/
+
+/*!\brief MAX31826 conversion mode setter (single/automatic)
+** \param[in,out] pCpnt - Pointer to MAX31826 peripheral
+** \param[in] automatic - Automatic conversion enable flag
+**/
+__INLINE void NONNULL__ MAX31826_Set_Conversion_Mode(MAX31826_t * const pCpnt, const bool automatic) {
+	OW_TEMP_Set_Conversion_Mode(&pCpnt->temp, automatic); }
 
 /*!\brief MAX31826 start temperature conversion
 ** \param[in,out] pCpnt - Pointer to MAX31826 peripheral
@@ -217,25 +223,33 @@ __INLINE FctERR NONNULL_INLINE__ MAX31826_Convert_Handler(MAX31826_t * const pCp
 	return OW_TEMP_Convert_Handler(&pCpnt->temp); }
 
 
+/*!\brief MAX31826 get new data flag
+** \param[in] pCpnt - Pointer to MAX31826 peripheral
+** \return True if data not read since previous acquisition
+**/
+__INLINE bool NONNULL__ MAX31826_Get_New_Data(const MAX31826_t * const pCpnt) {
+	return OW_TEMP_Get_New_Data(&pCpnt->temp); }
+
+
 /*!\brief MAX31826 convert last temperature to Celsius degrees
 ** \param[in,out] pCpnt - Pointer to MAX31826 peripheral
 ** \return Temperature in Celsius degrees
 **/
-__INLINE float NONNULL_INLINE__ MAX31826_Get_Temperature_Celsius(const MAX31826_t * const pCpnt) {
+__INLINE float NONNULL_INLINE__ MAX31826_Get_Temperature_Celsius(MAX31826_t * const pCpnt) {
 	return OW_TEMP_Get_Temperature_Celsius(&pCpnt->temp); }
 
 /*!\brief MAX31826 convert last temperature to Fahrenheit degrees
 ** \param[in,out] pCpnt - Pointer to MAX31826 peripheral
 ** \return Temperature in Fahrenheit degrees
 **/
-__INLINE float NONNULL_INLINE__ MAX31826_Get_Temperature_Fahrenheit(const MAX31826_t * const pCpnt) {
+__INLINE float NONNULL_INLINE__ MAX31826_Get_Temperature_Fahrenheit(MAX31826_t * const pCpnt) {
 	return OW_TEMP_Get_Temperature_Fahrenheit(&pCpnt->temp); }
 
 /*!\brief MAX31826 convert last temperature to Kelvin degrees
 ** \param[in,out] pCpnt - Pointer to MAX31826 peripheral
 ** \return Temperature in Kelvins
 **/
-__INLINE float NONNULL_INLINE__ MAX31826_Get_Temperature_Kelvin(const MAX31826_t * const pCpnt) {
+__INLINE float NONNULL_INLINE__ MAX31826_Get_Temperature_Kelvin(MAX31826_t * const pCpnt) {
 	return OW_TEMP_Get_Temperature_Kelvin(&pCpnt->temp); }
 
 

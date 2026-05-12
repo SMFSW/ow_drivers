@@ -71,6 +71,13 @@ extern DS1825_t DS1825[OW_DS1825_NB];	//!< DS1825 User structure
 **/
 OW_ROM_type DS1825_Get_FamilyCode(void);
 
+/*!\brief DS1825 Serial Number getter
+** \param[in] pCpnt - Pointer to DS1825 peripheral
+** \return DS1825 peripheral serial number
+**/
+__INLINE uint64_t NONNULL_INLINE__ DS1825_Get_SN(DS1825_t * const pCpnt) {
+	return OW_SN_Get_SN(&pCpnt->sn); }
+
 
 /******************/
 /*** Slave init ***/
@@ -110,15 +117,6 @@ FctERR DS1825_Init_Single(const OW_ROM_ID_t * const pROM);
 /*** Low level access / Procedures ***/
 /*************************************/
 
-#ifndef DOXY
-/*!\brief DS1825 Serial Number getter
-** \param[in] pCpnt - Pointer to DS1825 peripheral
-** \return DS1825 peripheral serial number
-**/
-#endif
-OW_SN_GETTER(DS1825);
-
-
 /*!\brief DS1825 set conversion resolution
 ** \param[in,out] pCpnt - Pointer to DS1825 peripheral
 ** \param[in] resolution - Conversion resolution from \ref OW_temp_res
@@ -126,6 +124,13 @@ OW_SN_GETTER(DS1825);
 **/
 FctERR NONNULL__ DS1825_Set_Resolution(DS1825_t * const pCpnt, const OW_temp_res resolution);
 
+
+/*!\brief DS1825 conversion mode setter (single/automatic)
+** \param[in,out] pCpnt - Pointer to DS1825 peripheral
+** \param[in] automatic - Automatic conversion enable flag
+**/
+__INLINE void NONNULL__ DS1825_Set_Conversion_Mode(DS1825_t * const pCpnt, const bool automatic) {
+	OW_TEMP_Set_Conversion_Mode(&pCpnt->temp, automatic); }
 
 /*!\brief DS1825 start temperature conversion
 ** \param[in,out] pCpnt - Pointer to DS1825 peripheral
@@ -160,25 +165,33 @@ __INLINE FctERR NONNULL_INLINE__ DS1825_Convert_Handler(DS1825_t * const pCpnt) 
 	return OW_TEMP_Convert_Handler(&pCpnt->temp); }
 
 
+/*!\brief DS1825 get new data flag
+** \param[in] pCpnt - Pointer to MAX31826 peripheral
+** \return True if data not read since previous acquisition
+**/
+__INLINE bool NONNULL__ DS1825_Get_New_Data(const DS1825_t * const pCpnt) {
+	return OW_TEMP_Get_New_Data(&pCpnt->temp); }
+
+
 /*!\brief DS1825 convert last temperature to Celsius degrees
 ** \param[in,out] pCpnt - Pointer to DS1825 peripheral
 ** \return Temperature in Celsius degrees
 **/
-__INLINE float NONNULL_INLINE__ DS1825_Get_Temperature_Celsius(const DS1825_t * const pCpnt) {
+__INLINE float NONNULL_INLINE__ DS1825_Get_Temperature_Celsius(DS1825_t * const pCpnt) {
 	return OW_TEMP_Get_Temperature_Celsius(&pCpnt->temp); }
 
 /*!\brief DS1825 convert last temperature to Fahrenheit degrees
 ** \param[in,out] pCpnt - Pointer to DS1825 peripheral
 ** \return Temperature in Fahrenheit degrees
 **/
-__INLINE float NONNULL_INLINE__ DS1825_Get_Temperature_Fahrenheit(const DS1825_t * const pCpnt) {
+__INLINE float NONNULL_INLINE__ DS1825_Get_Temperature_Fahrenheit(DS1825_t * const pCpnt) {
 	return OW_TEMP_Get_Temperature_Fahrenheit(&pCpnt->temp); }
 
 /*!\brief DS1825 convert last temperature to Kelvin degrees
 ** \param[in,out] pCpnt - Pointer to DS1825 peripheral
 ** \return Temperature in Kelvins
 **/
-__INLINE float NONNULL_INLINE__ DS1825_Get_Temperature_Kelvin(const DS1825_t * const pCpnt) {
+__INLINE float NONNULL_INLINE__ DS1825_Get_Temperature_Kelvin(DS1825_t * const pCpnt) {
 	return OW_TEMP_Get_Temperature_Kelvin(&pCpnt->temp); }
 
 

@@ -42,7 +42,7 @@
 // *****************************************************************************
 // Section: Types
 // *****************************************************************************
-/*!\enum DS28E07_reg_map
+/*!\enum DS28E07_reg
 ** \brief Register map enum of DS28E07
 **/
 typedef enum PACK__ {
@@ -168,6 +168,13 @@ extern DS28E07_t DS28E07[OW_DS28E07_NB];	//!< DS28E07 User structure
 **/
 OW_ROM_type DS28E07_Get_FamilyCode(void);
 
+/*!\brief DS28E07 Serial Number getter
+** \param[in] pCpnt - Pointer to DS28E07 peripheral
+** \return DS28E07 peripheral serial number
+**/
+__INLINE uint64_t NONNULL_INLINE__ DS28E07_Get_SN(DS28E07_t * const pCpnt) {
+	return OW_SN_Get_SN(&pCpnt->sn); }
+
 
 /******************/
 /*** Slave init ***/
@@ -198,15 +205,6 @@ FctERR DS28E07_Init_Single(const OW_ROM_ID_t * const pROM);
 /*************************************/
 /*** Low level access / Procedures ***/
 /*************************************/
-
-#ifndef DOXY
-/*!\brief DS28E07 Serial Number getter
-** \param[in] pCpnt - Pointer to DS28E07 peripheral
-** \return DS28E07 peripheral serial number
-**/
-#endif
-OW_SN_GETTER(DS28E07);
-
 
 /*!\brief DS28E07 EEPROM device write cycle time handler
 ** \note Non blocking mode: start copy, test copy time, release bus

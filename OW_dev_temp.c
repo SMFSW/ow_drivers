@@ -26,7 +26,10 @@ FctERR NONNULL__ OW_TEMP_Convert_Handler(OW_temp_t * const pTEMP)
 			OW_set_busy(pTEMP->slave_inst, false);
 
 			err = OW_TEMP_Read_Conversion(pTEMP);
-			//err |= OW_TEMP_Start_Conversion(pTEMP);
+			if (pTEMP->automatic)
+			{
+				err |= OW_TEMP_Start_Conversion(pTEMP);
+			}
 		}
 		else
 		{
@@ -193,6 +196,16 @@ FctERR NONNULL__ OW_TEMP_Write_Scratchpad(OW_temp_t * const pTEMP)
 }
 
 
+void NONNULL__ OW_TEMP_Set_Conversion_Mode(OW_temp_t * const pTEMP, const bool automatic)
+{
+	pTEMP->automatic = automatic;
+
+	// Reset flags
+	pTEMP->doneConv = nbinEval(automatic);
+	pTEMP->newData = false;
+}
+
+
 FctERR NONNULL__ OW_TEMP_Start_Conversion(OW_temp_t * const pTEMP)
 {
 	OW_slave_t * const		pSlave = pTEMP->slave_inst;
@@ -230,7 +243,11 @@ FctERR NONNULL__ OW_TEMP_Read_Conversion(OW_temp_t * const pTEMP)
 {
 	FctERR err = OW_TEMP_Read_Scratchpad(pTEMP);
 
-	if (err == ERROR_OK)	{ pTEMP->tempConv = MAKEWORD(pTEMP->scratch.bytes[0], pTEMP->scratch.bytes[1]); }
+	if (err == ERROR_OK)
+	{
+		pTEMP->tempConv = MAKEWORD(pTEMP->scratch.bytes[0], pTEMP->scratch.bytes[1]);
+		pTEMP->newData = true;
+	}
 
 	return err;
 }
@@ -256,5 +273,13 @@ FctERR NONNULL__ OW_TEMP_Convert(OW_temp_t * const pTEMP)
 	}
 
 	return err;
+}
+
+
+float NONNULL__ OW_TEMP_Get_Temperature_Celsius(OW_temp_t * const pTEMP)
+{
+	pTEMP->newData = false;
+
+	return (float) pTEMP->tempConv * pTEMP->props->granularity;
 }
 
