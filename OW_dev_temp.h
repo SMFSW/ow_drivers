@@ -24,8 +24,7 @@
 #define OW_TEMP_SET_DEFAULTS(name, idx)				\
 	name[idx].temp.slave_inst = &name##_hal[idx];	\
 	name[idx].temp.props = &name##_temp_props;		\
-	name[idx].temp.automatic = true;				/*\
-	name[idx].temp.doneConv = true;				*/	//!< Macro to set working defaults for peripheral \b name on index \b idx
+	name[idx].temp.automatic = true;				//!< Macro to set working defaults for peripheral \b name on index \b idx
 
 
 #define OW_TEMP_OFFSET(name)	OW_PERIPHERAL_DEV_OFFSET(name, temp)		//!< Macro to get temp structure offset in \b name peripheral structure
